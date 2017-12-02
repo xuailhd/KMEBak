@@ -1,0 +1,44 @@
+﻿<div class="chat-audio" ng-show="displayVideo">
+    <div class="col-sm-12 chat-audio-local">
+        <!--<div class="title">
+            <h5>{{'Room-lblVoice'|translate}}({{room.videoMgr.getUsers().length}})</h5>
+        </div>-->
+        <div class="windows-list">
+            <!--有错误需要刷新-->
+            <div class="windows text-center" ng-if="errorVideoFlag">
+                <div class="tips">
+                    <div class="error">
+                        <div ng-bind-html="errorMsg"></div>
+                        <br />
+                        <br />
+                        <button class="btn btn-default" ng-show="errorRefreshBtn" ng-click="onRefreshVideo()">
+                            重试
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!--无错误，语音人数等于0-->
+            <div class="windows col-md-12 text-center" ng-if="!errorVideoFlag && room.videoMgr.getUsers().length==0">
+                <div class="tips">
+                    <spinner type="style5" class="center-block "></spinner>
+                    <br />
+                    <span>{{'Room-lblVoiceWaiting'|translate}}</span>
+                </div>
+            </div>
+
+            <!--无错误，语音人数大于0-->
+            <div class="windows col-md-12 text-center connected" ng-if="!errorVideoFlag && room.videoMgr.getUsers().length>0">
+                <div>
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <spinner type="style1" class="center-block "></spinner>
+                    <span>{{'Room-lblVoiceCalling'|translate}}</span>
+                    <br /><br />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

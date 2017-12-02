@@ -1,0 +1,110 @@
+﻿<div class="main-content" ng-controller="SignatureListController">
+    <form class="form-horizontal" ng-submit="onSearch()">
+        <div class="search-ban">
+            <div class="col-label-search">
+                {{'签约社区' | translate}}：
+            </div>
+            <div class="col-date-search">
+                <select class="form-control"
+                        name="DoctorOrgID"                     
+                        ng-options="item.Value as item.Text for item in OrgList"
+                        ng-model="DoctorOrgID">
+                    <option value="" selected="selected">请选择</option>
+                </select>
+            </div>
+            <div class="col-label-search">
+                {{'签约状态' | translate}}：
+            </div>
+            <div class="col-date-search">
+                <select type="text" class="form-control class-select" id="Status" ng-model="Status">
+                    <option value="">{{'lblPleaseSelect'|translate}}</option>
+                    <option value="1">{{'已签约'|translate}}</option>
+                    <option value="2">{{'申请解约'|translate}}</option>
+                    <option value="3">{{'已解约'|translate}}</option>
+                </select>
+            </div>
+            <div class="col-label-search">
+                {{'家庭代表姓名' | translate}}：
+            </div>
+            <div class="col-date-search">
+                <input type="text" class="form-control" id="Keyword" ng-model="Keyword" placeholder="{{'lblInserKey' | translate}}" ng-keyup="onKeywordKeyUp($event)" />
+            </div>
+          
+            <div class="col-date-search">
+                <button class="btn btn-info" type="button" ng-click="onSearch()">
+                    <i class="glyphicon glyphicon-search"></i>
+                    {{'btnSearch' | translate}}
+                </button>
+                <a class="btn btn-info btn-add btn-md" type="button" ui-sref="Doctor.FamilyDoctorManageSignatureEdit({ id: 'add' })">
+                    <i class="glyphicon glyphicon-plus"></i>
+                    {{'新增签约' | translate}}
+                </a>
+
+            </div>
+
+            <div class="div-clear"></div>
+        </div>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>{{'家庭户主姓名'|translate}}</th>
+                    <th>{{'联系电话'|translate}}</th>
+                    <th>{{'身份证号码'|translate}}</th>
+                    <th>{{'家庭人数'|translate}}</th>
+                    <th>{{'家庭住址'|translate}}</th>
+                    <th>{{'签约社区'|translate}}</th>
+                    <th>{{'签约团队'|translate}}</th>
+                    <th>{{'服务医生'|translate}}</th>
+                    <th>{{'签约状态'|translate}}</th>
+                    <th style="text-align:center">{{'lblOperator'|translate}}</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-show="loading">
+                    <td colspan="10">
+                        <div class="text-center" ng-show="loading">
+                            <img src="/static/images/ico_loading.gif" /> <span>{{'Room-lblLoading'|translate}}</span>
+                        </div>
+                    </td>
+                </tr>
+                <tr ng-show="ListItems == null || ListItems.length == 0">
+                    <td colspan="10">{{'msgNoData'|translate}}</td>
+                </tr>
+                <tr ng-repeat="item in ListItems">
+                    <td>{{item.SignatureUserName}}</td>
+                    <td>{{item.FamilyMobile}}</td>
+                    <td>{{item.SignatureUserIDCard}}</td>               
+                    <td>{{item.FamilyMemberCount}}</td>
+                    <td>{{item.FamilyAddress}}</td>
+                    <td>{{item.OrgnazitionName}}</td>
+                    <td>{{item.FDGroupName}}</td>
+                    <td>{{item.FDSignedDoctorName}}</td>
+                    <td>{{item.StatusName}}</td>
+                    <td style="text-align:center">
+                        <!--<a class="btn btn-sm btn-danger" ng-click="onDelete(item)" ng-if="item.StatusName=='已签约'">
+                            <i class="glyphicon glyphicon-remove"></i>&nbsp;
+                            {{'删除' | translate}}
+                        </a>-->
+                        <a class="btn btn-sm base" ui-sref="Doctor.FamilyDoctorSignatureDetail({ id: '{{item.SignatureID}}' })" ng-if="item.StatusName=='已签约'">
+                            <i class="glyphicon glyphicon-folder-open"></i>&nbsp;
+                            {{'签约详情' | translate}}
+                        </a>
+                        <a class="btn btn-sm base" ui-sref="Doctor.FamilyDoctorRelieveDetail({ id: '{{item.SignatureID}}' })" ng-if="item.StatusName=='申请解约'">
+                            {{'确认解约' | translate}}
+                        </a>
+                        <a class="btn btn-sm base" ng-click="linkSignaDetail(item)" ng-if="item.StatusName=='待签约'">
+                            {{'签约' | translate}}
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!--分页控件-->
+        <pager-nav page-list="[5,10,20,25]"
+                   page="CurrentPage"
+                   page-Size="PageSize"
+                   total-Count="TotalCount" on-change="onSearch()" />
+
+    </form>
+</div>

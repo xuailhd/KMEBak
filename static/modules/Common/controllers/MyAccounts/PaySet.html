@@ -1,0 +1,60 @@
+﻿<style>
+    .mytb { width: 78%; margin-top: 35px; }
+        .mytb .tit { width: 12%; text-align: right; padding-right: 15px; vertical-align: top; height: 70px; padding-top: 10px; }
+        .mytb .con { width: 37%; vertical-align: top; }
+        .mytb .con1 { padding-top: 10px; padding-bottom: 10px; }
+    .error { color: #a94442; }
+    .input-vc { width: 70%; display: inline-block; }
+    .img-vc { margin-left: 10px; }
+    .btn-vc { width: 25%; margin-left: 10px; }
+</style>
+<div class="main-content" ng-controller="PaySetController">
+    <h4 class="des border-b">
+        {{'设置支付密码'|translate}}
+    </h4>
+    <form name="myForm" id="myForm" role="form" class="form-horizontal" on-submit="onSubmit()" form-validate>
+        <table border="0" class="mytb form-group">
+            <tr>
+                <td class="tit">{{'手机号'|translate}}</td>
+                <td class="con">
+                    <input type="text" class="form-control" ng-model="Data.User.Mobile" disabled="disabled" />
+                    <span ng-show="loginInfo.UserType==1 && !Data.User.Mobile">您还未绑定手机号，请先绑定手机号码 <a style="color:red" ui-sref="User.BindMobile">点击绑定</a></span>
+                    <span ng-show="loginInfo.UserType==2 && !Data.User.Mobile">您还未绑定手机号，请先绑定手机号码 <a style="color:red" ui-sref="Doctor.BindMobile">点击绑定</a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="tit">{{'验证码'|translate}}</td>
+                <td class="con">
+                    <input type="text" id="VerificationCode" class="form-control input-vc" ng-model="VerificationCode" placeholder="请输入图片验证码" validate="{required:true,messages:{required:'请输入验证码'}}"/>
+                    <img id="imgLoginVerify" class="img-vc" ng-click="refreshVerifyCode()" ng-src="{{VerificationCodeSrc}}" />
+                    <label for="VerificationCode" class="error"></label>
+                </td>
+            </tr>
+            <tr>
+                <td class="tit">{{'短信验证码'|translate}}</td>
+                <td class="con">
+                    <input type="text" class="form-control input-vc" id="CheckCode" ng-model="Data.CheckCode" placeholder="请输入短信验证码" validate="{required:true,messages:{required:'请输入短信验证码'}}" />
+                    <input type="button" class="btn base btn-vc" id="msgVerifyCodBtn" ng-click="sendSmsInfo()" value="获取验证码" />
+                    <label for="CheckCode" class="error"></label>
+                </td>
+            </tr>
+            <tr>
+                <td class="tit">{{'支付密码'|translate}}</td>
+                <td class="con">
+                    <input type="password" class="form-control" id="PayPassword" name="PayPassword" ng-model="Data.PayPassword" placeholder="请输入6位支付密码" validate="{required:true,rangelength:[6,6],messages:{required:'请输入6位支付密码',rangelength:'支付密码为6位字符串'}}" />
+                </td>
+            </tr>
+            <tr>
+                <td class="tit">{{'确认密码'|translate}}</td>
+                <td class="con">
+                    <input type="password" class="form-control" name="PayPasswordConfirm" ng-model="Data.PayPasswordConfirm" placeholder="请再输一次支付密码" validate="{required:true,equalTo:'#PayPassword',messages:{required:'请输入确认密码',equalTo:'两次输入的密码不一致'}}" />
+                </td>
+            </tr>
+        </table>
+
+        <div class="form-group text-center" style="margin-top:50px;">
+            <input class="btn base" id="btnSubmit" type="submit" value="{{'确定'|translate}}" />
+            <button type="button" ng-click="onBack()" class="btn btn-default">{{'btnBack'|translate}}</button>
+        </div>
+    </form>
+</div>

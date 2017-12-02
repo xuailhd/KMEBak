@@ -1,0 +1,58 @@
+﻿<div style="height:100%" ng-if="!Clinicing">
+    <div class="text-center" ng-show="loading">
+        <img src="/static/images/ico_loading.gif" /> <span>{{'Room-lblLoading'|translate}}</span>
+    </div>
+    <div class="col-md-12" ng-show="!loading">
+        <br />
+        <h2 ng-if="CallCount>0 && !CallNext" class="text-center text-primary">您已呼叫患者 {{CallCount}} 次，请耐心等待</h2>
+
+        <h2 ng-if="CallNext" class="text-center text-danger">当前患者已过号，请呼叫下一位</h2>
+        <br />
+        <table class="table table-condensed table-bordered" border="0">
+            <tbody>
+                <tr><td class="col-md-3 text-right">{{'lblMedicalCardID'|translate}}：</td><td>{{patientInfo.MedicalCardID}}</td></tr>
+                <tr><td class="col-md-3 text-right">{{'lblSection'|translate}}：</td><td>{{patientInfo.DepartmentName}}</td></tr>
+                <tr><td class="col-md-3 text-right">{{'Room-lblVisitDoctor'|translate}}：</td><td>{{patientInfo.DoctorName}}</td></tr>
+                
+                <tr><td class="col-md-3 text-right">{{'lblName'|translate}}：</td><td>{{patientInfo.Name}}</td></tr>
+                <tr><td class="col-md-3 text-right">{{'lblSex'|translate}}：</td><td>{{patientInfo.Sex}}</td></tr>
+                <tr><td class="col-md-3 text-right">{{'lblTel'|translate}}：</td><td>{{patientInfo.Mobile}}</td></tr>
+                <tr><td class="col-md-3 text-right">{{'lblEmail'|translate}}：</td><td>{{patientInfo.Email}}</td></tr>
+                <tr><td class="col-md-3 text-right">{{'lblIDCode'|translate}}：</td><td>{{patientInfo.IDNumber}}</td></tr>
+                <tr><td class="col-md-3 text-right">{{'Room-lblVisitDate'|translate}}：</td><td>{{patientInfo.OPDDate}}</td></tr>
+            </tbody>
+        </table>
+        <div ng-if="CallControl">
+            <button class="btn btn-primary btn-block" ng-click="Call(0)">
+                继续呼叫
+            </button>
+            <button class="btn btn-success btn-block" ng-click="Call(1)">
+                当前患者就诊
+            </button>
+            <button class="btn btn-danger btn-block" ng-click="Call(2)">
+                过号
+            </button>
+        </div>
+    </div>
+</div>
+<bg-splitter ng-if="Clinicing" orientation="horizontal" class="col-md-12 col-lg-12">
+    <bg-pane min-size="500" class="middle chat-content">
+        <div class="toolbar">
+            <a class="tool" ng-class="{'active':Offline.toolbar=='diagnose'}" ng-click="Offline.toolbarClick('diagnose');"><i class="glyphicon glyphicon-heart"></i> {{'Room-btnConsultations'|translate}}</a>
+            <a class="tool" ng-class="{'active':Offline.toolbar=='recipe'}" ng-click="Offline.toolbarClick('recipe');"><i class="glyphicon glyphicon-facetime-video"></i> {{'Room-btnPrescription'|translate}}</a>
+            <a class="tool" ui-sref="HealthPlan({memberId: $root.memberID})" target="_blank"><i class="glyphicon glyphicon-time"></i> {{'Room-btnHealthPlan'|translate}}</a>
+            <a class="tool" href="/HealthReport?MemberID={{$root.memberID}}" target="_blank"><i class="glyphicon glyphicon-time"></i> {{'Room-btnHealthReport'|translate}}</a>
+        </div>
+        <div style="height:100%;">
+
+
+            <chat-diagnose ng-show="Offline.toolbar=='diagnose'"  class="chat-Diagnose" room-Type="offline" room="room"></chat-diagnose>
+            <chat-Recipe ng-show="Offline.toolbar=='recipe'" class="chat-Diagnose" room-Type="offline" room="room"></chat-Recipe>
+
+        </div>
+    </bg-pane>
+    <bg-pane min-size="260" class="right">
+        <chat-patientInfo class="chat-patientInfo" room="room"></chat-patientInfo>
+    </bg-pane>
+</bg-splitter>
+

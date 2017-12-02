@@ -1,0 +1,295 @@
+﻿<div class="main-content" ng-controller="SignatureEditController">
+    <form id="myForm" class="form lable-top" form-validate on-submit="fn.onSubmit()">
+        <h4 class="des border-b ng-binding">
+            家庭医生服务签约协议书
+            <span class="text-right fr">
+                <button type="button" class="btn btn-default  " ui-sref="Doctor.FamilyDoctorManage.SignatureList">
+                    <i class="glyphicon glyphicon-chevron-left"></i>
+                    取消
+                </button>
+                <button type="submit" class="btn base" ng-disabled="signInfo.Status != 0">
+                    <i class="glyphicon glyphicon-floppy-save"></i>
+                    保存
+                </button>
+            </span>
+        </h4>
+        <div class="form-group">
+            <label>
+                甲方(社康服务中心)
+            </label>
+            <select class="form-control"
+                    name="OrgnazitionID"
+                    required
+                    ng-options="item.Value as item.Text for item in firstParty.select"
+                    ng-model="signInfo.OrgnazitionID" ng-change="fn.onOrgnazitionChange()"
+                    validate="{required:true, selected: true, messages: { required: '请选择社康服务中心'}}">
+                <option value="" selected="selected">请选择社康服务中心</option>
+            </select>
+        </div>
+        <!--<div class="form-group">
+            <label>
+                家庭医生团队
+            </label>
+            <select class="form-control"
+                    required
+                    ng-options="item.Value as item.Text for item in doctorTeam.select"
+                    ng-model="signInfo.FDGroupID"
+                    validate="{required:true, selected: true, messages: { required: '请选择家庭医生团队'}}">
+                <option value="" selected="selected">请选择家庭医生团队</option>
+            </select>
+        </div>-->
+        <div class="form-group">
+            <label>
+                家庭医生
+            </label>
+            <select class="form-control"
+                    required
+                    ng-options="item.Value as item.Text for item in doctorList.select"
+                    ng-model="signInfo.DoctorID"
+                    validate="{required:true, selected: true, messages: { required: '请选择家庭医生'}}">
+                <option value="" selected="selected">请选择家庭医生</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>
+                乙方（家庭）
+            </label>
+            <table class="col-md-12 table table-striped table-bordered table-hover">
+                <tbody>
+                    <tr>
+                        <td class="col-md-6">
+                            <div class="form-group" valign="top" >
+                                <label class="control-label" for="SignatureUserName">家庭代表姓名</label>
+                                <input class="form-control input-style1"
+                                       name="SignatureUserName"
+                                       required
+                                       maxlength="20"
+                                       type="text" placeholder="请输入家庭代表姓名"
+                                       ng-model="signInfo.SignatureUserName"
+                                       validate="{required: true, messages: { required: '请输入家庭代表姓名'}}" />
+                            </div>
+                        </td>
+                        <td class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label" for="SignatureUserIDNumber">身份证号码</label>
+                                <div class="input-group">
+                                    <input class="form-control input-style1 col"
+                                           maxlength="18"
+                                           required
+                                           name="SignatureUserIDNumber"
+                                           type="text"
+                                           placeholder="请输入18位身份证号码"
+                                           ng-model="signInfo.SignatureUserIDNumber"
+                                           validate="{required: true, idNumber:true, messages: { required: '请输入18位身份证号码'}}" />
+                                    <span class="input-group-addon btn-primary  btn" ng-click="fn.readIdCard()">读取身份证</span>
+                                </div>
+                            </div>
+                    </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="form-group">
+                                <label class="control-label" for="Mobile">家庭手机号码</label>
+                                <input class="form-control"
+                                       id="Mobile"
+                                       name="Mobile"
+                                       type="text"
+                                       placeholder="请输入11位手机号码"
+                                       maxlength="11"
+                                       ng-model="signInfo.Mobile"
+                                       validate="{required: true, mobile:true, messages: { required: '请输入11位手机号码'}}" />
+                            </div>
+
+                        </td>
+                        <td>
+                            <div class="form-group">
+                                <label class="control-label" for="VerificationCode">短信验证码</label>
+                                <div class="input-group">
+                                    <input class="form-control"
+                                           name="VerificationCode"
+                                           type="text"
+                                           maxlength="6"
+                                           placeholder="请输入6位短信验证码"
+                                           ng-model="signInfo.VerificationCode"
+                                           validate="{required: true, smsCode: true, messages: { required: '请输入6位短信验证码'}}" />
+                                    <span class="input-group-addon btn btn-primary" ng-click="getSmsCode()" ng-disabled="smsDisabled">获取验证码</span>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+
+                        <td colspan="3">
+                            <div class="form-group">
+                                <label class="control-label">家庭住址</label>
+                                <table class="table table-condensed">
+                                    <tr>
+                                        <td class="form-group">                                      
+                                                <select class="form-control"
+                                                        name="Province"
+                                                        required
+                                                        ng-model="signInfo.Province"
+                                                        ng-change="fn.onProvinceChange()"
+                                                        validate="{required:true, selected: true, messages: { required: '请选择省'}}">
+                                                    <option value="" selected="selected">请选择省</option>
+                                                    <option value="{{item.Value}}"
+                                                            ng-repeat="item in address.province"
+                                                            ng-bind="item.Text"></option>
+                                                </select>
+                                       
+                                        </td>
+                                        <td class="form-group">                                         
+                                                <select class="form-control"
+                                                        required
+                                                        name="City" ng-model="signInfo.City" ng-change="fn.onCityChange()" validate="{required:true, selected: true, messages: { required: '请选择市'}}">
+                                                    <option value="" selected="selected">请选择市</option>
+                                                    <option value="{{item.Value}}" ng-repeat="item in address.city" ng-bind="item.Text"></option>
+                                                </select>                                     
+                                        </td>
+                                        <td class="form-group">                           
+                                                <select class="form-control"
+                                                        required
+                                                        name="District" ng-model="signInfo.District" ng-change="fn.onDistrictChange()" validate="{required:true, selected: true, messages: { required: '请选择区'}}">
+                                                    <option value="" selected="selected">请选择区</option>
+                                                    <option value="{{item.Value}}" ng-repeat="item in address.area" ng-bind="item.Text"></option>
+                                                </select>                                      
+                                        </td>
+                                        <td class="form-group">                                       
+                                                <select class="form-control"
+                                                        name="Subdistrict"
+                                                        required
+                                                        ng-model="signInfo.Subdistrict"
+                                                        validate="{required:true, selected: true, messages: { required: '请选择街道'}}">
+                                                    <option value="" selected="selected">请选择街道</option>
+                                                    <option value="{{item.Value}}" ng-repeat="item in address.street" ng-bind="item.Text"></option>
+                                                </select>                                          
+                                        </td>
+                                        <td class="form-group">                                         
+                                                <input class="form-control" name="Address" type="text" maxlength="100" placeholder="家庭详细地址" ng-model="signInfo.Address" validate="{required: true, messages: { required: '请输入家庭详细地址'}}" />
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+
+                        <td colspan="3">
+                            <div class="form-group">
+                                <label class="control-label">家庭成员信息</label>
+                                <table class="col-md-12 table table-striped table-bordered table-hover">
+                                    <thead>
+                                        <tr>
+                                            <td>姓名</td>
+                                            <td>关系</td>
+                                            <td>身份证</td>
+                                            <td>操作</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="col-lg-3">
+                                                {{signInfo.SignatureUserName}}
+                                            </td>
+                                            <td class="col-lg-2">本人</td>
+                                            <td class="col-lg-5">{{signInfo.SignatureUserIDNumber}}</td>
+                                            <td class="col-lg-2"></td>
+                                        </tr>
+                                        <tr ng-repeat="item in signInfo.Members">
+                                            <td>
+                                                <input class="form-control input-style1"
+                                                       name="MemberName{{$index}}"
+                                                       type="text"
+                                                       placeholder="姓名"
+                                                       maxlength="20"
+                                                       ng-model="item.MemberName"
+                                                       validate="{required: true, messages: { required: '请输入姓名'}}" />
+
+                                            </td>
+                                            <td>
+                                                <select class="form-control"
+                                                        ng-model="item.Relation"
+                                                        ng-options="value as key for (key ,value) in relationList"></select>
+
+                                            </td>
+                                            <td>
+                                                <input class="form-control"
+                                                       name="IDNumber{{$index}}"
+                                                       type="text"
+                                                       placeholder="请输入18身份证号码"
+                                                       maxlength="18"
+                                                       ng-model="item.IDNumber"
+                                                       validate="{required: true, idNumber:true, messages: { required: '请输入身份证号码'}}" />
+
+                                            </td>
+                                            <td>
+                                                <a class="btn btn-danger" href="javascript:;" ng-click="deleteFamilyRow($index)">删除</a>
+
+                                            </td>
+
+                                        </tr>
+                                        <tr>
+                                            <td colspan="4">
+                                                <a class="btn btn-default" href="javascript:;" ng-click="addFamilyRow()">+增加成员</a>
+                                                <a class="btn btn-default" href="javascript:;" ng-click="fn.readMemberIdCard()">读取身份证</a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <p>
+            &nbsp;&nbsp;&nbsp;<span style="font-family:宋体">甲、乙双方本着平等、尊重和自愿的原则，签订此协议，接受以下条框的约定：</span>
+        </p>
+        <p>
+            &nbsp;&nbsp;&nbsp; <span style="font-family:宋体">一、甲方作为服务的提供者，在提供基本医疗和基本公共卫生服务的基础上，向乙方及其家庭成员提供以下个性化服务：</span>
+        </p>
+        <p>
+            &nbsp;&nbsp;&nbsp; 1<span style="font-family:宋体">、为签约家庭成员简历健康档案，并实时健康动态管理。</span>
+        </p>
+        <p>
+            &nbsp;&nbsp;&nbsp; 2<span style="font-family:宋体">、为签约家庭提供合理膳食、控制体重、限盐、控烟、限酒、控制药物依赖等健康生活方式和可干预危险因素等健康教育。</span>
+        </p>
+        <p>
+            &nbsp;&nbsp;&nbsp; 3<span style="font-family:宋体">、为签约家庭重</span>65<span style="font-family:宋体">岁以上老人每年体检一次，体检项目（包括：血脂、血糖、血常规、尿常规、肝功能、肾功能、心电图）。</span>
+        </p>
+        <p>
+            &nbsp;&nbsp;&nbsp; 4<span style="font-family:宋体">、为高血压、糖尿病等慢性病和高危人群进行用药指导和随访服务。</span>
+        </p>
+        <p>
+            &nbsp;&nbsp;&nbsp; 5<span style="font-family:宋体">、为育龄妇女提供优生优育、避孕节育、孕期保健指导和产后访视服务。</span>
+        </p>
+        <p>
+            &nbsp;&nbsp;&nbsp; 6<span style="font-family:宋体">、为</span>0-6<span style="font-family:宋体">岁儿童建立儿童保健手册和开展新生儿访视服务。</span>
+        </p>
+        <p>
+            &nbsp;&nbsp;&nbsp; 7<span style="font-family:宋体">、每季度为签约家庭成员的健康状态进行电话或上门跟踪随访，实时制定健康生活指导方案。</span>
+        </p>
+        <p>
+            &nbsp;&nbsp;&nbsp; 8<span style="font-family:宋体">、按签约家庭需要，可提前预约就诊，建立转介、转诊绿色通道服务。</span>
+        </p>
+        <p>
+            &nbsp;&nbsp;&nbsp; 9<span style="font-family:宋体">、为签约家庭定期指导整理家庭药箱。</span>
+        </p>
+        <p>
+            &nbsp;&nbsp;&nbsp; 10<span style="font-family:宋体">、中医药健康服务指导。</span>
+        </p>
+        <p>
+            &nbsp;&nbsp;&nbsp; <span style="font-family:宋体">二、乙方及其家庭成员自愿接受以上所选服务，将自己的身体健康状况及变化情况首先及时告知甲方，并保证相关信息、资料的真实性、合法性，并沟通畅顺，积极配合甲方的服务。</span>
+        </p>
+        <p>
+            &nbsp;&nbsp;&nbsp; <span style="font-family:宋体">三、甲方给乙方提供服务的过程中，因乙方对甲方隐瞒病史信息或不执行甲方制定的防治方案、不听从指导意见而影响到服务质量，其产生的后果由乙方承担。甲方给乙方提供服务中，因乙方病情超出甲方诊疗水平和能力而造成不良后果的，甲方应及时转诊或会诊，以保证患者及时、合理诊治。</span>
+        </p>
+        <p>
+            &nbsp;&nbsp;&nbsp; <span style="font-family:宋体">四、以上</span>10<span style="font-family:宋体">类服务为基本服务项目，不收取费用。如涉及基本公共卫生服务以外的收费项目，则按照有关规定执行。</span>
+        </p>
+        <p>
+            &nbsp;&nbsp;&nbsp; <span style="font-family:宋体">本协议自双方签字之日起生效，有效期为</span> 1 <span style="font-family:宋体">年。期满后如需解约，乙方需告知甲方，双方确认。不提出解约视为自动续约。</span>
+        </p>
+    </form>
+
+</div>

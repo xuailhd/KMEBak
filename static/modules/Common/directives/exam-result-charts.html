@@ -1,0 +1,72 @@
+﻿<div ng-show="memberId != null && memberId != ''" style="border:1px dotted gray; margin-bottom:10px;">
+    <style type="text/css">
+        .chart-table
+        {
+            width: 100%; border-spacing: 0px; border-collapse: collapse; page-break-inside: auto;
+        }
+        .chart-table .chart-table-row
+        {
+            vertical-align: top; color: rgb(85, 85, 85);
+        }
+        .expander{
+            margin-bottom:10px;padding-top: 5px;padding-bottom: 5px; padding-left: 5px; cursor:pointer;background-color:#f5f5f5; width: 100%;
+        }
+        .expander.expanded::before
+        {
+            content:'▾';
+        }
+        .expander.collapsed::before
+        {
+            content:'▸';
+        }
+    </style>
+    <div class="expander collapsed" for="divExamResultChats">
+        检验检查结果图表
+    </div>
+    <div id="divExamResultChats" style="display:none;">
+        <div ng-show="ExamItemTypes != null && ExamItemTypes.length > 0">
+            <div class="search-ban form-inline">
+                <div class="col-label-search">
+                    日期：
+                </div>
+                <div class="col-date-search">
+                    <div class="input-group date">
+                        <input id="BeginDate" class="form-control" size="16" datepicker type="text" value="" ng-model="BeginDate" placeholder="{{'lblStartDate' | translate}}" />
+                    </div>
+                </div>
+                <div class="col-label-search">
+                    -
+                </div>
+                <div class="col-date-search">
+                    <div class="input-group date">
+                        <input type="text" placeholder="{{'lblEndDate' | translate}}" datepicker id="EndDate" class="form-control" size="16" value="" ng-model="EndDate" />
+                    </div>
+                </div>
+                <div class="div-clear"></div>
+            </div>
+            <table class="chart-table" id="chart-table" cellspacing="0" cellpadding="0">
+                <tbody ng-repeat="item in ExamItemTypes" repeat-finish="fn.LoadExamResultCharts()">
+                    <tr class="chart_group_header">
+                        <td>
+                            <div class="expander expanded" for="trChart_{{item.ID}}">
+                                {{item.Name}}
+                            </div>
+                        </td>
+                    </tr>
+                    <tr id="trChart_{{item.ID}}" class="chart-table-row">
+                        <td class="mobile-suppressed">
+                            <div class="row" style="text-align:center;">
+                                <div id="divChart_{{item.ID}}" examitemtypeid="{{item.ID}}" style="width:90%; height:200px; margin:auto auto;">
+
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div ng-show="ExamItemTypes == null || ExamItemTypes.length == 0">
+            暂无数据
+        </div>
+    </div>
+</div>

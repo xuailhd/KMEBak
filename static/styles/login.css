@@ -1,0 +1,340 @@
+﻿/**login/register header.css*/
+@media screen and (max-width: 1025px) {
+  .loginHeaderBox .headerBox {
+    width: 998px;
+  }
+  .bottom {
+    min-width: 998px;
+  }
+  .bottom .bottom-box {
+    width: 998px;
+  }
+}
+@media screen and (min-width: 1025px) and (max-width: 1200px) {
+  .loginHeaderBox .headerBox {
+    width: 1024px;
+  }
+  .bottom {
+    min-width: 1024px;
+  }
+  .bottom .bottom-box {
+    width: 1024px;
+  }
+}
+@media screen and (min-width: 1200px) {
+  .loginHeaderBox .headerBox {
+    width: 1200px;
+  }
+  .bottom {
+    min-width: 1200px;
+  }
+  .bottom .bottom-box {
+    width: 1200px;
+  }
+}
+.loginHeaderBox {
+  width: 100%;
+  overflow: hidden;
+  background-color: #fff;
+}
+.loginHeaderBox .headerBox {
+  margin: 0 auto;
+  padding: 0 0 44px 0;
+  overflow: hidden;
+}
+.loginHeaderBox .headerBox .changeLangBox {
+  padding-top: 8px;
+  width: 100%;
+  height: 36px;
+  text-align: right;
+}
+.loginHeaderBox .headerBox .changeLangBox a {
+  color: #333;
+}
+.loginHeaderBox .headerBox .changeLangBox a:hover,
+.loginHeaderBox .headerBox .changeLangBox a.active {
+  color: #0accce;
+  text-decoration: none;
+  cursor: pointer;
+}
+.loginHeaderBox .headerBox .changeLangBox i.line {
+  color: #333;
+}
+.loginHeaderBox .headerBox .logo {
+  width: auto;
+  height: 50px;
+}
+.loginHeaderBox .headerBox .logo a {
+  text-decoration: none;
+  cursor: pointer;
+}
+.loginHeaderBox .headerBox .logo a img {
+  width: 100%;
+  height: auto;
+}
+.loginHeaderBox .headerBox .webTitle {
+  padding-left: 34px;
+}
+.loginHeaderBox .headerBox .webTitle h3 {
+  padding: 10px 0;
+  font-size: 36px;
+  font-weight: bold;
+}
+.loginHeaderBox .headerBox .webTitle p {
+  padding: 10px 0;
+  font-size: 24px;
+  color: #888;
+}
+.loginHeaderBox .headerBox .toRegister span {
+  font-size: 18px;
+  color: #888;
+}
+.loginHeaderBox .headerBox .toRegister .toRegisterBtn {
+  display: inline-block;
+  margin-left: 20px;
+  width: 114px;
+  height: 44px;
+  background: #0accce;
+  font-size: 24px;
+  text-align: center;
+  color: #fff;
+  text-decoration: none;
+  cursor: pointer;
+}
+/**login/register footer.css*/
+.bottom {
+  background-color: #232c2b;
+  margin-top: 40px;
+  overflow: hidden;
+  height: 146px;
+}
+.bottom .bottom-box {
+  margin: 0 auto 0 auto;
+  padding-top: 20px;
+  padding-left: 40px;
+}
+.service-tel {
+  font-size: 24px;
+  line-height: 40px;
+  color: #ffffff;
+}
+.about {
+  line-height: 30px;
+  margin-top: 8px;
+  color: #a8a8a8;
+  font-size: 16px;
+}
+.copyright {
+  line-height: 30px;
+  color: #a8a8a8;
+  font-size: 16px;
+}
+.copyright a {
+  color: #a8a8a8;
+}
+/*
+.loginFooterBox {
+    position: relative;
+    bottom: 0;
+    left: 0;
+    padding: 40px 0;
+    width: 100%;
+    height:204px;
+    .footerBox {
+        margin: 0 auto;
+        width: 860px;
+        .ecode {}
+        .footerInforBox {
+            padding-left: 58px;
+            .serviceTel {
+                padding: 8px 0;
+                font-size: 24px;
+                color: @hColor;
+                .tel {
+                    color: @btnBg;
+                }
+            }
+            .about,
+            .copyright {
+                line-height: 40px;
+                font-size: 18px;
+                color: @footerColor;
+                a {
+                    color: @footerColor;
+                    text-decoration: none;
+                }
+                span{
+                    margin:0 16px;
+                }
+            }
+        }
+    }
+}
+    */
+/*login.css register.css*/
+.loginBox {
+  margin: 0 auto;
+  width: 100%;
+  max-width: 1920px;
+  background: url(../images/loginBg.jpg) no-repeat top right;
+  background-size: 100% 100%;
+  overflow: hidden;
+}
+.loginBox.registerBox {
+  background: url(../images/registerBg.jpg) no-repeat top right;
+  background-size: 100% 100%;
+}
+.loginBox .loginContBox {
+  margin: 73px auto 76px;
+  width: 850px;
+  overflow: hidden;
+  border: 1px solid #eaeaea;
+  background: #fff;
+}
+.loginBox .loginContBox .TitleBox {
+  margin-left: 26px;
+  width: 824px;
+  height: 76px;
+  border-bottom: 1px solid #eaeaea;
+}
+.loginBox .loginContBox .TitleBox h3 {
+  float: left;
+  padding: 0 12px;
+  min-width: 120px;
+  height: 76px;
+  line-height: 76px;
+  border-bottom: 3px solid #0accce;
+  font-size: 24px;
+  color: #666;
+  text-align: center;
+}
+.loginBox .loginContBox .loginInputBox {
+  padding: 40px 0;
+  overflow: hidden;
+}
+.loginBox .loginContBox .loginInputBox .loginInput {
+  margin: 20px 0;
+  width: 100%;
+}
+.loginBox .loginContBox .loginInputBox .loginInput .inputTitle {
+  padding-right: 20px;
+  width: 28%;
+  line-height: 56px;
+  text-align: right;
+  font-size: 18px;
+  color: #666;
+}
+.loginBox .loginContBox .loginInputBox .loginInput .inputCont {
+  width: 72%;
+}
+.loginBox .loginContBox .loginInputBox .loginInput .inputCont input {
+  display: inline-block;
+  padding-left: 20px;
+  width: 80%;
+  height: 56px;
+  line-height: 56px;
+  border: 1px solid #eaeaea;
+  font-size: 18px;
+  color: #999;
+}
+.loginBox .loginContBox .loginInputBox .loginInput .inputCont .validateInput {
+  width: 57%;
+}
+.loginBox .loginContBox .loginInputBox .loginInput .inputCont .validateImg {
+  margin-left: 24px;
+  width: 116px;
+  height: 40px;
+  vertical-align: middle;
+}
+.loginBox .loginContBox .loginInputBox .loginInput .inputCont .validateImg img {
+  width: 100%;
+}
+.loginBox .loginContBox .loginInputBox .loginInput .inputCont .infovalidateInput {
+  width: 48%;
+}
+.loginBox .loginContBox .loginInputBox .loginInput .inputCont .validateInfo {
+  margin-left: 30px;
+  padding: 0;
+  width: 27%;
+  height: 56px;
+  line-height: 56px;
+  color: #fff;
+  background: #0093d8;
+  text-align: center;
+  text-decoration: none;
+  font-size: 18px;
+}
+.loginBox .loginContBox .loginBtnBox {
+  padding: 20px 0 70px;
+  width: 100%;
+}
+.loginBox .loginContBox .loginBtnBox .loginBtn {
+  display: inline-block;
+  margin-left: 28%;
+  width: 40%;
+  height: 60px;
+  background: #0accce;
+  font-size: 24px;
+  text-align: center;
+  color: #fff;
+  text-decoration: none;
+  cursor: pointer;
+}
+.loginBox .loginContBox .loginBtnBox .forgetPsd {
+  font-size: 18px;
+  color: #0accce;
+  margin-left: 40px;
+}
+.registerBtnBox {
+  padding: 0 0 60px;
+  margin-top: -22px;
+}
+.registerBtnBox .agreements {
+  margin-left: 28%;
+  padding: 8px 0 60px 0;
+}
+.registerBtnBox .agreements label .argeeCheck {
+  float: left;
+  width: 20px;
+  height: 20px;
+  border: 1px solid #0093d8;
+  background: #fff;
+  color: #fff;
+  text-align: center;
+}
+.registerBtnBox .agreements label .argeeCheck:hover {
+  cursor: pointer;
+}
+.registerBtnBox .agreements label .argeeCheck.argeeChecked {
+  border: none;
+  background: url(../images/checked.gif) no-repeat center center;
+}
+.registerBtnBox .agreements label span {
+  padding-left: 8px;
+  color: #888;
+}
+.registerBtnBox .agreements a {
+  color: #0093d8;
+  text-decoration: none;
+}
+.registerBtnBox .registerBtnWidth {
+  margin-left: 28%;
+  width: 72%;
+}
+.registerBtnBox .registerBtnWidth .registerBtn {
+  display: inline-block;
+  width: 80%;
+  height: 60px;
+  background: #0accce;
+  font-size: 24px;
+  text-align: center;
+  color: #fff;
+  text-decoration: none;
+  cursor: pointer;
+}
+.error {
+  display: block;
+  clear: both;
+  padding-left: 5px;
+  color: #d36e6e;
+}

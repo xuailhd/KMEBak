@@ -1,0 +1,139 @@
+﻿<div>
+    <div class="text-center" ng-show="loading">
+        <img src="/static/images/ico_loading.gif" /> <span>{{'Room-lblLoading'|translate}}</span>
+    </div>
+    <!--有领取视频咨询任务权限才显示-->
+    <div class="accept" has-permission="KMEHosp.Doctor.Room.Task.TakeVideoConsultTask" ng-if="doctorType == 3">
+        <div class="center-align">
+            <div class="bubble" ng-class="{'active': Statistics.VideoConsultTotalCount > 0 ? true : false}">
+                <span>等待看诊 </span><br />
+                <span class="strong">
+                    {{(Statistics.VideoConsultTotalCount || 0)}}人
+                </span>
+                <div class="wave"></div>
+            </div>
+            <div class="text">
+                今日接诊<span>{{(Statistics.VideoConsultAlreadyCount || 0)}}</span>人
+            </div>
+            <button  ng-disabled="Statistics.VideoConsultTotalCount<=0 || disableTakeButton" class="btn room-btn room-btn-primary" ng-click="take()"><i class="receivt-icon"></i><span class="btn-right-text">我来接诊</span></button>
+        </div>
+    </div>
+    <!-- 此处由前端设计处理，目前仅用来调通流程用 -->
+    <div class="row-list-hj">
+        <span class="text-left">待接诊</span>
+        <span class="pull-right">
+            <button class="btn room-btn room-btn-primary" ng-click="call()" ng-disabled="!isWaitingExist"><i class="jienum-icon"></i><span class="btn-right-text">叫号</span></button>
+        </span>
+    </div>
+    <!-- 此处由前端设计处理，目前仅用来调通流程用 -->
+    <div ng-if="Records.length<=0" class="text-center success-text">
+        {{'Room-lblNoRecord' |translate}}
+    </div>
+    <div class="chat_wrapper" ng-repeat="item in Records track by item.Room.ChannelID">
+        <div class="chat_item slide-left"     
+             ng-class="{'active': item.Room.ChannelID==room.ChannelID,
+             'top':item.Room.RoomState==1 || item.Room.RoomState==2  || item.Room.RoomState==6 || item.Room.RoomState==7}"
+             ng-click="enter(item)">
+            <div class="ext">
+                <p class="attr">
+                    <span>{{item.Schedule.StartTime}}~{{item.Schedule.EndTime}}</span>
+                </p>
+                <p class="attr">
+                    <button ng-if="item.Room.RoomState == 1" class="btn room-btn room-btn-primary" ng-click="enter(item, $event)"><i class="jzn-icon"></i><span class="btn-right-text">{{'接诊'|translate}}</span></button>
+                    <!--<button ng-if="item.Room.RoomState == 6" class="btn room-btn room-btn-primary" ng-click="pass(item, $event)"><i class="jgn-icon"></i><span class="btn-right-text">{{'过号'|translate}}</span></button>-->
+                </p>
+            </div>
+            <div class="avatar">
+                <img class="img" ng-src="{{item.PhotoUrl}}" alt="">
+                <i class="icon reddot" ng-if="item.UnreadMsgNum>0">
+                    {{item.UnreadMsgNum}}
+                </i>
+            </div>
+            <span class="status-default" ng-switch="item.Room.RoomState">
+                <span ng-switch-when="0" class="text-default">
+                    {{'Room-lblRoomState-0'|translate}}
+                </span>
+                <span ng-switch-when="1" class="text-info">
+                    {{'Room-lblRoomState-1'|translate}}
+                </span>
+                <span ng-switch-when="7" class="text-info">
+                    {{'Room-lblRoomState-1'|translate}}
+                </span>
+                <span ng-switch-when="2" class="text-success">
+                    {{'Room-lblRoomState-2'|translate}}
+                </span>
+                <span ng-switch-when="4" class="text-primary">
+                    {{'Room-lblRoomState-4'|translate}}
+                </span>
+                <span ng-switch-when="5" class="text-danger">
+                    {{'Room-lblRoomState-5'|translate}}
+                </span>
+                <span ng-switch-when="6" class="text-danger">
+                    {{'Room-lblRoomState-6'|translate}}
+                </span>
+                <span ng-switch-default class="text-default">
+                    {{'Room-lblRoomState-0'|translate}}
+                </span>
+            </span>
+            <div class="info clearfix">
+                <h3 class="nickname">
+                    <span class="nickname_text" style="width: auto;">{{item.NickName}}</span>
+                </h3>
+                <p class="msg">
+                    <span ng-if="item.UnreadMsgNum>0">[{{item.UnreadMsgNum}}条]</span>
+                    <span ng-bind-html="item.MessageContent"></span>
+                </p>
+            </div>
+
+        </div>
+    </div>
+    <div class="row-list-hj active">
+        <span class="text-left">已接诊</span>
+        <span class="pull-right">总接诊<b>{{ FinishRecords.length }}</b>人</span>
+    </div>
+    <div ng-if="FinishRecords.length<=0" class="text-center success-text">
+        {{'Room-lblNoRecord' |translate}}
+    </div>
+    <div ng-repeat="item in FinishRecords track by item.Room.ChannelID">
+        <div class="chat_item slide-left"
+             ng-click="enter(item)">
+            <div class="ext">
+                <p class="attr">
+                    <span>{{item.Schedule.StartTime}}~{{item.Schedule.EndTime}}</span>
+                </p>
+                <p class="attr attr-btn">
+                    <button class="btn room-btn room-btn-primary" ng-click="enter(item, 'diagnose', $event)" ng-disabled="item.IsDiagnosed">
+                        <i class="btm-zicon"></i>
+                        <span class="btn-right-text" >{{'下诊断'|translate}}</span>
+                    </button>
+                    <button class="btn room-btn room-btn-primary" ng-click="enter(item, 'recipe', $event)" ng-disabled="item.RecipeSignedCount >= 3">
+                        <i class="report-icon"></i>
+                        <span class="btn-right-text">{{'开处方'|translate}}</span>
+                    </button>
+                </p>
+            </div>
+            <div class="avatar">
+                <img class="img" ng-src="{{item.PhotoUrl}}" alt="">
+                <i class="icon reddot" ng-if="item.UnreadMsgNum>0">
+                    {{item.UnreadMsgNum}}
+                </i>
+            </div>
+            <div class="status-default">
+                <span class="text-default">
+                    {{'Room-lblRoomState-3'|translate}}
+                </span>
+            </div>
+            <div class="info clearfix">
+                <h3 class="nickname">
+                    <span class="nickname_text" style="width: auto;">{{item.NickName}}</span>
+                </h3>
+                <p class="msg">
+                    <span ng-if="item.UnreadMsgNum>0">[{{item.UnreadMsgNum}}条]</span>
+                    <span ng-bind-html="item.MessageContent"></span>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+

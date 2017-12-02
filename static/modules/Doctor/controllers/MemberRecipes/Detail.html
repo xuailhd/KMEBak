@@ -1,0 +1,232 @@
+﻿<div  class="main-content" ng-controller="DetailController">
+    <div style="font-size:20px;font-weight:bold;line-height:40px">
+        <div id="drugstoreNametitle" style="text-align:center"></div>
+    </div>
+    <div class="main-content-title clearfix" style="margin-bottom:10px">
+        <div id="ptitle" class="pull-left">{{'Room-lblPrescriptionDetails'|translate}}</div>
+    </div>
+    <div class="search-ban form-inline">
+        <div class="col-md-3">
+            <div class="col-md-4 text-right">{{'姓名：' | translate}}</div>
+            <div class="col-md-8">{{RecipeFile.PatientName}}</div>
+        </div>
+        <div class="col-md-3">
+            <div class="col-md-4 text-right">{{'年龄：' | translate}}</div>
+            <div class="col-md-8">{{RecipeFile.PatientAge}}</div>
+        </div>
+        <div class="col-md-3">
+            <div class="col-md-4 text-right">{{'性别：' | translate}}</div>
+            <div class="col-md-8">{{RecipeFile.GenderName}}</div>
+        </div>
+        <div class="col-md-3">
+            <div class="col-md-4 text-right">{{'医生：' | translate}}</div>
+            <div class="col-md-8">{{RecipeFile.UserName}}</div>
+        </div>
+        <div class="div-clear"></div>
+    </div>
+    <div id="prescriptionData" class="pharmacy drugstore" style="margin-top:10px">
+
+        <div class="diagnose-content prescription-content">
+            <div>
+                <!--处方->诊断 -->
+                <table cellspacing="0" class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th width="120">{{'Room-lblTCD' | translate}}</th>
+                            <th>{{'Room-lblDiagnosisCode' | translate}}</th>
+                            <th>{{'Room-lblNotes' | translate}}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="item in RecipeFile.Diagnoses">
+                            <td align="center">
+                                {{item.DiseaseCode}}
+                                <input type="hidden" name="DiseaseCode" ng-model="item.DiseaseCode" />
+                                <input type="hidden" name="ID" ng-model="item.ID" />
+                            </td>
+                            <td>
+                                {{item.DiseaseName}}
+                            </td>
+                            <td>
+                                {{item.Description}}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div ng-if="RecipeFile.RecipeType == 1">
+                    <table cellspacing="0" class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>{{'Room-lblDrugName' | translate}}</th>
+                                <th>{{'Room-lblFootNote'|translate}}</th>
+                                <th>{{'Room-lblDosage' | translate}}</th>
+                                <th>{{'Room-lblPrice' | translate}}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="drugItem in RecipeFile.Details">
+                                <td>
+                                    {{drugItem.DrugName}}
+                                </td>
+                                <td>
+                                    {{drugItem.FootNote}}
+                                </td>
+                                <td>
+                                    {{drugItem.Dose}}
+                                    {{drugItem.DoseUnit}}
+                                </td>
+                                <td>
+                                    ￥{{((drugItem.Dose || 1) * (drugItem.UnitPrice || 0)) |number:'2'}}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div>
+                        <table cellspacing="0" class="table table-bordered">
+                            <tr>
+                                <td class="col-md-1 text-right"><label>剂数：</label></td>
+                                <td colspan="4">
+                                    共
+                                    {{RecipeFile.TCMQuantity}}
+                                    剂
+                                </td>
+                            </tr>
+                        </table>
+                        <table cellspacing="0" class="table table-bordered">
+                            <tr>
+                                <td class="col-md-1 text-right"><label>制法：</label></td>
+                                <td>
+                                    <!--制法-->
+                                    {{RecipeFile.BoilWay | boilWay}}
+                                </td>
+                                <td ng-show="RecipeFile.BoilWay == 1">
+                                    <!--几煎-->
+                                    <div>
+                                        {{RecipeFile.DecoctNum}}
+                                        煎
+                                    </div>
+                                </td>
+                                <td ng-show="RecipeFile.BoilWay == 1">
+                                    <div>
+                                        清水
+                                        {{RecipeFile.DecoctTotalWater}}
+                                        毫升
+                                    </div>
+                                </td>
+                                <td ng-show="RecipeFile.BoilWay == 1">
+                                    <div>
+                                        煎至
+                                        {{RecipeFile.DecoctTargetWater}}
+                                        毫升
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                        <table cellspacing="0" class="table table-bordered">
+                            <tr>
+                                <td class="col-md-1 text-right">
+                                    <label>用法：</label>
+                                </td>
+                                <td>
+                                    {{RecipeFile.Usage}}
+                                </td>
+                                <td colspan="2">
+                                    <!--每日几剂频率-->
+                                    每
+                                    {{RecipeFile.FreqDay}}
+                                    日
+                                    {{RecipeFile.FreqTimes}}
+                                    剂
+                                </td>
+                                <td>
+                                    <!--分几次服-->
+                                    分
+                                    {{RecipeFile.Times}}
+                                    次服
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <div ng-if="RecipeFile.RecipeType ==2" >
+                    <table cellspacing="0" class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>{{'Room-lblDrugName' | translate}}</th>
+                                <th>{{'Room-lblBillingAmount' | translate}}</th>
+                                <th>{{'Room-lblPrice' | translate}}</th>
+                                <th>{{'Room-lblDosage' | translate}}</th>
+                                <th>{{'Room-lblFrequency' | translate}}</th>
+                                <th>{{'Room-lblRoute' | translate}}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="drugItem in RecipeFile.Details">
+                                <td>
+                                    <input class="form-control" type="hidden" ng-model="drugItem.DrugCode" disabled/>
+                                    {{drugItem.DrugName}}
+                                </td>
+                                <td>
+                                    {{drugItem.Quantity}}
+                                    {{drugItem.Unit}}
+                                </td>
+                                <td>
+                                    ￥{{((drugItem.Quantity || 1) * (drugItem.UnitPrice || 0))|number:'2'}}
+                                </td>
+                                <td>
+                                    {{drugItem.Dose}}
+                                    {{drugItem.DoseUnit}}
+                                </td>
+                                <td>
+                                    {{drugItem.Frequency | frequency}}
+                                </td>
+                                <td>
+                                    {{drugItem.DrugRouteName}}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div ng-show="RecipeFile.RecipeVerfifyLogs.length>0">
+        <div style="margin-bottom:5px;"> <span style="font-size: 16px;font-weight:bold">操作记录</span> </div>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th class="col-md-2">
+                        操作时间
+                    </th>
+                    <th class="col-md-3">
+                        操作人
+                    </th>
+                    <th class="col-md-3">
+                        类型
+                    </th>
+                    <th class="col-md-4">
+                        备注
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="item in RecipeFile.RecipeVerfifyLogs">
+                    <td>{{item.OpTime}}</td>
+                    <td>{{item.UserName}}</td>
+                    <td>{{item.OpName}}</td>
+                    <td>
+                        <ul>
+                            <li ng-repeat="remark in item.Remarks">{{remark}}</li>
+                        </ul>
+                    </td>
+                </tr>
+            </tbody>  
+        </table>
+    </div>
+    <div class="text-center">
+        <input type="button" class="btn btn-info m-r-5" value="{{'btnPreview' | translate}}" ng-click="onPreview()" ng-if="DrugstoreRecipeStatus == 4" />
+        <input type="button" class="btn btn-default" ng-click="GoBack()" value="{{'btnBack' | translate}}" />
+    </div>
+</div>

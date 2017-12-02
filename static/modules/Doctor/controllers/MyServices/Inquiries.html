@@ -1,0 +1,115 @@
+﻿
+<div ng-controller="MyCheckedPatientsController">
+    <div class="search-ban">
+        <div class="search-ban form-inline">
+
+            <div class="col-label-search">
+                {{'lblVisitDate'|translate}}：
+            </div>
+            <div class="col-date-search">
+                <div class="input-group date">
+                    <input id="BeginDate" class="form-control" size="16" type="text" datepicker value="" ng-model="BeginDate" placeholder="{{'lblStartDate' | translate}}" />
+                </div>
+            </div>
+            <div class="col-label-search">
+                -
+            </div>
+            <div class="col-date-search mr-55">
+                <div class="input-group date">
+                    <input type="text" placeholder="{{'lblEndDate' | translate}}" datepicker id="EndDate" class="form-control" size="16" value="" ng-model="EndDate" />
+                </div>
+            </div>
+
+            <div class="col-label-search">
+                就诊状态
+                <!--{{'lblVisitDate'|translate}}：-->
+            </div>
+            <div class="col-date-search mr-55">
+                <select class="form-control control-select" id="Status" ng-model="RoomState">
+                    <option selected="selected" value="0,1,2,3,4,6">{{'Room-lblChoosePlaceholder'|translate}}</option>
+                    <option value="0">{{'未就诊'|translate}}</option>
+                    <option value="1">{{'候诊中'|translate}}</option>
+                    <option value="3">{{'已就诊'|translate}}</option>
+                </select>
+            </div>
+            <div class="col-date-search">
+                <input type="text" placeholder="{{'msgInputPatientName' | translate}}" id="Keyword" class="form-control" ng-model="Keyword" />
+            </div>
+
+            <div class="col-date-search">
+                <button type="button" ng-click="onSearch()" class="btn base" style="padding:5px 10px;">{{'btnSearch' | translate}}</button>
+            </div>
+            <div class="div-clear"></div>
+        </div>
+    </div>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>{{'MyServices-lblTreatmentID'|translate}}</th>
+                <th>{{'lblName' | translate}}</th>
+                <th>{{'lblSex' | translate}}</th>
+                <th>{{'lblAge' | translate}}</th>
+                <th>{{'lblVisitDate' | translate}}</th>
+                <th>{{'lblAppointmentSlots' | translate}}</th>             
+                <th>{{'lblAppointmentDate' | translate}}</th>
+                <th>{{'Room-lblStatus'|translate}}</th>
+                <th>{{'Room-lblOperator'|translate}}</th>
+            </tr>
+        </thead>
+        <tbody ng-show="ListItems.length>0">
+            <tr ng-repeat="item in ListItems">
+                <td>{{item.Room.ChannelID}}</td>
+                <td>{{item.Member.MemberName}}</td>
+                <td>{{item.Member.Gender}}</td>
+                <td>{{item.Member.Age}}</td>
+                <td>{{item.OPDDate|date:'yyyy-MM-dd'}}</td>
+                <td>{{item.Schedule.StartTime}}&nbsp;-&nbsp;{{item.Schedule.EndTime}}</td>
+                <td>{{item.RegDate|date:'yyyy-MM-dd HH:mm'}}</td>
+                <td>
+                    <span ng-switch="item.Room.RoomState">
+                        <span ng-switch-when="0" class="label label-default ">
+                            {{'Room-lblRoomState-0'|translate}}
+                        </span>
+                        <span ng-switch-when="1" class="label label-info ">
+                            {{'Room-lblRoomState-1'|translate}}
+                        </span>
+                        <span ng-switch-when="2" class="label label-success ">
+                            {{'Room-lblRoomState-2'|translate}}
+                        </span>
+                        <span ng-switch-when="3" class="label label-danger ">
+                            {{'Room-lblRoomState-3'|translate}}
+                        </span>
+                        <span ng-switch-when="4" class="label label-primary ">
+                            {{'Room-lblRoomState-4'|translate}}
+                        </span>
+                        <span ng-switch-when="5" class="label label-primary ">
+                            {{'Room-lblRoomState-5'|translate}}
+                        </span>
+                        <span ng-switch-when="6" class="label label-default ">
+                            {{'Room-lblRoomState-6'|translate}}
+                        </span>
+                        <span ng-switch-default class="label label-default ">
+                            {{'Room-lblRoomState-0'|translate}}
+                        </span>
+                    </span>
+                </td>
+                <td>
+                    <div ng-if="item.RecipeFiles.length>0"><a class="btn btn-sm btn-yellow" ng-href="/Jump?url={{CommonApiUrl}}File/Download/{{item.Room.ServiceID}}/" target="_blank"> {{'Inquiries-lblPrintPrescription' | translate}}</a></div>
+                    <div><button class="btn btn-sm base" data-toggle="modal" data-id="{{item.Room.ServiceID}}" data-target="#modal-service-detail"> {{'Consults-lblDetails' | translate}}</button></div>
+                </td>
+            </tr>
+        </tbody>
+        <tbody ng-show="ListItems.length<=0">
+            <tr>
+                <td colspan="7">{{'msgNoData'|translate}}</td>
+            </tr>
+        </tbody>
+    </table>
+    <div modal-Service-Detail></div>
+    <!--分页控件-->
+    <pager-nav page-list="[5,10,20,25]"
+               page="page"
+               page-Size="pageSize"
+               total-Count="totalCount" on-change="onSearch()" />
+
+</div>

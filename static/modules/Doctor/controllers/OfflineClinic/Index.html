@@ -1,0 +1,20 @@
+﻿<div class="main-content" ng-controller="MyOfflineClinicController">
+    <h4 class="des border-b">
+        {{'index-menu-OfflineClinic'|translate}}
+    </h4>
+
+    <div nav-tabs>
+        <ul>
+         
+            <li>
+                <a ng-class="{'current':currentStateName=='Doctor.OfflineClinic.Clinic'}"  ui-sref=".Clinic">{{'Doctor-tab-Clinic'|translate}}</a>
+            </li>
+            <li>
+                <a ng-class="{'current':currentStateName=='Doctor.OfflineClinic.Refund'}" ui-sref=".Refund">{{'Doctor-tab-Refund'|translate}}</a>
+            </li>
+        </ul>
+    </div>
+    <div ui-view>
+
+    </div>
+</div>

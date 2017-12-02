@@ -1,0 +1,85 @@
+﻿<style>
+    .mytb { width: 78%; margin-top: 15px; }
+        .mytb .tit { width: 12%; text-align: right; padding-right: 15px; vertical-align: middle; height: 70px; }
+        .mytb .con { width: 37%; vertical-align: middle; }
+        .mytb .con1 { padding-top: 10px; padding-bottom: 10px; }
+    .error { color: #a94442; }
+
+    #space .bank { min-width: 240px; height: 56px; border: solid 1px #ccc; color: #666; float: left; padding: 5px; margin: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px; cursor: pointer; }
+        #space .bank .l1 { width: 20px; float: left; text-align: center; padding-top: 13px; }
+        #space .bank .l2 { float: left; margin-left: 5px; }
+            #space .bank .l2 .d1 { font-size: 14px; font-weight: bold; }
+            #space .bank .l2 .d2 { }
+</style>
+<div class="main-content" ng-controller="ApplyCashAddController">
+    <h4 class="des border-b">
+        {{'Doctor-lblReplyCash'|translate}}
+    </h4>
+    <form class="form-horizontal" name="myForm" id="myForm" role="form" on-submit="onSave()" form-validate>
+        <table class="mytb" border="0">
+            <tr>
+                <td class="tit con1" style="vertical-align:middle;">我的{{'lblBankCard'|translate}}</td>
+                <td class="con con1" colspan="5">
+                    <div style="color:red" ng-if="bankCardListItems==null||bankCardListItems.length==0">你还没有银行卡!</div>
+                    <ul class="bank" ng-repeat="item in bankCardListItems" ng-click="selectBankCard(item)">
+                        <li class="l1">
+                            <input type="radio" name="rbank" value="{{item.BankCardID}}" ng-model="BankCard" />
+                        </li>
+                        <li class="l2">
+                            <div class="d1">{{item.CardCode}}</div>
+                            <div class="d2">{{item.Bank}}<!--({{item.BankBarnch||item.BankBranch}})--></div>
+                        </li>
+                        <li style="clear:both"></li>
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <td class="tit">{{'MyAccount-lblAvailableBalance'|translate}}</td>
+                <td class="con">
+                    <input type="text" class="form-control" name="Available" readonly="readonly" ng-model="AvailableTxt" />
+                </td>
+
+            </tr>
+            <tr>
+                <td class="tit">{{'Doctor-lblReplyCashAmount'|translate}}</td>
+                <td class="con">
+                    <input type="text" class="form-control" id="Amount" name="Amount" ng-model="model.Amount" placeholder="{{'Doctor-ReplyCashAmountPlaceholder'|translate}}" validate="{required:true,userAmountMin:true,userAmountMax:true,ltAmount:true,messages:{required:'请输入提现金额'}}" />
+                </td>
+            </tr>
+            <tr>
+                <td class="tit">{{'MyAccount-lblBank'|translate}}</td>
+                <td class="con">
+                    <select ng-model="model.Bank" class="form-control" placeholder="请选择银行" validate="{selectBank:true}">
+                        <option ng-repeat="item in bankList" value="{{item.BankName}}">{{item.BankName}}</option>
+                    </select>
+                </td>
+                <!--<td class="tit">{{'银行支行'|translate}}</td>
+                <td class="con">
+                    <input type="text" class="form-control" name="BankBarnch" ng-model="model.BankBarnch" placeholder="请输入开户行名称" validate="{required:true,messages:{required:'请输入开户行名称'}}" />
+                </td>-->
+            </tr>
+            <tr>
+                <td class="tit">{{'银行卡号'|translate}}</td>
+                <td class="con">
+                    <input type="text" class="form-control" name="CardCode" ng-model="model.CardCode" placeholder="请输入银行卡号" validate="{required:true,bankCardCheck:true,messages:{required:'请输入银行卡号'}}" />
+                </td>
+            </tr>
+            <tr>
+                <td class="tit">{{'MyAccount-lblAccountName'|translate}}</td>
+                <td class="con">
+                    <input type="text" class="form-control" name="AccountName" ng-model="model.AccountName" placeholder="请输入开户姓名" validate="{required:true,messages:{required:'请输入开户姓名'}}" />
+                </td>
+            </tr>
+            <tr>
+                <td class="tit">{{'支付密码'|translate}}</td>
+                <td class="con">
+                    <input type="password" class="form-control" name="PayPassword" ng-model="model.PayPassword" placeholder="请输入6位支付密码" validate="{required:true,rangelength:[6,6],messages:{required:'请输入6位支付密码',rangelength:'支付密码为6位字符串'}}" />
+                </td>
+            </tr>
+        </table>
+        <div class="form-group text-center">
+            <input class="btn base" type="submit" value="{{'提交'|translate}}" ng-disabled="Available0==0" />
+            <button type="button" ng-click="onBack()" class="btn btn-default">{{'btnBack'|translate}}</button>
+        </div>
+    </form>
+</div>

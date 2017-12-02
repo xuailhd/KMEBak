@@ -1,0 +1,48 @@
+﻿<div class="form-horizontal">
+    <style type="text/css">
+        .auto-break {
+            word-break: break-all; /*支持IE，chrome，FF不支持*/
+            word-wrap: break-word; /*支持IE，chrome，FF*/
+        }
+
+        .indent {
+            text-indent: 1em;
+        }
+    </style>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th style="width:200px;">{{'检验检查项目' | translate}}</th>
+                <th>{{'最近检验检查结果' | translate}}</th>
+                <th style="width:150px;">{{'最近检验检查时间' | translate}}</th>
+            </tr>
+        </thead>
+        <tbody ng-show="ListItems==null||ListItems.length<=0">
+            <tr>
+                <td colspan="3">暂无数据</td>
+            </tr>
+        </tbody>
+        <tbody>
+            <tr ng-repeat="item in ListItems">
+                <td>{{item.ExamItemTypeName}}</td>
+                <td>
+                    <dl ng-repeat="res in item.Results">
+                        <dt>{{res.ExamItemTypeName}}</dt>
+                        <dd class="auto-break indent">
+                            <strong><span style='cursor:pointer;color:{{res.Status == 0 ? "green" : "red"}};' title='{{res.StatusMsg}}'>{{res.Result | defaultValue : '---'}}</span>&nbsp;</strong>
+                            {{res.UnifiedUnit}}&nbsp;
+
+                            <div class="auto-break" ng-repeat="attchment in res.ExamResultAttachments">
+                                <a href='{{attchment.FilePath}}' target="_blank">{{attchment.FilePath | fileName}}</a>&nbsp;
+                            </div>
+                        </dd>
+                        <dd class="auto-break" ng-show="$last" style="font-weight:bold;">医院：{{res.HospitalName}}</dd>
+
+                    </dl>
+
+                </td>
+                <td>{{item.LastExamTime | date: 'yyyy-MM-dd'}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

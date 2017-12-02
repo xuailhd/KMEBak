@@ -1,0 +1,91 @@
+﻿
+    <div class="fixed-table-container" style="padding-bottom: 0px;">
+        <div class="fixed-table-header" style="display: none;"><table></table></div>
+        <div class="fixed-table-body">
+            <div class="fixed-table-loading" style="top: 37px;" ng-show="datalist.columns.length<=0">正在努力地加载数据中，请稍候……</div>
+
+            <table data-toggle="table" data-mobile-responsive="true" class="table table-hover" ng-show="datalist.columns.length>0">
+                <thead ng-if="!cardView">
+                    <tr>
+                        <th class="bs-checkbox"
+                            data-field="ID">
+                            <div class="th-inner ui-grid-sortable">
+                                <input ng-change="fn.onSelectedAllRecotd()" ng-model="isSelectAll" type="checkbox" />
+                            </div>
+                            <div class="fht-cell" style="width: 36px;"></div>
+                        </th>
+                        <th ng-class="{'bs-checkbox':column.uniqueId}"
+                            data-field="{{column.field}}"
+                            ng-repeat="column in datalist.columns"
+                            ng-if="column.display  && !column.uniqueId">
+                            <div ng-click="fn.onSortBy(column)"
+                                 ng-model="column.sortBy"
+                                 class="th-inner ui-grid-sortable">
+                                <!--<input ng-change="fn.onSelectedAllRecotd()" ng-model="isSelectAll" ng-if="column.uniqueId" type="checkbox" />-->
+                                <span ng-if="!column.uniqueId">{{column.title}}</span>
+                                <!--标识列不显示排序-->
+                                <span class="s-ico" ng-show="!column.uniqueId && column.field==sortBy">
+                                    <span sort="asc" class="ui-grid-ico-sort ui-icon-asc ui-sort-ltr glyphicon glyphicon-triangle-top" ng-class="{'ui-disabled':sortReverse}"></span>
+                                    <span sort="desc" class="ui-grid-ico-sort ui-icon-desc ui-sort-ltr glyphicon glyphicon-triangle-bottom" ng-class="{'ui-disabled':!sortReverse}"></span>
+                                </span>
+
+                            </div>
+                            <div class="fht-cell" style="width: 36px;"></div>
+                        </th>
+                        <th>
+                            <div class="th-inner ui-grid-sortable">操作</div>
+                         
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-if="datalist.list.length<=0" class="no-records-found">
+                        <td colspan="{{datalist.columns.length}}">没有任何记录</td>
+                    </tr>
+                    <tr ng-repeat="item in datalist.list |orderBy:sortBy:sortReverse"
+                        ng-if="cardView && datalist.list.length>0 ">
+                        <td colspan="5">
+                            <div ng-repeat="column in datalist.columns" ng-if="column.display" class="card-view">
+                                <span class="title" style="">{{column.title}}</span>
+                                <span class="value">{{fn.link(item,column.field)}}</span>
+                            </div>
+
+                        </td>
+                    </tr>
+                    <tr ng-if="!cardView && datalist.list.length>0"
+                        ng-dblclick="fn.onDblClickSelectedRecord(item)"
+                        ng-repeat="item in datalist.list |orderBy:sortBy:sortReverse">
+                        <td class ="bs-checkbox">
+                            <input ng-click="fn.onSelectedRecord(item)" ng-model="item.selected" type="checkbox" value="{{fn.link(item,column.field)}}" />
+                            </td>
+                        <td ng-class="{'bs-checkbox':column.uniqueId}"
+                            ng-if="column.display && !column.uniqueId"
+                            ng-repeat="column in datalist.columns">
+                            <!--<input ng-click="fn.onSelectedRecord(item)" ng-if="column.uniqueId" ng-model="item.selected" type="checkbox" value="{{fn.link(item,column.field)}}" />-->
+                            {{fn.link(item,column.field)}}
+                        </td>
+
+                            <td><a ng-click="fn.onEdit(item)">编辑</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="fixed-table-footer" ng-hide="true">
+            <table>
+                <tbody>
+                    <tr>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="fixed-table-pagination">
+            <!--分页控件-->
+            <pager-nav page-list="[5,10,20,25]" 
+                       page="page" 
+                       page-Size="pageSize" 
+                       total-Count="totalCount"               
+
+                        />
+        </div>
+    </div>

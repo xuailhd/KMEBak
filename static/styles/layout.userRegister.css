@@ -1,0 +1,23 @@
+﻿.userRegisterscreen {
+    
+    .middle-box {
+        max-width: 400px;
+        z-index: 100;
+        margin: 0 auto;
+        padding-top: 40px;
+    }
+
+    .logo-name {
+        color: #e6e6e6;
+        letter-spacing: -10px;
+        margin-bottom: 0;
+    }
+
+    .middle-box h1 {
+        font-size: 110px;
+    }
+
+    .wrapper .middle-box {
+        margin-top: 140px;
+    }
+}

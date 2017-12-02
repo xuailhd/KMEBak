@@ -1,0 +1,100 @@
+﻿<div class="main-content" ng-controller="SchedulesController">
+
+    <h4 class="des border-b">
+        {{'lblMyScheduling'|translate}}
+    </h4>
+
+
+    <div nav-tabs>
+        <div class="add" ui-sref="Doctor.ScheduleSettingsAdd"><i class="icon icon-add"></i> 新建排班</div>
+    </div>
+
+    <div class="table-wrap" ng-repeat="item in scheList">
+        <div class="pre-week prev potion" ng-click="changePrePage(item.NumberSourceID, item.BeginDate, item.EndDate, item.TableSchedule.DateWeekList[0].Date, $index)">
+            <img src="/static/images/schedules/hide-rigth.png" alt="上一周" />
+        </div>
+        <div class="next-week next potion" ng-click="changeNextPage(item.NumberSourceID, item.BeginDate, item.EndDate, item.TableSchedule.DateWeekList[0].Date, $index)">
+            <img src="/static/images/schedules/hide-left.png" alt="下一周" />
+        </div>
+        <div class="title">
+            生效时间
+            <span class="begin-time">{{item.BeginDate | filterLetterT}}</span>
+            至
+            <span class="end-time">{{item.EndDate | filterLetterT}}</span>
+            <i class="icon icon-hide-top fr potion" ng-click="changeAnimate($event)"></i>
+        </div>
+        <div class="content-wrap">
+            <table class="table table-hover table-bordered">
+                <thead>
+                    <tr>
+                        <th class="time">时段</th>
+                        <th class="spec" ng-class="{active:item.Status == 1}">{{item.Status == 0 ? '停用中':'启用中'}}</th>
+                        <th ng-repeat="week in item.TableSchedule.DateWeekList">
+                            <div>{{week.Date}}</div>
+                            <div>{{week.Day}}</div>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="week in item.TableSchedule.ScheduleList | filter: {TimePeriod: '上午'} as weekMorning">
+                        <td ng-if="$index == 0" rowspan={{weekMorning.length}}>上午</td>
+                        <td>
+                            {{week.StartTime}} - {{week.EndTime}}
+                        </td>
+                        <td ng-repeat="Schedule in week.DoctorSchedule" ng-class="{disabled: Schedule.Disable}">
+                            <span ng-class="{red: Schedule.AppointNumber>0}">{{Schedule.AppointNumber}}</span>/{{Schedule.Number}}            
+                        </td>
+                    </tr>
+                    <tr ng-repeat="week in item.TableSchedule.ScheduleList | filter: {TimePeriod: '下午'} as weekAfternoon">
+                        <td ng-if="$index == 0" rowspan={{weekAfternoon.length}}>下午</td>
+                        <td>
+                            {{week.StartTime}} - {{week.EndTime}}
+                        </td>
+                        <td ng-repeat="Schedule in week.DoctorSchedule" ng-class="{disabled: Schedule.Disable}">
+                            <span ng-class="{red: Schedule.AppointNumber>0}">{{Schedule.AppointNumber}}</span>/{{Schedule.Number}}
+                        </td>
+                    </tr>
+                    <tr ng-repeat="week in item.TableSchedule.ScheduleList | filter: {TimePeriod: '晚上'} as weekNight">
+                        <td ng-if="$index == 0" rowspan={{weekNight.length}}>晚上</td>
+                        <td>
+                            {{week.StartTime}} - {{week.EndTime}}
+                        </td>
+                        <td ng-repeat="Schedule in week.DoctorSchedule" ng-class="{disabled: Schedule.Disable}">
+                            <span ng-class="{red: Schedule.AppointNumber>0}">{{Schedule.AppointNumber}}</span>/{{Schedule.Number}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="9">
+                            <ul class="clearfix fr set-wrap">
+                                <li class="fl set potion" ng-click="stopList($index)">
+                                    {{item.Status == 0 ? '启用':'停用'}}
+                                    <i ng-if="item.Status==1" class="icon icon-stop"></i>
+                                    <i ng-if="item.Status==0" class="icon icon-confirm"></i>
+                                </li>
+                                <li class="fl set potion" ng-click="editList($index)">
+                                    编辑
+                                    <i class="icon icon-edit"></i>
+                                </li>
+                                <li class="fl set potion" ng-click="delList($index)">
+                                    删除
+                                    <i class="icon icon-delete"></i>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+    <div style="margin-top: 20px; padding-left:10px;" ng-if="scheList.length && scheList.length==0">
+        暂无排班~
+    </div>
+
+    <div ng-if="total>10">
+        <pager-nav page-list="[5,10,20,25]"
+                   page="page"
+                   page-Size="pageSize"
+                   total-Count="total" on-change="getList()" />
+    </div>  
+</div>

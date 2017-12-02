@@ -1,0 +1,125 @@
+﻿@import "import-mixins.less";
+@import "import-variable.less";
+
+/* 添加图标 */
+.morning, .afternoon, .nigth {
+    position: relative; 
+    padding-bottom: 20px !important;   
+    .add-wrap {
+        position: absolute;
+        width: 100%;
+        bottom: 4px;
+        left: 0;
+        text-align:center;
+        visibility:hidden;
+        .addSche {    
+      
+        }
+    }
+    &:hover {
+         .add-wrap {
+             visibility: visible;
+         }
+    }
+}
+
+#addSchedules {
+    .table-wrap {
+        font-size: 14px;
+        margin-top: 20px;
+        .begin, .end {
+            width: 70px;
+        }
+        th, td {
+            text-align:center;
+        }
+        .time {
+            width: 45px;
+        }       
+        .bg {
+            background-color: #EDEFF5;
+        }
+        .control-select {
+            width: auto !important;
+        }
+        .form-control {
+            background-color: none;
+            border: none;
+        }
+        .num {
+            display: inline-block;
+            width: 32px;
+            text-align: center;
+            padding: 4px;
+            border: none;
+        }
+        .scheNum {
+           .addSche, .reduceSche {
+                padding: 4px;
+                vertical-align:middle;
+                cursor: pointer;
+                visibility: hidden;
+            }
+           &:hover {
+               .addSche, .reduceSche {
+                   visibility:visible;
+               }
+           }
+        }
+        .set-wrap {
+            .set {
+                border-radius: 3px;
+                display: inline-block;
+                width: 66px;
+                height: 28px;
+                line-height: 28px;
+                margin-right: 8px !important;
+                background-color:@theme-color;
+                color: @white;
+                text-align: center;
+            }
+        }
+    }
+}
+
+.potion {
+   cursor: pointer;
+}
+
+.icon {
+    position: relative;  
+}
+ 
+.icon:before {    
+    overflow: hidden; 
+    margin-top: -3px;  
+    display:inline-block;
+    content: ' ';
+    speak:none;
+    vertical-align:middle;
+}
+
+.icon-date:before {
+    width: 22px;
+    height: 22px;    
+}
+    
+.icon-add:before {   
+    margin-right: 12px;
+    width: 16px;
+    height: 16px;
+    background: url('/static/images/schedules/new.png') no-repeat 0 0;
+}
+
+.laydate-icon {
+    background-image: url(/static/images/schedules/date.png) !important;
+    background-position: 110px center !important;
+}
+
+#space .search-ban .form-control {
+    width: 140px !important;
+}
+
+.plr-10 {
+    padding: 0 10px;
+}

@@ -1,0 +1,11 @@
+﻿<div class="countdown-pnl">
+    <div class="countdown" role="alert" ng-if="duration > 0 && room.State != 3 && room.ServiceType != -1">
+        <div class="time-item">
+            剩余时间：
+            <span ng-show="day>0">{{day}}天</span>
+            <strong>{{hour}}时</strong>
+            <strong>{{minute}}分</strong>
+            <strong>{{second}}秒</strong>
+        </div>
+    </div>    
+</div>

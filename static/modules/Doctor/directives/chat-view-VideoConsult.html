@@ -1,0 +1,34 @@
+﻿    <!--视频，语音，远程会诊才显示-->
+<div class="no-boder-right left col-xs-3 col-sm-3 col-md-3 col-lg-3">
+    <!--呼叫控制-->
+    <chat-Call-Ctrl room="room">
+        <!--视频窗口-->
+        <chat-video room="room"></chat-video>
+        <!--用户列表-->
+        <!--<chat-users ng-show="false" room="room"></chat-users>-->
+    </chat-Call-Ctrl>
+</div>
+<bg-splitter orientation="horizontal"class="col-xs-9 col-xs-9 col-md-9 col-lg-9">
+    <bg-pane min-size="500" class="middle chat-content">
+        <div class="toolbar">
+            <a class="tool" ng-class="{'active':Video.toolbar=='comment'}" ng-click="Video.toolbarClick('comment')">{{'Room-btnChat'|translate}}</a>
+            <a class="tool" ng-class="{'active':Video.toolbar=='diagnose'}" ng-click="Video.toolbarClick('diagnose');Video.LazyLoad['Diagnose']=true;">{{'Room-btnConsultations'|translate}}</a>
+            <a class="tool" ng-class="{'active':Video.toolbar=='recipe'}" ng-click="Video.toolbarClick('recipe');Video.LazyLoad['Diagnose']=true;">{{'Room-btnPrescription'|translate}}</a>
+            <a class="tool" ui-sref="HealthPlan({memberId: $root.memberID})" target="_blank">{{'Room-btnHealthPlan'|translate}}</a>
+            <a class="tool" href="/HealthReport?MemberID={{$root.memberID}}" target="_blank">{{'Room-btnHealthReport'|translate}}</a>
+        </div>
+        <div class="border-both" style="height:100%; position:relative;">
+            <!--就诊中-->
+            <!--<countdown room="room"></countdown>-->
+            <!--助手-->
+            <modal-Assistant-Diagnose room="room"></modal-Assistant-Diagnose>
+
+            <chat-Comment ng-show="Video.toolbar=='comment'" room="room" on-Msg="onMsg" on-Url-Click="onUrlClick" on-answer="onAnswer"></chat-Comment>
+            <chat-diagnose ng-show="Video.toolbar=='diagnose'" ng-if="Video.LazyLoad['Diagnose']" class="chat-Diagnose" room-Type="online" room="room"></chat-diagnose>
+            <chat-Recipe ng-show="Video.toolbar=='recipe'" ng-if="Video.LazyLoad['Diagnose']" class="chat-Diagnose" room-Type="online" room="room"></chat-Recipe>
+        </div>
+    </bg-pane>
+    <bg-pane min-size="260" class="no-boder-left right">
+        <chat-patientInfo class="chat-patientInfo" room="room"></chat-patientInfo>
+    </bg-pane>
+</bg-splitter>

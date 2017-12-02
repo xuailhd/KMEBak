@@ -1,0 +1,95 @@
+﻿<div class="form-group">
+    <label><font class="text-danger">*</font>{{'Room-lblComplained'|translate}}</label>
+    <textarea class="form-control"
+              rows="3"
+              ng-readonly="isReadOnly"
+              ng-model="Diagnose.MedicalRecord.Sympton"
+              name="Sympton" placeholder="{{'Room-lblComplainedPlaceholder'|translate}}"
+              validate="{required:true,messages:{required:'{{'Room-lblComplainedPlaceholder'|translate}}'}}"></textarea>
+</div>
+<!--初步诊断-->
+<div class="form-group">
+    <label><font class="text-danger">*</font>{{'Room-lblPreliminaryDiagnosis'|translate}}</label>
+    <textarea class="form-control" rows="3"
+              ng-readonly="isReadOnly"
+              ng-model="Diagnose.MedicalRecord.PreliminaryDiagnosis"
+              name="PreliminaryDiagnosis"
+              placeholder="{{'Room-lblPreliminaryDiagnosisPlaceholder'|translate}}"
+              validate="{required:true,messages:{required:'{{'Room-lblPreliminaryDiagnosisPlaceholder'|translate}}'}}"></textarea>
+</div>
+<!--治疗意见-->
+<div class="form-group">
+    <label>{{'Room-lblDoctorAdvised'|translate}}</label>
+    <textarea class="form-control" rows="3"
+              ng-readonly="isReadOnly"
+              ng-model="Diagnose.MedicalRecord.Advised"
+              name="Advised"
+              placeholder="{{'Room-lblAdvisedPlaceholder'|translate}}"></textarea>
+</div>
+<div ng-if="isShowMore" class="more-info">
+    <div class="form-group">
+        <label>{{'Room-lblHPI'|translate}}</label>
+        <textarea class="form-control"
+                  rows="3"
+                  ng-readonly="isReadOnly"
+                  ng-model="Diagnose.MedicalRecord.PresentHistoryIllness"
+                  name="PresentHistoryIllness"
+                  placeholder="{{'Room-lblHPIPlaceholder'|translate}}"></textarea>
+    </div>
+    <div class="form-group">
+        <label>{{'Room-lblPMH'|translate}}</label>
+        <textarea class="form-control" rows="3"
+                  ng-readonly="isReadOnly"
+                  ng-model="Diagnose.MedicalRecord.PastMedicalHistory"
+                  name="PastMedicalHistory"
+                  placeholder="{{'Room-lblPHHPlaceholder'|translate}}"></textarea>
+    </div>
+    <div class="form-group">
+        <label>{{'Room-lblAH'|translate}}</label>
+        <textarea class="form-control" rows="3"
+                  ng-readonly="isReadOnly"
+                  ng-model="Diagnose.MedicalRecord.AllergicHistory"
+                  name="PastMedicalHistory"
+                  placeholder="{{'Room-lblAHPlaceholder'|translate}}"></textarea>
+    </div>
+
+    <!--<div class="form-group" style="overflow:hidden">
+        <label>{{'Room-lblPhysicalExamination'|translate}}</label>
+        <hr />
+        <div ng-repeat="item in Diagnose.PhysicalExam" class="form-group-sm col-md-4">
+            <label>{{item.ItemCNName}}({{item.ItemENName}})：</label>
+            <span class="input-group">
+                <input type="text"
+                       ng-if="item.ItemName=='BloodPressure'"
+                       inputmask
+                       mask="999/999"
+                       ng-readonly="isReadOnly"
+                       ng-model="item.Result"
+                       placeholder=""
+                       class="form-control" />
+                <input type="text"
+                       ng-if="item.ItemName!='BloodPressure'"
+                       ng-readonly="isReadOnly"
+                       ng-model="item.Result"
+                       placeholder=""
+                       class="form-control" />
+                <span class="input-group-addon">{{item.Unit}}</span>
+            </span>
+        </div>
+    </div>-->
+</div>
+
+<div class="more-info-collapse text-center">
+    <label>
+        <input type="checkbox" ng-model="isShowMore" style="display: none;">
+        <span ng-show="!isShowMore" class="" style="">
+            展开填写更多<br />            
+            <i class="glyphicon glyphicon-triangle-bottom"></i>
+        </span>
+        <span ng-show="isShowMore" class="ng-hide" style="">
+            收起<br />
+            <i class="glyphicon glyphicon-triangle-top"></i>
+        </span>
+    </label>
+</div>
+

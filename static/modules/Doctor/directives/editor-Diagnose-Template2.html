@@ -1,0 +1,303 @@
+﻿<div class="form-group">
+    <label><font class="text-danger">*</font>{{'Room-lblComplained'|translate}}</label>
+    <textarea class="form-control"
+              rows="3"
+              ng-readonly="isReadOnly"
+              ng-model="Diagnose.MedicalRecord.Sympton"
+              name="Sympton" placeholder="{{'Room-lblComplainedPlaceholder'|translate}}"
+              validate="{required:true,messages:{required:'{{'Room-lblComplainedPlaceholder'|translate}}'}}"></textarea>
+</div>
+<div class="form-group">
+    <label>{{'Room-lblHPI'|translate}}</label>
+    <textarea class="form-control"
+              rows="3"
+              ng-readonly="isReadOnly"
+              ng-model="Diagnose.MedicalRecord.PresentHistoryIllness"
+              name="PresentHistoryIllness"
+              placeholder="{{'Room-lblHPIPlaceholder'|translate}}"></textarea>
+</div>
+<div class="form-group">
+    <label>{{'Room-lblPMH'|translate}}</label>
+    <textarea class="form-control" rows="3"
+              ng-readonly="isReadOnly"
+              ng-model="Diagnose.MedicalRecord.PastMedicalHistory"
+              name="PastMedicalHistory"
+              placeholder="{{'Room-lblPHHPlaceholder'|translate}}"
+
+              ></textarea>
+</div>
+<div class="form-group">
+    <label>{{'Room-lblAH'|translate}}</label>
+    <textarea class="form-control" rows="3"
+              ng-readonly="isReadOnly"
+              ng-model="Diagnose.MedicalRecord.AllergicHistory"
+              name="PastMedicalHistory"
+              placeholder="{{'Room-lblAHPlaceholder'|translate}}"
+
+              ></textarea>
+</div>
+<table style="width:100%">
+    <tr>
+        <td width="50%">
+            <div class="form-group" style="margin-right:10px;">
+                <label>望诊</label>
+                <br />
+                <select multiple ui-select2 ng-model="Diagnose.TagInfo.LOOK" data-placeholder="请选择" ng-required="true" ng-readonly="isReadOnly" style="width:100%;">
+                    <optgroup label="1.神志">
+                        <option value="[神志]清楚有神">[神志]清楚有神</option>
+                        <option value="[神志]清楚倦怠">[神志]清楚倦怠</option>
+                        <option value="[神志]嗜睡">[神志]嗜睡</option>
+                        <option value="[神志]浅昏迷">[神志]浅昏迷</option>
+                        <option value="[神志]深昏迷">[神志]深昏迷</option>
+                        <option value="[神志]意识模糊">[神志]意识模糊</option>
+                        <option value="[神志]谵妄">[神志]谵妄</option>
+                        <option value="[神志]其他">[神志](其他)</option>
+                    </optgroup>
+                    <optgroup label="2.形态">
+                        <option value="[形态]活动自如">[形态]活动自如</option>
+                        <option value="[形态]步履艰难">[形态]步履艰难</option>
+                        <option value="[形态]肢体瘫痪(左上)">[形态]肢体瘫痪(左上)</option>
+                        <option value="[形态]肢体瘫痪(左下)">[形态]肢体瘫痪(左下)</option>
+                        <option value="[形态]肢体瘫痪(右上)">[形态]肢体瘫痪(右上)</option>
+                        <option value="[形态]肢体瘫痪(右下)">[形态]肢体瘫痪(右下)</option>
+                    </optgroup>
+                    <optgroup label="3.体位">
+                        <option value="[体位]主动">[体位]主动</option>
+                        <option value="[体位]被动">[体位]被动</option>
+                    </optgroup>
+                    <optgroup label="4.皮肤">
+                        <option value="[皮肤]正常">[皮肤]正常</option>
+                        <option value="[皮肤]黄染">[皮肤]黄染</option>
+                        <option value="[皮肤]苍白">[皮肤]苍白</option>
+                        <option value="[皮肤]红斑">[皮肤]红斑</option>
+                        <option value="[皮肤]紫绀">[皮肤]紫绀</option>
+                        <option value="[皮肤]潮红">[皮肤]潮红</option>
+                        <option value="[皮肤]水肿">[皮肤]水肿</option>
+                        <option value="[皮肤]破损">[皮肤]破损</option>
+                        <option value="[皮肤]褥疮">[皮肤]褥疮</option>
+                        <option value="[皮肤]造痿">[皮肤]造痿</option>
+                        <option value="[皮肤]其他">[皮肤]其他</option>
+                    </optgroup>
+                    <optgroup label="5.舌象">
+                        <option value="[舌象]正常">[舌象]舌质</option>
+                        <option value="[舌象]黄染">[舌象]淡红</option>
+                        <option value="[舌象]苍白">[舌象]淡白</option>
+                        <option value="[舌象]红斑">[舌象]红</option>
+                        <option value="[舌象]紫绀">[舌象]绛</option>
+                        <option value="[舌象]潮红">[舌象]紫暗</option>
+                        <option value="[舌象]水肿">[舌象](其他)</option>
+                    </optgroup>
+                    <optgroup label="6.舌苔">
+                        <option value="[舌苔]薄白">[舌苔]薄白</option>
+                        <option value="[舌苔]薄黄">[舌苔]薄黄</option>
+                        <option value="[舌苔]黄厚">[舌苔]黄厚</option>
+                        <option value="[舌苔]滑">[舌苔]滑</option>
+                        <option value="[舌苔]燥">[舌苔]燥</option>
+                        <option value="[舌苔]腐">[舌苔]腐</option>
+                        <option value="[舌苔]腻">[舌苔]腻</option>
+                        <option value="[舌苔]其他">[舌苔]其他</option>
+                    </optgroup>
+                </select>
+            </div>
+        </td>
+        <td width="50%">
+            <div class="form-group">
+                <label class="control-lable">闻诊</label>
+                <select multiple ui-select2 ng-model="Diagnose.TagInfo.SMELLS" data-placeholder="请选择" ng-required="true" ng-readonly="isReadOnly" style="width:100%;">
+                    <optgroup label="1.语言">
+                        <option value="[语言]清楚">[语言]清楚</option>
+                        <option value="[语言]声音低微">[语言]声音低微</option>
+                        <option value="[语言]失语">[语言]失语</option>
+                        <option value="[语言]语蹇">[语言]语蹇</option>
+                    </optgroup>
+                    <optgroup label="2.呼吸">
+                        <option value="[呼吸]平顺">[呼吸]平顺</option>
+                        <option value="[呼吸]气促">[呼吸]气促</option>
+                        <option value="[呼吸]缓慢">[呼吸]缓慢</option>
+                    </optgroup>
+                    <optgroup label="3.咳嗽">
+                        <option value="[咳嗽]薄白">[咳嗽]无</option>
+                        <option value="[咳嗽]薄黄">[咳嗽]有</option>
+                    </optgroup>
+                    <optgroup label="4.咳痰">                  
+                        <option value="[咳痰]黄厚">[咳痰]无痰</option>
+                        <option value="[咳痰]滑">[咳痰]难咳</option>
+                        <option value="[咳痰]燥">[咳痰]易咳</option>
+                    </optgroup>
+                    <optgroup label="5.痰">
+                        <option value="[痰色]白">[痰色]白</option>
+                        <option value="[痰色]黄">[痰色]黄</option>
+                        <option value="[痰色]血丝">[痰色]血丝</option>
+                        <option value="[痰色]红">[痰色]红</option>
+                        <option value="[痰色]铁锈色">[痰色]铁锈色</option>
+
+                        <option value="[痰量]多">[痰量]多</option>
+                        <option value="[痰量]中">[痰量]中</option>
+                        <option value="[痰量]少">[痰量]少</option>
+
+                        <option value="[痰质]清晰">[痰质]清晰</option>
+                        <option value="[痰质]粘稠">[痰质]粘稠</option>
+
+                    </optgroup>
+                    <optgroup label="6.嗅气味">
+                        <option value="[嗅气味]无异味">[嗅气味]无异味</option>
+                        <option value="[嗅气味]酸臭">[嗅气味]酸臭</option>
+                        <option value="[嗅气味]腐臭">[嗅气味]腐臭</option>
+                        <option value="[嗅气味]烂苹果味">[嗅气味]烂苹果味</option>
+                        <option value="[嗅气味]肝臭">[嗅气味]肝臭</option>
+                        <option value="[嗅气味]其他">[嗅气味]其他</option>
+                    </optgroup>
+                </select>
+            </div>
+    </td>
+    </tr>
+    <tr>
+        <td>
+            <div class="form-group" style="margin-right:10px;" >
+                <label>问诊</label>
+                <select multiple ui-select2 ng-model="Diagnose.TagInfo.ASK" data-placeholder="请选择" ng-required="true" ng-readonly="isReadOnly" style="width:100%;">
+                    <optgroup label="1.嗜好">
+                        <option value="[嗜好]无特殊">[嗜好]无特殊</option>
+                        <option value="[嗜好]吸烟">[嗜好]吸烟</option>
+                        <option value="[嗜好]饮酒">[嗜好]饮酒</option>
+                        <option value="[嗜好]酸">[嗜好]酸</option>
+                        <option value="[嗜好]甜辣">[嗜好]甜辣</option>
+                        <option value="[嗜好]肥甘">[嗜好]肥甘</option>
+                        <option value="[嗜好]其他">[嗜好]其他</option>
+                    </optgroup>
+                    <optgroup label="2.饮食">
+                        <option value="[饮食]正常">[饮食]正常</option>
+                        <option value="[饮食]纳呆">[饮食]纳呆</option>
+                        <option value="[饮食]恶心呕吐">[饮食]恶心呕吐</option>
+                        <option value="[饮食]禁食">[饮食]禁食</option>
+                        <option value="[饮食]多食易饥">[饮食]多食易饥</option>
+                        <option value="[饮食]异食癖">[饮食]异食癖</option>
+                        <option value="[饮食]管喂饮食">[饮食]管喂饮食</option>
+                        <option value="[饮食]其他">[饮食]其他</option>
+                    </optgroup>
+                    <optgroup label="3.口渴">
+                        <option value="[口渴]口不渴">[口渴]口不渴</option>
+                        <option value="[口渴]口渴欲饮">[口渴]口渴欲饮</option>
+                        <option value="[口渴]渴不欲饮">[口渴]渴不欲饮</option>
+                    </optgroup>
+                    <optgroup label="4.睡眠">
+                        <option value="[睡眠]正常">[睡眠]正常</option>
+                        <option value="[睡眠]难寝">[睡眠]难寝</option>
+                        <option value="[睡眠]易醒">[睡眠]易醒</option>
+                        <option value="[睡眠]多梦">[睡眠]多梦</option>
+                        <option value="[睡眠]早醒">[睡眠]早醒</option>
+                        <option value="[睡眠]彻夜不眠">[睡眠]彻夜不眠</option>
+                    </optgroup>
+                    <optgroup label="5.大便">
+                        <option value="[大便]排便规律（有）">[大便]排便规律（有）</option>
+                        <option value="[大便]排便规律（无）">[大便]排便规律（无）</option>
+                        <option value="[大便]便秘">[大便]便秘</option>
+                        <option value="[大便]干结">[大便]干结</option>
+                        <option value="[大便]便溏">[大便]便溏</option>
+                        <option value="[大便]泄泻">[大便]泄泻</option>
+                        <option value="[大便]完古不化">[大便]完古不化</option>
+                        <option value="[大便]便血">[大便]便血</option>
+                        <option value="[大便]里急后重">[大便]里急后重</option>
+                        <option value="[大便]失禁">[大便]失禁</option>
+                        <option value="[大便]人工肛">[大便]人工肛</option>
+                        <option value="[大便]其他">[大便]其他</option>
+                    </optgroup>
+                    <optgroup label="6.小便">
+                        <option value="[小便]排尿（如常）">[小便]排尿（如常）</option>
+                        <option value="[小便]排尿（癃闭）">[小便]排尿（癃闭）</option>
+                        <option value="[小便]排尿（尿少）">[小便]排尿（尿少）</option>
+                        <option value="[小便]排尿（频数）">[小便]排尿（频数）</option>
+                        <option value="[小便]排尿（失禁）">[小便]排尿（失禁）</option>
+                        <option value="[小便]排尿（留置尿管）">[小便]排尿（留置尿管）</option>
+                        <option value="[小便]排尿（造痿）">[小便]排尿（造痿）</option>
+
+                        <option value="[小便]尿液（淡黄血尿）">[小便]尿液（淡黄血尿）</option>
+                        <option value="[小便]尿液（浑浊）">[小便]尿液（浑浊）</option>
+                    </optgroup>
+                </select>
+            </div>
+        </td>
+        <td>
+            <div class="form-group">
+                <label>切诊</label>
+                <select multiple ui-select2 ng-model="Diagnose.TagInfo.CUT" data-placeholder="请选择" ng-required="true" ng-readonly="isReadOnly" style="width:100%;">
+                    <optgroup label="1.脉象">
+                        <option value="[脉象]和缓有力">[脉象]和缓有力</option>
+                        <option value="[脉象]缓">[脉象]缓</option>
+                        <option value="[脉象]数">[脉象]数</option>
+                        <option value="[脉象]弦">[脉象]弦</option>
+                        <option value="[脉象]涩">[脉象]涩</option>
+                        <option value="[脉象]细">[脉象]细</option>
+                        <option value="[脉象]弱">[脉象]弱</option>
+                        <option value="[脉象]结">[脉象]结</option>
+                        <option value="[脉象]代">[脉象]代</option>
+                        <option value="[脉象]浮">[脉象]浮</option>
+                        <option value="[脉象]沉">[脉象]沉</option>
+                        <option value="[脉象]濡">[脉象]濡</option>
+                    </optgroup>
+                    <optgroup label="2.脘腹">
+                        <option value="[脘腹]正常">[脘腹]正常</option>
+                        <option value="[脘腹]胀满">[脘腹]胀满</option>
+                        <option value="[脘腹]腹痛喜按">[脘腹]腹痛喜按</option>
+                        <option value="[脘腹]腹痛拒按">[脘腹]腹痛拒按</option>
+                    </optgroup>
+                </select>
+            </div>
+        </td>
+    </tr>
+    <tr>
+
+        <td>
+            <div class="form-group"  style="margin-right:10px;" >
+                <label>心理社会方面</label>
+                <select multiple ui-select2 ng-model="Diagnose.TagInfo.SOCIETY" data-placeholder="请选择" ng-required="true" ng-readonly="isReadOnly" style="width:100%;">
+                    <optgroup label="1.情志">
+                        <option value="[情志]平和">[情志]平和</option>
+                        <option value="[情志]易怒">[情志]易怒</option>
+                        <option value="[情志]忧郁">[情志]忧郁</option>
+                        <option value="[情志]恐惧">[情志]恐惧</option>
+                        <option value="[情志]开朗">[情志]开朗</option>
+                        <option value="[情志]孤僻">[情志]孤僻</option>
+                    </optgroup>
+                    <optgroup label="2.家庭照顾者">
+                        <option value="[家庭照顾者]独居">[家庭照顾者]独居</option>
+                        <option value="[家庭照顾者]配偶">[家庭照顾者]配偶</option>
+                        <option value="[家庭照顾者]子女">[家庭照顾者]子女</option>
+                        <option value="[家庭照顾者]保姆">[家庭照顾者]保姆</option>
+                    </optgroup>
+                    <optgroup label="3.医疗费">
+                        <option value="[医疗费]公费">[医疗费]公费</option>
+                        <option value="[医疗费]自费">[医疗费]自费</option>
+                        <option value="[医疗费]社保">[医疗费]社保</option>
+                        <option value="[医疗费]劳保">[医疗费]劳保</option>
+                        <option value="[医疗费]医疗保险">[医疗费]医疗保险</option>
+                    </optgroup>
+                    <optgroup label="4.对疾病的认识">
+                        <option value="[对疾病的认识]认识">[对疾病的认识]认识</option>
+                        <option value="[对疾病的认识]一般认识">[对疾病的认识]一般认识</option>
+                        <option value="[对疾病的认识]不认识">[对疾病的认识]不认识</option>
+                    </optgroup>
+                </select>
+            </div>
+        </td>
+     <td></td>
+    </tr>
+</table>
+<div class="form-group">
+    <label><font class="text-danger">*</font>{{'Room-lblChinesePreliminaryDiagnosis'|translate}}</label>
+    <textarea class="form-control" rows="3"
+              ng-readonly="isReadOnly"
+              ng-model="Diagnose.MedicalRecord.PreliminaryDiagnosis"
+              placeholder="{{'Room-lblChinesePreliminaryDiagnosisPlaceholder'|translate}}"
+              validate="{required:true,messages:{required:'{{'Room-lblChinesePreliminaryDiagnosisPlaceholder'|translate}}'}}"
+              name="PreliminaryDiagnosis"></textarea>
+</div>
+<div class="form-group">
+    <label><font class="text-danger">*</font>{{'Room-lblDoctorAdvised'|translate}}</label>
+    <textarea class="form-control" rows="3"
+              ng-readonly="isReadOnly"
+              ng-model="Diagnose.MedicalRecord.Advised"
+              placeholder="{{'Room-lblDoctorAdvisedPlaceholder'|translate}}"
+              validate="{required:true,messages:{required:'{{'Room-lblDoctorAdvisedPlaceholder'|translate}}'}}"
+              name="Advised"></textarea>
+</div>

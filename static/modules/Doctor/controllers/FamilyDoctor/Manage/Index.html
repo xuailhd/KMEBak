@@ -1,0 +1,20 @@
+﻿<div class="main-content" ng-controller="FamilyDoctorController">
+    <h4 class="des border-b">
+        签约管理
+    </h4>
+    <div nav-tabs>
+        <ul>
+            <li>
+                <a ng-class="{'current':currentStateName=='Doctor.FamilyDoctorManage.SignatureList'}" ui-sref="Doctor.FamilyDoctorManage.SignatureList()">签约协议管理</a>
+            </li>
+            <li>
+                <a ng-class="{'current':currentStateName=='Doctor.FamilyDoctorManage.OrgDoctorGroup'}" ui-sref="Doctor.FamilyDoctorManage.OrgDoctorGroup()">医生团队管理</a>
+            </li>
+            <li>
+                <a ng-class="{'current':currentStateName=='Doctor.FamilyDoctorManage.OrgRegion'}" ui-sref="Doctor.FamilyDoctorManage.OrgRegion">机构区域设置</a>
+            </li>
+        </ul>
+    </div>
+    <div ui-view>
+    </div>    
+</div>

@@ -1,0 +1,12 @@
+﻿<div class="webuploader">
+    <form  enctype="multipart/form-data" id="{{formName}}" name="{{formName}}">
+        <input type="file"
+               multiple
+               class="form-control" 
+               accept="{{accept}}"
+               name="{{formName}}_file" 
+               ng-model="uploadFile" 
+               onchange="angular.element(this).scope().onFileChange(this)" />
+        <label></label>
+    </form>
+</div>

@@ -1,0 +1,78 @@
+﻿<div>
+    <div class="text-center" ng-show="loading">
+        <img src="/static/images/ico_loading.gif" /> <span>{{'Room-lblLoading'|translate}}</span>
+    </div>
+    <div ng-if="Records.length>0">
+        <div class="scroll-container">
+            <table class="table table-condensed table-striped">
+                <thead>
+                    <tr>
+                        <th class="col-md-3 text-center">
+                            {{'lblMedicalCardID'|translate}}
+                        </th>
+                        <th class="col-md-3 text-center">
+                            {{'lblName'|translate}}
+                        </th>
+                        <th class="col-md-3 text-center">
+                            {{'lblSection'|translate}}
+                        </th>
+                        <!--<th class="col-md-1 text-center">
+                            {{'lblSex'|translate}}
+                        </th>-->
+                        <!--<th class="col-md-2 text-center">
+                            {{'lblAge'|translate}}
+                        </th>-->
+                        <th class="col-md-2 text-center">
+                            {{'lblStatus'|translate}}
+                        </th>
+                        <th class="col-md-2 text-center">
+                            {{'lblOperator'|translate}}
+                        </th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="item in Records track by item.RegID" title="{{item.RegID}}">
+                        <td class="text-center">
+                            {{item.MedicalcardID}}
+                        </td>
+                        <td class="text-center">
+                            {{item.PatientName}}
+                        </td>
+                        <td class="text-center">
+                            {{item.DeptName}}
+                        </td>
+                        <!--<td class="text-center">
+                            {{item.Sex}}
+                        </td>
+                        <td class="text-center">
+                            {{item.Age}}
+                        </td>-->
+                        <td class="text-center">              
+                            <span>
+                                {{getState(item.State)}}
+                            </span>
+                        </td>
+                        <td class="text-center">
+                            <!--当还没有连接的时候，可以呼叫候诊的患者-->
+                            <button ng-if="item.State==30 || item.State==50" class="btn btn-xs btn-success"
+                                    ng-click="detail(item)">
+                                {{'btnDetail'|translate}}
+                            </button>
+                        </td>
+
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <button class="btn btn-success btn-block" ng-click="CallNext()">
+            呼叫患者
+        </button>
+    </div>
+    <div class="text-center" ng-if="Records.length<=0">
+        <br />
+        {{'Room-lblNoRecord'|translate}}
+    </div>
+
+</div>
+

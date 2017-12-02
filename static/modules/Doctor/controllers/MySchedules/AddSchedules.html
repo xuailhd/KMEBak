@@ -1,0 +1,133 @@
+﻿<div class="main-content" id="addSchedules" ng-controller="AddSchedulesController">
+
+    <h4 class="des border-b">
+        {{title}}
+    </h4>
+
+
+    <div nav-tabs>        
+        <div class="search-ban form-inline mb-22">
+            生效时间：
+            <div class="input-group date-input date">
+                <input id="beginDate" class="form-control" type="text" size="16" datepicker value="" ng-model="BeginDate" placeholder="{{'lblStartDate' | translate}}" />
+            </div>
+            <span class="plr-10">至</span>            
+            <div class="input-group date-input date">
+                <input id="endDate" class="form-control" type="text" size="16" datepicker value="" ng-model="EndDate" placeholder="{{'lblEndDate' | translate}}" />
+            </div>  
+        </div>
+    </div>
+
+    <div class="table-wrap">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th class="time">时段</th>
+                    <th class="begin">起始</th>
+                    <th class="end">结束</th>
+                    <th class="bg">
+                        周一
+                    </th>
+                    <th class="bg">
+                        周二
+                    </th>
+                    <th class="bg">
+                        周三
+                    </th>
+                    <th class="bg">
+                        周四
+                    </th>
+                    <th class="bg">
+                        周五
+                    </th>
+                    <th class="bg">
+                        周六
+                    </th>
+                    <th class="bg">
+                        周日
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="(key,item) in ScheduleList.morning track by $index">
+                    <td class="morning" ng-if="$index==0" rowspan={{ScheduleList.morning.length}}>
+                        上
+                        <br />
+                        午
+                        <div ng-if="!paramsId" class="add-wrap" ng-click="addList(0)">
+                            <img class="addSche" src="/static/images/schedules/add-active.png" alt="增加" />
+                        </div>
+                    </td>
+                    <td>
+                        {{item.BeginTime}}
+                    </td>
+                    <td>
+                        {{item.EndTime}}
+                    </td>
+                    <td class="scheNum" ng-repeat="sche in item.DoctorSchedule track by $index">
+                        <img  ng-click="reduceSche(sche, 'morning', key)" class="reduceSche fl" src="/static/images/schedules/reduce.png" alt="减少" />
+                        <input min="0" max="150" class="num" type="text" name="count" ng-model="sche.Number" />
+                        <img ng-click="addSche(sche, 'morning', key)" class="addSche fr" src="/static/images/schedules/add-active.png" alt="增加" />
+                    </td>
+                </tr>
+                <tr ng-repeat="(key,item) in ScheduleList.afternoon track by $index">
+                    <td class="afternoon" ng-if="$index==0" rowspan={{ScheduleList.afternoon.length}}>
+                        下
+                        <br />
+                        午
+                        <div ng-if="!paramsId" class="add-wrap" ng-click="addList(1)">
+                            <img class="addSche" src="/static/images/schedules/add-active.png" alt="增加" />
+                        </div>
+                    </td>
+                    <td>
+                        {{item.BeginTime}}
+                    </td>
+                    <td>
+                        {{item.EndTime}}
+                    </td>
+                    <td class="scheNum" ng-repeat="sche in item.DoctorSchedule track by $index">
+                        <img ng-click="reduceSche(sche, 'afternoon', key)" class="reduceSche fl" src="/static/images/schedules/reduce.png" alt="减少" />
+                        <input min="0" max="150" class="num" type="text" name="count" ng-model="sche.Number" />
+                        <img  ng-click="addSche(sche, 'afternoon', key)" class="addSche fr" src="/static/images/schedules/add-active.png" alt="增加" />
+                    </td>
+                </tr>    
+                <tr ng-repeat="(key,item) in ScheduleList.night track by $index">
+                    <td class="nigth" ng-if="$index==0" rowspan={{ScheduleList.night.length+1}}>
+                        晚
+                        <br />
+                        上
+                        <div ng-if="!paramsId" class="add-wrap" ng-click="addList(2)">
+                            <img class="addSche" src="/static/images/schedules/add-active.png" alt="增加" />
+                        </div>
+                    </td>
+                    <td>
+                       {{item.BeginTime}}
+                    </td>
+                    <td>
+                        {{item.EndTime}}
+                    </td>
+                    <td class="scheNum" ng-repeat="sche in item.DoctorSchedule track by $index">
+                        <img ng-click="reduceSche(sche, 'night', key)" class="reduceSche fl" src="/static/images/schedules/reduce.png" alt="减少" />
+                        <input  min="0" max="150" class="num" type="text" name="count" ng-model="sche.Number" />
+                        <img ng-click="addSche(sche, 'night', key)" class="addSche fr" src="/static/images/schedules/add-active.png" alt="增加" />
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="10">
+                        <ul class="clearfix fr set-wrap">
+                            <li class="fl set potion" ui-sref="Doctor.ScheduleSettings">
+                                返回
+                            </li>
+                            <li class="fl set potion" ng-click="saveHandle()">
+                                保存
+                            </li>
+                            <li class="fl set potion" ng-click="addHandle()">
+                                启用                           
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

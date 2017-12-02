@@ -1,0 +1,19 @@
+﻿<div class="main-content" ng-controller="FamilyServiceController">
+    <h4 class="des border-b">
+        签约居民
+    </h4>
+    <div nav-tabs>
+        <ul>
+     
+            <li>
+                <a ng-class="{'current':currentStateName=='Doctor.FamilyDoctorMySignatures.SignatureConfirm'}" ui-sref="Doctor.FamilyDoctorMySignatures.SignatureConfirm()">签约通知</a>
+            </li>
+            <li>
+                <a ng-class="{'current':currentStateName=='Doctor.FamilyDoctorMySignatures.FamilyList'}" ui-sref="Doctor.FamilyDoctorMySignatures.FamilyList">签约家庭列表</a>
+            </li>    
+        </ul>
+    </div>
+    <div ui-view>
+
+    </div>
+</div>

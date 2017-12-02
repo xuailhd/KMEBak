@@ -1,0 +1,94 @@
+﻿<div class="main-content" ng-controller="FamilyServiceDetailController">
+    <h4 class="des border-b clearfix">
+        服务详情
+        <button type="button" class="btn btn-default pull-right" ui-sref="Doctor.FamilyDoctorManage.SignatureList">
+            <i class="glyphicon glyphicon-chevron-left"></i>
+            {{'取消' | translate}}
+        </button>
+        <a class="btn btn-info btn-add btn-md pull-right" ng-click="onsubmit()" type="button" style="margin-right:5px">
+            <i class="glyphicon glyphicon-share"></i>
+            {{'确认解约' | translate}}
+        </a>
+    </h4>
+
+    <style>
+        #space .form .info-dl dt {
+            width: 120px;
+        }
+
+        #space .form .info-dl dd {
+            width: calc(100% - 120px);
+        }
+    </style>
+    <div class="form container-fluid">
+        <div class="row">
+            <dl class="col-md-6 info-dl">
+                <dt>签约机构：</dt>
+                <dd>{{item.OrgnazitionName ||'-'}}</dd>
+                <dt>签约团队：</dt>
+                <dd>{{item.FDGroupName ||'-'}}</dd>
+                <dt>家庭健康档案号：</dt>
+                <dd>{{item.FamilyFN ||'-'}}</dd>
+                <dt>家庭代表：</dt>
+                <dd>{{item.SignatureUserName ||'-'}}</dd>
+                <dt>家庭人数：</dt>
+                <dd>{{item.Members.length ||'-'}}</dd>
+                <dt>家庭地址：</dt>
+                <dd>{{item.ProvinceName ||'-'}} {{item.CityName}} {{item.DistrictName}} {{item.SubdistrictName}} {{item.Address}}</dd>
+                <dt>签约状态：</dt>
+                <dd>{{item.StatusName ||'-'}}</dd>
+            </dl>
+            <dl class="col-md-6 info-dl">
+                <dt>申请解约日期：</dt>
+                <dd>{{item.STime || '-'}}</dd>
+                <dt>解约申请人：</dt>
+                <dd>{{item.SurrenderName || '-'}}</dd>
+                <dt>解约原因：</dt>
+                <dd>{{item.SurrenderReason || '-'}}</dd>
+                <dt>解约证件：</dt>
+                <dd>
+                    <img ng-src="{{item.SurrenderPaper}}" alt="" />
+                </dd>
+            </dl>
+        </div>
+    </div>
+    <div class="radio-ban-list">
+        <ul>
+            <li ng-repeat="member in item.Members track by $index">
+                <a ng-class="{'current':currentMember === member}"
+                   ng-click="onChooseMember(member)">{{member.MemberName}}</a>
+            </li>
+
+        </ul>
+    </div>
+    <div ng-repeat="package in currentMember.Packages">
+        <h3>{{package.PackageName}}(￥{{package.Price}})</h3>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th style="width: 20%">服务项目</th>
+                    <th style="width: 50%">内容</th>
+                    <th style="width: 15%">剩余次数</th>
+                    <th style="width: 15%">操作</th>
+                </tr>
+            </thead>
+            <tbody ng-if="package.Details.length>0">
+                <tr ng-repeat="item in  package.Details track by $index">
+                    <td>{{item.ServiceItemName}}</td>
+                    <td>{{item.ServiceItemContent}}</td>
+                    <td>{{item.ServiceCount - item.ConsumeCount}}</td>
+                    <td>
+                        <div>
+                            <button class="btn btn-sm base" ng-click="onConsume(item)" ng-disabled="item.ServiceCount <= item.ConsumeCount">扣费</button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+            <tbody ng-if="package.Details.length<=0">
+                <tr>
+                    <td colspan="4" style="text-align: center">无数据</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,21 @@
+﻿<div class="chat-video" ng-show="displayVideo">
+    <div class="col-sm-12 chat-video-local" ng-show="!room.videoMgr.isNative">
+        <!--<div class="title">
+            <h5>
+                {{'Room-lblVideo'|translate}}
+            </h5>
+        </div>-->
+        <div class="windows-list">
+            <div class="windows text-center max" ng-if="errorVideoFlag">
+                <div class="tips">
+                    <div ng-bind-html="errorMsg"></div>
+                    <br />
+                    <br />
+                    <button class="btn btn-default" ng-show="errorRefreshBtn" ng-click="onRefreshVideo()">
+                        重试
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div> 
+</div>

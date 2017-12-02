@@ -1,0 +1,72 @@
+﻿<div class="main-content" ng-controller="PersonalDoctorController">
+    <form class="form-horizontal" ng-submit="onSearch()">
+        <div class="search-ban">
+            <div class="col-label-search">
+                {{'姓名' | translate}}：
+            </div>
+            <div class="col-date-search">
+                <input type="text" class="form-control" id="Keyword" ng-model="keyword" placeholder="{{'lblInserKey' | translate}}">
+            </div>
+            <div class="col-label-search">
+                {{'签约时间' | translate}}：
+            </div>
+            <div class="col-date-search">
+                <div class="input-group date">
+                    <input id="BeginDate" class="form-control" size="16" type="text" datepicker value="" ng-model="beginDate" placeholder="{{'lblStartDate' | translate}}" />
+                </div>
+            </div>
+            <div class="col-label-search">
+                -
+            </div>
+            <div class="col-date-search mr-55">
+                <div class="input-group date">
+                    <input id="EndDate" class="form-control" size="16" type="text" datepicker value="" ng-model="endDate" placeholder="{{'lblEndDate' | translate}}" />
+                </div>
+            </div>
+            <div class="col-date-search">
+                <button class="btn base" type="submit" style="padding:5px 10px;">{{'btnSearch' | translate}}</button>
+            </div>
+
+            <div class="div-clear"></div>
+        </div>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>{{'姓名'|translate}}</th>
+                    <th>{{'身份证号码'|translate}}</th>
+                    <th>{{'用户来源'|translate}}</th>
+                    <th>{{'签约团队'|translate}}</th>
+                    <th>{{'签约医生'|translate}}</th>
+                    <th>{{'签约时间'|translate}}</th>
+                    <th style="text-align:center">{{'lblOperator'|translate}}</th>
+                </tr>
+            </thead>
+            <tbody ng-show="listItems == null || listItems.length == 0">
+                <tr>
+                    <td colspan="8">{{'msgNoData'|translate}}</td>
+                </tr>
+            </tbody>
+            <tbody>
+                <tr ng-repeat="item in listItems">
+                    <td>{{item.UserName}}</td>
+                    <td>{{item.IDNumber}}</td>
+                    <td>{{item.OrgName}}</td>
+                    <td>{{item.GroupName}}</td>
+                    <td>{{item.DoctorName}}</td>
+                    <td>{{item.SignatureTime|date:'yyyy-MM-dd'}}</td>
+                    <td style="text-align:center">
+                        <a class="btn btn-sm base" ng- >{{'随访' | translate}}</a>
+                        <!--<a class="btn btn-sm base"  >{{'查看病历' | translate}}</a>-->
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!--分页控件-->
+        <pager-nav page-list="[5,10,20,25]"
+                   page="currentPage"
+                   page-Size="pageSize"
+                   total-Count="totalCount" on-change="onSearch()" />
+
+    </form>
+</div>

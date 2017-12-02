@@ -1,0 +1,8 @@
+﻿.mask-bg {
+  -webkit-backface-visibility: hidden;
+  -webkit-filter: blur(5px);
+  filter: blur(5px);
+  opacity: 0.9;
+  -webkit-animation: nvfadeInDown 1s .1s ease both;
+  -moz-animation: nvfadeInDown .3s .1s ease both;
+}

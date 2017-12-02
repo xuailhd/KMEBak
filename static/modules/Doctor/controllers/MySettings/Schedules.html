@@ -1,0 +1,38 @@
+﻿<div class="main-content" ng-controller="SchedulesController">
+
+    <h4 class="des border-b">
+        {{'lblMyScheduling'|translate}}
+    </h4>
+
+   
+    <div nav-tabs>
+        <ul>
+            <li>
+                <a ng-class="{'current':tab=='ThisWeek'}" ui-sref="Doctor.ScheduleSettings({tab:'ThisWeek'})">{{'Doctor-tab-ThisWeek'|translate}}</a>
+            </li>
+            <li>
+                <a ng-class="{'current':tab=='NextWeek'}" ui-sref="Doctor.ScheduleSettings({tab:'NextWeek'})">{{'Doctor-tab-NextWeek'|translate}}</a>
+            </li>
+        </ul>
+    </div>
+
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th style="width:100px;">
+                </th>
+                <th ng-repeat="day in Data.DateWeekList">{{day.Date}}&nbsp;{{day.Day}}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="week in Data.ScheduleList | orderBy:'StartTime'">
+                <td class="schedule-time-td text-center" style="background-color: #edeff4">{{week.StartTime}} - {{week.EndTime}}</td>
+                <!--<td ng-repeat="item in week.DoctorSchedule"><input type="checkbox" name="ScheduleDisableFlag" ng-model="item.Checked" ng-disabled="{{item.Disable}}" ng-checked="{{item.Checked}}" ng-click="checkClick(item)"/></td>-->
+                <td ng-repeat="item in week.DoctorSchedule" ng-class="(item.Checked&&item.Disable)?'unCheckedTd checkedTd disabledTd':(item.Disable)?'unCheckedTd disabledTd':(item.Checked)?'unCheckedTd checkedTd':'unCheckedTd'" ng-click="checkClick(item)" ng-model="item.Checked"></td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="middle">
+        <input type="button" class="btn base" value="{{'btnSave'|translate}}" ng-click="onSubmit()" />
+    </div>
+</div>

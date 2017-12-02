@@ -1,0 +1,45 @@
+﻿<div class="main-content" ng-controller="OrgRegionEditController">
+    <form id="myForm" form-Validate on-submit="submit()">
+        <h4 class="des border-b">
+            添加区域
+        </h4>
+        <div class="form">
+            <div class="form-group">
+                <div class="form-group">
+                    <label>
+                        对应的服务社区
+                    </label>
+                    <select ng-disabled="$scope.editflag == true" name="ServiceCenterID" validate="{required:true,messages:{required:'请选择服务社区'}}"
+                            class="form-control" ng-model="model.ServiceCenterID" ng-change="onHospitalChange()">
+                        <option value=""></option>
+                        <option ng-repeat="item in Hospitals" value="{{item.Value}}">{{item.Text}}</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        对应的服务站
+                    </label>
+                    <select ng-disabled="$scope.editflag == true" name="HospitalID" validate="{required:true,messages:{required:'对应的服务站'}}"
+                            class="form-control" ng-model="model.HospitalID" ng-change="onStationChange()">
+                        <option value=""></option>
+                        <option ng-repeat="item in Stations" value="{{item.Value}}">{{item.Text}}</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        居委/村
+                    </label>
+                    <select class="selectpicker" ng-model="RegionIDs" multiple>
+                        <option ng-repeat="item in Regions" ng-value="item.RegionID" on-finish-render-filters>{{item.RegionName}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <button class="btn btn-info" type="submit">提交</button>
+                <a class="btn btn-default" ng-click="back()">返回</a>
+            </div>
+        </div>
+    </form>
+</div>

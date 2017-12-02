@@ -1,0 +1,30 @@
+﻿@import "import-variable.less";
+
+ul.pagination{border-top: solid 1px #E7E7EB; border-left: solid 1px #E7E7EB;overflow:hidden; height:auto; width:auto; display:inline-block; margin-top:10px;  float:right;}
+ul.pagination li{
+    float:left; 
+    border-right: solid 1px #E7E7EB; 
+    border-bottom: solid 1px #E7E7EB; 
+
+}
+ul.pagination li span,ul.pagination li a{
+    width: 34px;
+    line-height:34px;
+    display:block; 
+    text-align:center;
+    padding:2px 4px;
+    margin-left:0;
+    text-decoration: none;
+    background-color: none;
+    border: 0;
+
+}
+ul.pagination li.active{ background-color: #fff; color:#0accce;}
+ul.pagination li.active a{ background-color: #fff; color:#0accce;}
+ul.pagination span span { line-height:34px; padding:0;background-color:none;}
+ul.pagination span span:hover { background-color:none;}
+
+.pagination>.active>a, .pagination>.active>span, .pagination>.active>a:hover, .pagination>.active>span:hover, .pagination>.active>a:focus, .pagination>.active>span:focus {
+    background-color: #fff;
+    color: #0accce;
+}

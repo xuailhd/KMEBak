@@ -1,0 +1,17 @@
+﻿<div class="webuploader">
+    <label ng-click="onStart()"></label>
+</div>
+<script type="text/ng-template" id="tpl-recordStatusBar">
+    <div class="recordStatusBar">
+        <div class="progress">
+            <div class="title">正在录音...</div>
+            <div class="progress-bar" role="progressbar" aria-valuenow="{{recordingProgressNow}}" aria-valuemin="{{recordingProgressMin}}" aria-valuemax="{{recordingProgressMax}}" style="width: {{recordingProgressPercent()}};">
+                
+            </div>
+            <span class="text-right btns">
+                <button class="btn btn-xs btn-default" ng-click="onStop()">{{'btnSend'|translate}}</button>
+                <button class="btn btn-xs btn-default" ng-click="onCancel()">{{'btnCancel'|translate}}</button>
+            </span>
+        </div>
+    </div>
+</script>

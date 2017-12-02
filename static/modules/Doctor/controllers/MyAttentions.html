@@ -1,0 +1,24 @@
+﻿<div class="main-content" ng-controller="MyAttentionsController">
+    <h4 class="des border-b">
+        {{'关注我的人' | translate}}
+    </h4>
+    <div class="hospital-doctor-list">
+        <div ng-show="!ListItems || ListItems.length == 0">{{'msgNoData'|translate}}</div>
+        <ul>
+            <li ng-repeat="item in ListItems" style="width:33.333%">
+                <div class="hospital-doctor-img">
+                    <img ng-src="{{item.PhotoUrl || '/static/images/unknow.png'}}" style="width:60px;height:60px" />
+                </div>
+                <div class="hospital-doctor-info">
+                    <p class="hospital-doctor-name"><span>{{item.UserCNName}}</span></p>
+                    <p class="hospital-doctor-sections">{{item.Mobile}}</p>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <!--分页控件-->
+    <pager-nav page-list="[5,10,20,25]"
+               page="currentPage"
+               page-Size="pageSize"
+               total-Count="totalCount" on-change="onSearch()" />
+</div>

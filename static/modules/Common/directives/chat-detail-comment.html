@@ -1,0 +1,258 @@
+﻿<div class="chat-comment" ng-class="{'col-lg-8 col-md-7 col-sm-6':chatComment.historyLog.opened}" dragUploader onUpload="onUpload">
+    <bg-splitter orientation="vertical">
+        <bg-pane min-size="200">
+            <div class="chat-messages">
+                <div class="scrollBar" scrollBar id="chatCommentMessages" color="#000" railcolor="#fff">
+                    <div ng-if="chatComment.messages.length<=0" class="text-center">
+                        {{'Room-lblNotMessages'|translate}}
+                    </div>
+                    <div ng-repeat="message in chatComment.messages track by $index">
+                        <chat-Msg  message="message" on-Url-Click="onUrlClick" on-Answer="onAnswer"></chat-Msg>
+                    </div>
+                    <div ng-repeat="message in chatComment.sendingMessages track by $index">
+                        <chat-Msg message="message" on-Url-Click="onUrlClick" on-Answer="onAnswer"></chat-Msg>
+                    </div>
+                </div>
+            </div>
+        </bg-pane>
+        <bg-pane min-size="250">
+            <chat-reply></chat-reply>
+        </bg-pane>
+    </bg-splitter>
+</div>
+<!--历史记录-->
+<div class="chat-history col-lg-4 col-md-5 col-sm-6" ng-show="chatComment.historyLog.opened">
+    <div class="title">
+        <span class="pull-left">{{'Room-lblChatHistory'|translate}}</span>
+    </div>
+    <div class="body">
+        <div class="chat-messages">
+            <div class="scrollBar" scrollBar color="#000" railcolor="#fff">
+                <div class="text-center mask" ng-show="chatComment.historyLog.loading">
+                    <img src="/static/images/ico_loading.gif" /> <span>{{'Room-lblLoading'|translate}}</span>
+                </div>
+                <div ng-if="chatComment.historyLog.messages.length<=0 && !chatComment.historyLog.loading" class="text-center">
+                    {{'Room-lblNotMessages'|translate}}
+                </div>
+                <div ng-repeat="message in chatComment.historyLog.messages track by $index">
+                    <div class="clearfix">
+                        <p class="message_system" ng-if="::message.msgType == chatComment.EnumMsgType.MSGTYPE_SYSTEM"><span class="content" ng-bind-html="message.html"></span></p>
+                        <div class="message" ng-if="::message.msgType!=chatComment.EnumMsgType.MSGTYPE_SYSTEM && message.author">
+                            <h4 class="nickname">{{::message.author}} {{::message.time}}</h4>
+                            <div class="content">
+                                <div class="bubble js_message_bubble bubble_default no_arrow"
+                                     ng-class="::{
+                                     'arrow_primary':message.msgType == chatComment.EnumMsgType.MSGTYPE_APP,
+                                     'no_arrow':message.msgType == chatComment.EnumMsgType.MSGTYPE_IMAGE ||message.msgType == chatComment.EnumMsgType.MSGTYPE_MICROVIDEO ||message.msgType == chatComment.EnumMsgType.MSGTYPE_VIDEO}">
+                                    <!--语音消息-->
+                                    <chat-Msg-Voice message="message" ng-if="::message.msgType == chatComment.EnumMsgType.MSGTYPE_VOICE"></chat-Msg-Voice>
+                                    <!--图片消息-->
+                                    <chat-Msg-Image message="message" ng-if="::message.msgType == chatComment.EnumMsgType.MSGTYPE_IMAGE"></chat-Msg-Image>
+                                    <!--纯文本消息(文字，表情)-->
+                                    <chat-Msg-Text message="message" ng-if="::message.msgType == chatComment.EnumMsgType.MSGTYPE_TEXT"></chat-Msg-Text>
+                                    <!--链接消息-->
+                                    <chat-Msg-Url message="message" ng-if="::message.msgType ==chatComment.EnumMsgType.MSGTYPE_URL" on-Url-Click="onUrlClick"></chat-Msg-Url>
+                                    <!--附件-->
+                                    <chat-Msg-Attach message="message" ng-if="::message.msgType == chatComment.EnumMsgType.MSGTYPE_ATTACH"></chat-Msg-Attach>
+                                    <!--调查问卷-->
+                                    <chat-Msg-Question message="message" ng-if="message.msgType == chatComment.EnumMsgType.MSGTYPE_SURVEY_QUESTION" on-answer="onAnswer" disable="true"></chat-Msg-Question>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="toolbar">
+        <!--分页控件-->
+        <pager-nav page-list="[5,10,20,25]"
+                   page="chatComment.historyLog.CurrentPage"
+                   page-Size="chatComment.historyLog.pageSize"
+                   load-Data="false"
+                   previous-text="<"
+                   next-text=">"
+                   total-Count="historyLog.totalCount" on-change="chatComment.historyLog.onSearch()" />
+    </div>
+</div>
+
+<!--模板：消息回复-->
+<script id="tpl-chatReply" type="text/ng-template">
+    <div class="chat-reply">
+        <div class="toolbar">
+            <a class="web_wechat_face web_wechat" ng-click="EmotionDialog=!EmotionDialog" title="{{'Room-btnChooseEmotion'|translate}}"></a>
+            <!--上传文件-->
+            <a class="web_wechat_pic web_wechat" href="javascript:;" title="{{'Room-btnSendPictute'|translate}}">
+                <uploader onUpload="onUpload"></uploader>
+            </a>
+            <!--截图-->
+            <a class="web_wechat_screencut web_wechat" href="javascript:;">
+                <capture onUpload="onUpload"></capture>
+            </a>
+            <!--语音-->
+            <!--<a class="web_wechat_recorder web_wechat" recorder onUpload="onUpload" href="javascript:;">
+
+            </a>-->
+
+            <!--历史记录-->
+            <button style="height: 100%;" class="btn btn-sm btn pull-right" ng-click="chatComment.historyLog.onOpen()">
+                <i class="icon glyphicon glyphicon-time" style="height: 12px;"></i>{{'Room-lblChatHistory'|translate}}
+            </button>
+
+            <div id="wl_faces_box" class="wl_faces_box" ng-show="EmotionDialog">
+                <div class="wl_faces_content">
+                    <div class="title">
+                        <ul>
+                            <li class="title_name">{{'Room-lblEmotionUsed'|translate}}</li>
+                            <li class="wl_faces_close"><span ng-click="EmotionDialog=!EmotionDialog">&nbsp;</span></li>
+                        </ul>
+                    </div>
+                    <div id="wl_faces_main" class="wl_faces_main">
+                        <ul id="emotionUL">
+                            <li ng-repeat="(key,value) in EmotionPicData">
+                                <img ng-click="onSelectEmotionImg(value[0])" id="{{value[0]}}" ng-src="{{value[1]}}" style="cursor:pointer;">
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="wlf_icon"></div>
+            </div>
+
+        </div>
+        <div class="form-group">
+            <textarea class="form-control message-input" ng-keydown="onTextareaKeyDown($event)" name="message" placeholder="{{'Room-lblMessageInputPlaceholder'|translate}}" ng-model="replyContent"></textarea>
+        </div>
+        <div class="btns text-right">
+            <button type="submit" class="btn btn-info" ng-click="onSend()">{{'Room-btnSend'|translate}}</button>
+        </div>
+    </div>
+</script>
+<!--模板：语音消息-->
+<script id="tpl-MsgVoice" type="text/ng-template">
+    <div class="bubble_cont">
+        <div class="voice"
+             ng-style="{'width':40 + 7*message.voiceSize/1000}"
+             ng-click="playVoice(message)" style="width: 50.64px;">
+            <i ng-class="{'web_wechat_voice_green':message.isSend,
+                    'web_wechat_voice_gray':!message.isSend,
+                    'web_wechat_voice_playing': message.voicePlaying && message.isSend,
+                    'web_wechat_voice_gray_playing': message.voicePlaying && !message.isSend}"></i>
+            <!--语音总时长-->
+            <span class="duration">{{message.voiceSecond}}''<i class="web_wechat_noread" ng-show="message.voiceUnRead"></i></span>
+
+        </div>
+    </div>
+</script>
+<!--模板：图片消息-->
+<script id="tpl-MsgImage" type="text/ng-template">
+    <div class="bubble_cont" ng-click="previewPicture(message)">
+        <div class="picture">
+            <div ng-bind-html="message.html"></div>
+            <p class="loading" ng-show="message._msg.status== -1">
+                <img src="/static/images/ico_loading.gif" alt="">
+            </p>
+        </div>
+    </div>
+</script>
+<!--模板：纯文本消息(文字，表情)-->
+<script id="tpl-MsgText" type="text/ng-template">
+    <div class="bubble_cont">
+        <div class="plain">
+            <pre class="js_message_plain"></pre>
+
+        </div>
+    </div>
+</script>
+<!--模板：链接消息-->
+<script id="tpl-MsgUrl" type="text/ng-template">
+    <div class="bubble_cont primary" ng-click="urlClick(message)">
+        <a ng-href="{{message.FileUrl}}"
+           target="_blank"
+           class="app">
+            <h4 class="title" ng-bind="message.FileName"></h4>
+            <img class="cover" ng-src="{{message.Conver}}">
+            <p class="desc" ng-bind="message.Desc"></p>
+        </a>
+    </div>
+</script>
+<!--模板：附件-->
+<script id="tpl-MsgAttach" type="text/ng-template">
+    <div class="bubble_cont primary">
+        <div class="attach">
+            <div class="attach_bd">
+                <div class="cover" ng-switch="" on="message.FileType">
+                    <i ng-switch-default="" class="web_wechat_folder"></i>
+                </div>
+                <div class="cont">
+                    <p class="title" ng-bind="message.FileName"></p>
+                    <div class="opr">
+                        <span ng-bind="message.FileSize"></span>
+                        <span class="sep" ng-show="message.FileUrl!=''">|</span>
+                        <a target="_blank" ng-show="message.FileUrl!=''" ng-href="{{message.FileUrl}}?Download=Y">
+                            {{'Room-btnDownLoad'|translate}}
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+<!--模板：调查问卷-->
+<script id="tpl-MsgQuestion" type="text/ng-template">
+    <div class="bubble_cont primary">
+        <div class="plain">{{message.Desc}}</div>
+        <div class="question-answers">
+            <button class="btn btn-default btn-sm" ng-disabled="!!disable" ng-repeat="answer in message.Answer" ng-click="answerClick(answer)">{{answer}}</button>
+        </div>
+    </div>
+</script>
+
+<!--消息-->
+<script id="tpl-Msg" type="text/ng-template">
+    <div class="clearfix">
+        <p class="message_system" ng-if="message.msgType == chatComment.EnumMsgType.MSGTYPE_SYSTEM"><span class="content" ng-bind-html="message.html"></span></p>
+        <div class="message" ng-if="message.msgType!=chatComment.EnumMsgType.MSGTYPE_SYSTEM && message.avatar" ng-class="{'you':!message.isSend,'me':message.isSend}">
+            <p ng-show="message.time" class="message_system">
+                <span class="content" ng-bind="::message.time"></span>
+            </p>
+            <img class="avatar" ng-src="{{message.avatar}}">
+            <div class="content">
+                <h4 class="nickname" ng-if="!message.isSend">{{message.author}}</h4>
+                <div class="bubble js_message_bubble bubble_default no_arrow"
+                     ng-class="{
+                                       'bubble_default left':!message.isSend,
+                                       'bubble_primary right':message.isSend,
+                                       'arrow_primary':message.msgType == chatComment.EnumMsgType.MSGTYPE_APP,
+                                       'no_arrow':message.msgType == chatComment.EnumMsgType.MSGTYPE_IMAGE || message.msgType == chatComment.EnumMsgType.MSGTYPE_MICROVIDEO ||message.msgType == chatComment.EnumMsgType.MSGTYPE_VIDEO}">
+
+
+                    <!--语音消息-->
+                    <chat-Msg-Voice message="message" ng-if="message.msgType == chatComment.EnumMsgType.MSGTYPE_VOICE"></chat-Msg-Voice>
+                    <!--图片消息-->
+                    <chat-Msg-Image message="message" ng-if="message.msgType == chatComment.EnumMsgType.MSGTYPE_IMAGE"></chat-Msg-Image>
+                    <!--纯文本消息(文字，表情)-->
+                    <chat-Msg-Text message="message" ng-if="message.msgType == chatComment.EnumMsgType.MSGTYPE_TEXT"></chat-Msg-Text>
+                    <!--链接消息-->
+                    <chat-Msg-Url message="message" ng-if="message.msgType ==chatComment.EnumMsgType.MSGTYPE_URL" on-Url-Click="onUrlClick"></chat-Msg-Url>
+                    <!--附件-->
+                    <chat-Msg-Attach message="message" ng-if="message.msgType == chatComment.EnumMsgType.MSGTYPE_ATTACH"></chat-Msg-Attach>
+                    <!--调查问卷-->
+                    <chat-Msg-Question message="message" ng-if="message.msgType == chatComment.EnumMsgType.MSGTYPE_SURVEY_QUESTION" on-answer="onAnswer" disable="true"></chat-Msg-Question>
+              
+                    <!--箭头：图片不需要-->
+                    <div ng-if="message.msgType != chatComment.EnumMsgType.MSGTYPE_IMAGE" ng-class="{'jt-left':!message.isSend,'jt-right':message.isSend}"></div>
+                </div>
+
+                <!--loading:图片不需要 -->
+                <img ng-if="message.msgType != chatComment.EnumMsgType.MSGTYPE_IMAGE" ng-show="message._msg.status== -1" class="ico_loading"
+                     src="/static/images/ico_loading.gif"
+                     alt="">
+
+                <!--重新发送：-->
+                <i class="ico_fail web_wechat_message_fail btn" ng-click="chatComment.resendMsg(message)"
+                   ng-show="message._msg.status==0"></i>
+
+            </div>
+        </div>
+    </div>
+</script>

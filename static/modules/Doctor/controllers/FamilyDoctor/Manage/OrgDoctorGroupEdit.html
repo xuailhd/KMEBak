@@ -1,0 +1,170 @@
+﻿<div class="main-content" ng-controller="OrgDoctorGroupEditController">
+
+    <form id="formOrgDoctorGroupEdit" form-Validate on-submit="fn.onSubmit()">
+        <h4 class="des border-b">
+            家庭医生团队信息
+        </h4>
+        <div class="form">
+            <div class="form-group">
+                <div class="form-group">
+                    <label>
+                        所属社康
+                    </label>
+                    <select ng-change="fn.onOrgChanged()"
+                            id="OrgnazitionID"
+                            name="OrgnazitionID"
+                            validate="{required:true,messages:{required:'请选择所属社康'}}"
+                            required ng-model="TeamInfo.OrgnazitionID" class="form-control">
+                        <option value="">请选择所属社康</option>
+                        <option ng-repeat="item in OrgList" value="{{item.Value}}">{{item.Text}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>
+                        团队名称
+                    </label>
+                    <input required
+                           validate="{required:true,messages:{required:'请输入团队名称'}}"
+                           placeholder="请输入团队名称（30字以内）"
+                           maxlength="30"
+                           type="text"
+                           class="form-control"
+                            name="GroupName" ng-model="TeamInfo.GroupName">
+                </div>
+                <!--<div class="form-group">
+                    <label>
+                        联系电话
+                    </label>
+                    <input required
+                           placeholder="请输入联系电话"
+                           maxlength="11"
+                           validate="{required:true,messages:{required:'请输入联系电话'}}"
+                           type="tel"
+                           name="Telephone"
+                           class="form-control"  ng-model="TeamInfo.Telephone">
+                </div>-->
+                <div class="form-group">
+                    <label>
+                        团队介绍
+                    </label>
+                    <textarea required 
+                              placeholder="请输入团队介绍(500字以内)"
+                              maxlength="500"
+                              validate="{required:true,messages:{required:'请输入团队介绍'}}"
+                              class="form-control"
+                              name="Remark" 
+                              ng-model="TeamInfo.Remark"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>
+                        团队成员
+                    </label>
+                    <table class="table table-responsive table-bordered">
+                        <thead>
+                            <tr>
+                                <th class="text-center">是否队长</th>
+                           
+                                <th class="text-left">医生职称</th>
+                                <th class="text-center">医生姓名</th>
+                                <th class="text-center">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-show="TeamInfo.DoctorGroupMembers.length<=0">
+                                <td colspan="5" class="text-center">暂无成员</td>
+                            </tr>
+                            <tr ng-repeat="item in TeamInfo.DoctorGroupMembers">
+                                <td class="col-2 text-center">
+                                    <input type="radio" name="Position" ng-checked="item.Position==2" ng-click="fn.onSelectLeader(item)" />
+                                </td>
+                           
+                                <td class="col-3 text-left">
+                                    {{item.TitleName}}
+                                </td>
+                                <td class="col-3 text-left">
+                                    {{item.DoctorName}}
+                                </td>
+                                <td class="col-1 text-left">
+                                    <button class="btn btn-md btn-danger" ng-click="fn.onRemoveGroupMember(item)">删除</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="5">
+                                    <button type="button" class="btn btn-block btn-default" ng-click="fn.onAddGroupMember()">+添加成员</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="from-group">
+                    <label>
+                        团队签约区域设置
+                    </label>
+                    <div>
+                        <select class="selectpicker" ng-model="RegionIDs" multiple>
+                            <option ng-repeat="item in Regions" ng-value="item.VillageRegionID" on-finish-render-filters>{{item.VillageRegionName}}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <button class="btn btn-info" type="submit">提交</button>
+                <a class="btn btn-default" ui-sref="Doctor.FamilyDoctorManage.OrgDoctorGroup">返回</a>
+            </div>
+        </div>
+    </form>
+        <!--诊断模板集合-->
+        <div class="modal fade" id="modal-selectDoctor" role="dialog">
+            <div class="modal-dialog"  style="width:90%" role="dialog">
+                <div class="modal-content">
+                    <div class="modal-header modal-header-bg">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title text-center">{{'选择医生'|translate}}</h4>
+                    </div>
+                    <div class="modal-body text-center">
+                        <table class="table table-responsive table-bordered table-hover table">
+                            <thead>
+                                <tr>
+                                    <th class="text-center" width="60">选择</th>
+                                    <th class="text-left">机构名称</th>
+                                    <th class="text-left">医生职称</th>
+                                    <th class="text-center" width="100">医生姓名</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="item in DoctorList" ng-dblclick="item.Selected=(item.Disabled || !item.Selected)">
+                                    <td>
+                                        <input type="checkbox" ng-model="item.Selected" 
+                                               ng-checked="item.Disabled"
+                                               ng-disabled="item.Disabled" />
+                                    </td>
+                                    <td class="text-left">
+                                        {{item.HospitalName}}
+                                    </td>
+                                    <td class="text-left">
+                                        {{item.TitleName}}
+                                    </td>
+                                    <td width="160">
+                                        {{item.DoctorName}}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="clearfix">
+                            <!--分页控件-->
+                            <pager-nav page-list="[5,10]"
+                                       page="page"
+                                       page-Size="pageSize"
+                                       total-Count="totalCount"
+                                       loadData="false" on-change="fn.onQueryDoctorList()" />
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-info" ng-click="fn.onConfirmSelect()">{{'btnSave'|translate}}</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">{{'btnClose'|translate}}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+</div>

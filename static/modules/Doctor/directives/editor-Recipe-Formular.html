@@ -1,0 +1,201 @@
+﻿<div class="form-group">
+    <label>{{'Room-lblRecipeType'|translate}}：</label>
+    <span>
+        <select class="form-control"
+                name="RecipeTypeID"
+                ng-model="RecipeFile.RecipeType"
+                validate="{selected:true,messages:{selected:'请选择处方类型'}}">
+            <option value="1" ng-selected="RecipeFile.RecipeType==1">{{'tabCnPrescription'|translate}}</option>
+            <option value="2" ng-selected="RecipeFile.RecipeType==2">{{'tabWestPrescription'|translate}}</option>
+        </select>
+    </span>
+</div>
+
+<div class="form-group">
+    <label>{{'lblPrescriptionName'|translate}}：</label>
+    <span>
+        <input type="text"
+               class="form-control"
+               ng-model="RecipeFile.RecipeFormulaName"
+               name="RecipeFormulaName"
+               validate="{required:true,messages:{required:'请输入处方名称！'}}" />
+    </span>
+</div>
+
+<div class="form-group">
+    <table cellspacing="0" class="table table-bordered" ng-if="RecipeFile.RecipeType ==1">
+        <thead>
+            <tr>
+                <th>{{'Room-lblDrugName'|translate}}</th>
+                <th>{{'lblSpecification'|translate}}</th>
+                <th width="100">{{'lblDose'|translate}}</th>
+
+                <th width="30" align="center">
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-show="RecipeFile.Details.length<=0">
+                <td colspan="5">
+                    <center>
+                        {{'Room-lblNotDrugs'|translate}}
+                    </center>
+                </td>
+            </tr>
+            <tr ng-repeat="drugItem in RecipeFile.Details" ng-class="{'has-error':!drugItem.Drug || !drugItem.Drug.DrugCode,'has-success':drugItem.Drug}">
+                <td class="form-group form-group-sm">
+
+                    <input type="text"
+                           class="form-control"
+                           name="{{'DrugDetailName'+$index}}"
+                           ng-model="drugItem.Drug"
+                           placeholder="{{'Room-lblDrugNamePlaceholder'|translate}}"
+                           typeahead="drugItem as formatDrugItem(drugItem) for drugItem in getDrugDetails($viewValue,1)"
+                           typeahead-editable="false"
+                           typeahead-on-select="onDrugSelect($item, $model, $label) "
+                           validate="{required:true,messages:{required:'请输入药品名称或拼音首拼，如：红花，HH'}}" />
+
+                </td>
+                <td class="form-group form-group-sm">
+
+                    {{drugItem.Drug.Specification}}
+
+                </td>
+                <td class="form-group form-group-sm">
+
+                    <div class="input-group input-group-sm prel doseInputWid">
+                        <input class="form-control doseInput" type="number" name="{{'Dose'+$index}}" value="1" ng-model="drugItem.Dose" required min="0.01" />
+                        <!--<span class="input-group-addon">{{drugItem.DoseUnit}}</span>-->
+                        <select class="form-control doseUnitSel"
+                                ng-model="drugItem.Drug.DoseUnit"
+                                name="{{'DoseUnit'+$index}}"
+                                ng-options="doseUnit as doseUnit for doseUnit in doseUnitCN">
+                            <!--  validate="{required:true, selected:true,messages:{required:'请选择用药频率',selected:'请选择用药频率'}}"> -->
+                            <option value="">{{'Room-lblChoosePlaceholder'|translate}}</option>
+                        </select>
+                    </div>
+
+                </td>
+                <td align="center">
+                    <a class="btn btn-danger btn-xs" href="javascript:void(0);" ng-click="onRemoveDrugDetail(drugItem)">{{'btnDelete'|translate}}</a>
+                </td>
+            </tr>
+
+            <tr>
+                <td colspan="5">
+                    <button type="button" class="btn btn-block btn-default btn-sm" ng-click="onAddDrugDetail()"><span class="glyphicon glyphicon-plus" style="color:#6BBD3D"></span> {{'btnAddDrug'|translate}}</button>
+                </td>
+            </tr>
+        </tbody>
+
+    </table>
+
+    <!--西药处方-->
+    <table cellspacing="0" class="table table-bordered col-md-12" ng-if="RecipeFile.RecipeType == 2">
+        <thead>
+            <tr>
+                <th>{{'Room-lblDrugName'|translate}}</th>
+                <th>{{'lblSpecification'|translate}}</th>
+
+                <th width="100">{{'lblDose'|translate}}</th>
+                <th width="150">{{'lblFrequency'|translate}}</th>
+                <th width="150">{{'Room-lblRoute'|translate}}</th>
+                <th width="30" align="center">
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-show="RecipeFile.Details.length<=0">
+                <td colspan="7">
+                    <center>
+
+                        {{'Room-lblNotDrugs'|translate}}
+
+                    </center>
+                </td>
+            </tr>
+            <tr ng-repeat="drugItem in RecipeFile.Details">
+                <td class="form-group form-group-sm">
+                    <input class="form-control" type="text" name="{{'DrugDetailName'+$index}}" placeholder="{{'Room-lblDrugNamePlaceholder'|translate}}" required
+                           ng-model="drugItem.Drug"
+                           typeahead="drugItem as formatDrugItem(drugItem) for drugItem in getDrugDetails($viewValue,2)"
+                           typeahead-editable="true"
+                           typeahead-on-select="onDrugSelect($item, $model, $label) "
+                           validate="{required:true,messages:{required:'输入药品名称或拼音首拼：如：红花，HH'}}" />
+                </td>
+                <td class="form-group form-group-sm">
+
+                    <input class="form-control"
+                           type="hidden"
+                           name="{{'DrugCode'+$index}}"
+                           ng-model="drugItem.Drug.DrugCode" />
+                    {{drugItem.Drug.Specification}}
+                </td>
+
+                <td class="form-group form-group-sm">
+
+                    <div class="input-group  input-group-sm  prel doseInputWid">
+                        <input class="form-control doseInput"
+                               type="number"
+                               name="{{'Dose'+$index}}"
+                               ng-model="drugItem.Dose"
+                               required
+                               min="0.01"
+                               validate="{required:true,min:0.01,messages:{required:'请输入剂量'}}" />
+                        <!--<span class="input-group-addon">{{drugItem.Drug.DoseUnit}}</span>-->
+                        <select class="form-control doseUnitSel"
+                                ng-model="drugItem.Drug.DoseUnit"
+                                name="{{'DoseUnit'+$index}}"
+                                ng-options="doseUnit as doseUnit for doseUnit in doseUnitEN">
+                            <!--  validate="{required:true, selected:true,messages:{required:'请选择用药频率',selected:'请选择用药频率'}}"> -->
+                            <option value="">{{'Room-lblChoosePlaceholder'|translate}}</option>
+                        </select>
+                    </div>
+
+                </td>
+                <td class="form-group form-group-sm">
+
+                    <div class="input-group input-group-sm">
+                        <select class="form-control"
+                                name="{{'Frequency'+$index}}"
+                                ng-model="drugItem.Frequency"
+                                validate="{required:true, selected:true,messages:{required:'请选择用药频率',selected:'请选择用药频率'}}">
+                            <option value="">{{'Room-lblChoosePlaceholder'|translate}}</option>
+                            <option ng-selected="drugItem.Frequency == freItem.name"
+                                    ng-repeat="freItem in drugFrequency"
+                                    ng-value="freItem.name">
+                                {{freItem.name}}
+                            </option>
+                        </select>
+                    </div>
+
+                </td>
+                <td class="form-group form-group-sm">
+                    <select class="form-control"
+                            name="{{'DrugRouteName'+$index}}"
+                            ng-model="drugItem.DrugRouteName"
+                            validate="{required:true,selected:true,messages:{required:'请选择用药途径',selected:'请选择用药途径'}}">
+                        <option value="">{{'Room-lblChoosePlaceholder'|translate}}</option>
+                        <option ng-selected="drugItem.DrugRouteName == drugRoteItem.shade"
+                                ng-repeat="drugRoteItem in drugRoteItems"
+                                ng-value="drugRoteItem.shade">
+                            {{drugRoteItem.shade}}
+                        </option>
+                    </select>
+
+
+                </td>
+                <td align="center">
+                    <a class="btn btn-danger btn-xs" href="javascript:void(0);" ng-click="onRemoveDrugDetail(drugItem,RecipeFile.GroupNo)">{{'btnDelete'|translate}}</a>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="7">
+                    <div class="td-full form-group-sm">
+                        <button type="button" class="btn btn-block btn-default btn-sm" ng-click="onAddDrugDetail()"><span class="glyphicon glyphicon-plus" style="color:#6BBD3D"></span> {{'btnAddDrug'|translate}}</button>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

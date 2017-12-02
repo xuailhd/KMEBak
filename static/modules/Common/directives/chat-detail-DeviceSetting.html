@@ -1,0 +1,42 @@
+﻿<div class="modal fade" id="dialog-device" data-backdrop="static" role="dialog">
+    <div class="modal-dialog" style="width:450px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">
+                    {{'lblSetting'|translate}}
+                </h4>
+            </div>
+            <div class="modal-body" style="max-height:700px; overflow-y:auto;">
+                <ul class="nav nav-tabs" role="tablist">
+                    <li role="presentation" ng-class="{'active':deviceKind=='videoinput'}" ng-click="deviceKind='videoinput'"><a href="javascript:;">{{'Room-lblCamera'|translate}}</a></li>
+                    <li role="presentation" ng-class="{'active':deviceKind=='audioinput'}" ng-click="deviceKind='audioinput'"><a href="javascript:;">{{'Room-lblMicrophone'|translate}}</a></li>
+                    <li role="presentation" ng-class="{'active':deviceKind=='audiooutput'}" ng-click="deviceKind='audiooutput'"><a href="javascript:;">{{'Room-lblSpeaker'|translate}}</a></li>
+                </ul>
+                <table class="table table-responsive table-bordered">
+                    <thead>
+                        <tr>
+                            <td class="text-left"> {{'Room-lblDeviceName'|translate}}</td>
+                            <td class="text-center">{{'Room-lblDeviceDefaultOption'|translate}}</td>
+                        </tr>
+                    </thead>
+                    <tbody ng-if="devices(deviceKind).length<=0">
+                        <tr>
+                            <td colspan="2">
+                                {{'Room-lblNoRecord'|translate}}
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tbody>
+                        <tr ng-repeat="device in devices(deviceKind)">
+                            <td class="text-left">{{device.label}}</td>
+                            <td class="text-center">
+                                <input type="radio" name="device{{deviceKind}}" ng-checked="device.enable" ng-click="onSelectDevice(device)" />
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

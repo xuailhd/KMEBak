@@ -1,0 +1,50 @@
+﻿<div class="main-content" ng-controller="FamilyServiceDetailController">
+    <form form-Validate on-submit="onSubmit()">
+        <div class="form">
+            <div class="form-group">
+                <label>
+                    教育类型
+                </label>
+                <select required 
+                        name="Title"
+                        ng-model="Title" 
+                        validate="{required:true,messages:{required:'请选择教育类型'}}"
+                        class="form-control" >
+                    <option value="">请选择教育类型</option>
+                    <option>健康知识</option>
+                    <option>健康讲座</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>
+                    收信对象
+                </label>
+                <select required ng-model="Tag"
+                        name="Tag"
+                        validate="{required:true,messages:{required:'请选择收信对象'}}"
+                        class="form-control">
+                    <option value="">请选择收信对象</option>
+                    <option ng-repeat="tag in Tags" value="{{tag}}">{{tag}}</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>
+                    详细内容
+                </label>
+                <textarea rows="5"
+                          maxlength="500"
+                          name="Content"
+                          ng-model="Content"
+                          validate="{required:true,messages:{required:'请输入详细内容'}}"
+                          placeholder="请输入详细内容，长度不超过500字"
+                          required
+                          autofocus
+                          class="form-control" type="text" />
+            </div>
+            <div class="form-group">
+                <button class="btn btn-info btn-lg" type="submit">提交</button>
+            </div>
+        </div>
+    </form>
+</div>

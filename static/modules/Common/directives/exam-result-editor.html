@@ -1,0 +1,53 @@
+﻿<div>
+    <style type="text/css">
+        dl.lab-widget {
+            border: 1px dotted gray;
+            padding: 10px;
+        }
+
+        h3 {
+            font-size: 14px !important;
+            font-weight: bold;
+        }
+    </style>
+    <div class="modal fade" id="divAddResultModal" tabindex="-1" role="dialog" aria-labelledby="divAddResultModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <form form-validate on-submit="fn.save()" id="formAddResultModal">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="divAddResultModalLabel">添加检验检查结果</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div id="divExamItems">
+                            <div id="ExamItems">
+
+                            </div>
+                            <div>
+                                <h3><label for="ExamTime" class="required">检查时间</label></h3>
+                                <fieldset class="has-max-width">
+                                    <dl class='lab-widget'>
+                                        <dd>
+                                            <input id="ExamTime" class="form-control" datepicker type="text" placeholder="请输入检查时间" validate="{required:true, date:true,messages:{required:'请输入检查时间'}}" />
+                                        </dd>
+                                    </dl>
+                                </fieldset>
+                                <h3><label for="HospitalName" class="required">出具检验检查结果的医院</label></h3>
+                                <fieldset class="has-max-width">
+                                    <dl class='lab-widget'>
+                                        <dd>
+                                            <input type="text" class="form-control" id="HospitalName" name="HospitalName" maxlength="20" placeholder="请输入医院" validate="{required:true,messages:{required:'请输入医院'}}" />
+                                        </dd>
+                                    </dl>
+                                </fieldset>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">{{'btnSave' | translate}}</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

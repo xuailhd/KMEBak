@@ -1,0 +1,29 @@
+﻿<div>
+
+    <div class="pull-left pagination-detail">
+        <span class="pagination-info">显示第 {{ 1+(pageSize * (page-1))}} 到第 {{pageSize * page}} 条记录，总共 {{totalCount}} 条记录</span>
+        <span class="page-list">
+            每页显示 <span class="btn-group dropup">
+                <button type="button" class="btn btn-default  btn-outline dropdown-toggle" data-toggle="dropdown">
+                    <span class="page-size">{{pageSize}}</span>
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                    <li ng-repeat="s in pageList" ng-class="fn.cssClass(s,pageSize)">
+                        <a ng-click="fn.onPageSizeChanged(s)" href="javascript:void(0)">{{s}}</a>
+                    </li>
+                </ul>
+            </span> 条记录
+        </span>
+    </div>
+
+    <div class="pull-right pagination" Pagination
+         ng-model="page"      
+         ng-change="fn.onPageChanged()"   
+         total-items="totalCount"
+         max-size="5"
+         previous-text="{{previousText}}"
+         next-text="{{nextText}}"
+         items-Per-Page="pageSize">
+    </div>
+</div>

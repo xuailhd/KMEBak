@@ -1,0 +1,411 @@
+﻿<style type="text/css">
+    .mytb { width: 100%; margin-top: 25px; border-top: solid 1px #E7E7EB; border-left: solid 1px #E7E7EB; }
+    .mytb td { border-right: solid 1px #E7E7EB; border-bottom: solid 1px #E7E7EB; vertical-align: middle; padding: 15px; }
+    .mytb .tit { width: 15%; text-align: right; }
+    .mytb .con { width: 35%; }
+    .form-control { border-color: #e7e7eb; box-shadow: none; }
+    .emr_image {
+        margin: 5px;
+        width: 160px;
+        display: block;
+        float: left;
+        border: 1px solid #dfdfdf;
+        text-align: center;
+    }
+    .emr_image img {
+        width: 100%;
+        height: 160px;
+    }
+    .emr_image_del {
+        color: red;
+    }
+    label>span{ font-weight:normal; }
+
+    /*更多弹出层*/
+    .audioFile-status {
+        max-width: 170px;
+    }
+    .Iltype {
+        max-width: 140px;
+    }
+    .Iltype,
+    .audioFile-status {
+        position: relative;
+        min-width: 100%;
+        word-break: break-all;
+        white-space: normal;
+	    overflow: hidden;
+    }
+    .doctor-introduction-more-posin {
+        position: relative;
+    }
+    .doctor-introduction-more {
+        position: relative;
+        padding-left: 14px;
+        color: #0CBFBA;
+        background-color: #fff;
+    }
+    .doctor-introduction-more:hover, .doctor-introduction-more:focus {
+        color: #0CBFBA;
+    }
+    .doctor-introduction-more:before {
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        content: "...";
+        display: inline-block;
+        color: #5a5a5a;
+    }
+    .doctor-introduction-allInformation {
+        position: absolute;
+        z-index: 10;
+        padding: 20px 20px 40px;
+        display: none;
+        top: 0;
+        left: 100px;
+        right: 100px;
+        border: 1px solid #e7e7e7;
+        background: #fff;
+        word-break: break-all;
+        box-shadow: 0 0 30px 0 rgba(0, 0, 0, 0.2);
+    }
+    .doctor-introduction-allInformation .hideAllInfor {
+        position: absolute;
+        right: 20px;
+        bottom: 10px;
+        padding: 2px 10px;
+        border: 1px solid #0CBFBA;
+        color: #0CBFBA;
+    }
+    .doctor-introduction-allInformation .hideAllInfor:hover {
+        background: #0CBFBA;
+        color: #fff;
+    }
+</style>
+<div class="main-content" ng-controller="MyPatientDetailController">
+    <h4 class="des border-b">
+        {{'MyPatient-lblPatientDetails'|translate}}
+    </h4>
+
+    <div nav-tabs>
+        <ul>
+            <li>
+                <a ng-class="{'current':tab=='myMember'}" ui-sref="Doctor.MyPatientDetail({tab:'myMember'})">{{'MyPatient-lblBasicData'|translate}}</a>
+            </li>
+            <li>
+                <a ng-class="{'current':tab=='opdRegister'}" ui-sref="Doctor.MyPatientDetail({tab:'opdRegister'})">{{'MyPatient-lblMedicalRecords'|translate}}</a>
+            </li>
+            <li>
+                <a ng-class="{'current':tab=='consultation'}" ui-sref="Doctor.MyPatientDetail({tab:'consultation'})">{{'MyPatient-lblConsultationNote'|translate}}</a>
+            </li>
+            <li>
+                <a ng-class="{'current':tab=='checkList'}" ui-sref="Doctor.MyPatientDetail({tab:'checkList'})">{{'MyPatient-lblChecklists'|translate}}</a>
+            </li>
+            <!--<li>
+                <a ng-class="{'current':tab=='examineList'}" ui-sref="Doctor.MyPatientDetail({tab:'examineList'})">{{'MyPatient-lblCheckTable'|translate}}</a>
+            </li>-->
+            <li>
+                <a ng-class="{'current':tab=='MyFamilies'}" ui-sref="Doctor.MyPatientDetail({tab:'MyFamilies'})">{{'MyPatient-lblHealthFile'|translate}}</a>
+            </li>
+            <li>
+                <a ng-class="{'current':tab=='MyMemberEMRs'}" ng-click="tab='MyMemberEMRs'" ui-sref="Doctor.MyPatientDetail({tab:'MyMemberEMRs'})">{{'Room-lblEMR' | translate}}</a>
+            </li>
+        </ul>
+
+         <button type="button" ng-click="onBack()" class="btn btn-default pull-right">{{'btnBack'|translate}}</button>
+    </div>
+
+    <div class="ibox-content" ng-if="tab=='myMember'" ng-controller="MemberInfoController">
+        <table class="mytb table-td-style" border="0">
+            <tr>
+                <td class="tit">{{'lblName' | translate}}</td>
+                <td class="con">{{MyMember.MemberName}}</td>
+                <td class="tit">{{'lblSex' | translate}}</td>
+                <td class="con">{{MyMember.GenderName}}</td>
+            </tr>
+            <tr>
+                <td class="tit">{{'lblAge' | translate}}</td>
+                <td class="con">{{MyMember.Age}}</td>
+                <td class="tit">{{'lblTel' | translate}}</td>
+                <td class="con">{{MyMember.Mobile}}</td>
+            </tr>
+            <tr>
+                <td class="tit">{{'lblIDCode' | translate}}</td>
+                <td class="con">{{MyMember.IDNumber}}</td>
+                <td class="tit">{{'lblEmail' | translate}}</td>
+                <td class="con">{{MyMember.Email}}</td>
+            </tr>
+            <tr>
+                <td class="tit">{{'lblAddress' | translate}}</td>
+                <td class="con" colspan="3">{{MyMember.Address}}</td>
+            </tr>
+        </table>
+    </div>
+
+    <div ng-if="tab=='opdRegister'" ng-controller="OPDRegisterRecordsController">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>{{'lblName' | translate}}</th>
+                    <th>{{'lblSex' | translate}}</th>
+                    <th>{{'lblIDCode' | translate}}</th>
+                    <th>{{'lblTel' | translate}}</th>
+                    <th>{{'lblAppointmentDate' | translate}}</th>
+                    <th>{{'lblAppointmentSlots' | translate}}</th>
+                    <th>{{'lblVisitDate' | translate}}</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-if="!OPDRegisterRecords || OPDRegisterRecords.length == 0">
+                    <td colspan="7">{{'msgNoData'|translate}}</td>
+                </tr>
+                <tr ng-repeat="item in OPDRegisterRecords">
+                    <td>{{item.Member.MemberName}}</td>
+                    <td>{{item.Member.GenderName}}</td>
+                    <td>{{item.Member.IDNumber}}</td>
+                    <td>{{item.Member.Mobile}}</td>
+                    <td>{{item.OPDDate|date:'yyyy-MM-dd'}}</td>
+                    <td>{{item.OPDBeginTime}}&nbsp;-&nbsp;{{item.OPDEndTime}}</td>
+                    <td>{{item.Room.EndTime|date:'yyyy-MM-dd'}}</td>
+                </tr>
+            </tbody>
+        </table>
+        <!--分页控件-->
+        <pager-nav page-list="[5,10,20,25]" page="CurrentPage" page-Size="pageSize" total-Count="totalCount" on-change="onSearch()" />
+
+    </div>
+
+    <div ng-if="tab=='consultation'" ng-controller="ConsultationRecordsController">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>{{'lblName' | translate}}</th>
+                    <th>{{'lblSex' | translate}}</th>
+                    <th>{{'lblIDCode' | translate}}</th>
+                    <th>{{'lblTel' | translate}}</th>
+                    <th>{{'MyPatient-lblChiefDoctor' | translate}}</th>
+                    <th>{{'MyPatient-lblConsultationDate' | translate}}</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-if="!ConsultationRecords || ConsultationRecords.length == 0">
+                    <td colspan="6">{{'msgNoData'|translate}}</td>
+                </tr>
+                <tr ng-repeat="item in ConsultationRecords">
+                    <td>{{item.MemberName}}</td>
+                    <td>{{item.GenderName}}</td>
+                    <td>{{item.IDNumber}}</td>
+                    <td>{{item.Mobile}}</td>
+                    <td>{{item.DoctorName}}</td>
+                    <td>{{item.FinishTimeReal|date:'yyyy-MM-dd'}}</td>
+                </tr>
+            </tbody>
+        </table>
+        <!--分页控件-->
+        <pager-nav page-list="[5,10,20,25]" page="CurrentPage" page-Size="pageSize" total-Count="totalCount" on-change="onSearch()" />
+    </div>
+
+    <div ng-if="tab=='checkList'" ng-controller="CheckListController" class="doctor-introduction-more-posin">
+        <table class="table table-condensed ">
+            <thead>
+                <tr>
+                    <th>{{'InspectResults-lblPatientName'|translate}}</th>
+                    <th width="140">{{'InspectResults-lblCheckType'|translate}}</th>
+                    <th>{{'InspectResults-lblExaminationSite'|translate}}</th>
+                    <th>{{'InspectResults-lblInspectionDate'|translate}}</th>
+                    <th>{{'InspectResults-lblImageQuantity'|translate}}</th>
+                    <th>{{'InspectResults-lblDiagnosticOpinion'|translate}}</th>
+                    <th>{{'lblOperator'|translate}}</th>
+                </tr>
+            </thead>
+            <tbody ng-show="CheckListItems==null||CheckListItems.length<=0">
+                <tr>
+                    <td colspan="7">{{'msgNoData'|translate}}</td>
+                </tr>
+            </tbody>
+            <tbody class="more-parentTbody">
+                <tr ng-repeat="item in CheckListItems" on-finish-render="callMethod()">
+                    <td>{{item.UserMember.MemberName}}</td>
+                    <td><div class="Iltype">{{item.InspectType}}</div></td>
+                    <td>{{item.InspectPoint}}</td>
+                    <td>{{item.InspectDate}}</td>
+                    <td>1</td>
+                    <td style="text-align:left;"><div class="audioFile-status">{{item.DoctorSuggest}}</div><a href="javascript:;" class="doctor-introduction-more" ng-click="audioFileClickMoreShow(item.DoctorSuggest)">更多</a></td>
+                    <td>
+                        <button class="btn btn-small btn-info" ng-click="onOpenCheckResult(item)">{{'查看影像' | translate}}</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!--更多弹出层-->
+        <div class="doctor-introduction-allInformation">
+            <div class="doctor-introduction-allInformation-content"></div>
+            <a class="hideAllInfor" ng-click="audioFileClickMoreHide($event)">收起</a>
+        </div>
+        
+        <!--分页控件-->
+        <pager-nav page-list="[5,10,20,25]" page="CurrentPage" page-Size="pageSize" total-Count="totalCount" on-change="onSearch()" />
+
+    </div>
+
+    <div ng-if="tab=='examineList'" ng-controller="ExamineListController">
+        <exam-result-charts member-id="MemberID"></exam-result-charts>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>{{'ExamItems-lblInspectionItems' | translate}}</th>
+                    <th>{{'ExamItems-lblInspectionResults' | translate}}</th>
+                    <th>{{'ExamItems-lblInspectionTime' | translate}}</th>
+                </tr>
+            </thead>
+            <tbody ng-show="ExamineList==null||ExamineList.length<=0">
+                <tr>
+                    <td colspan="4">{{'ExamItems-lblConditionsSearch'|translate}}</td>
+                </tr>
+            </tbody>
+            <tbody>
+                <tr ng-repeat="item in ExamineList">
+                    <td><a ui-sref="Doctor.MyPatientDetail.ExamItemDetail({memberId :item.MemberID, examItemTypeId : item.ExamItemTypeID })">{{item.ExamItemTypeName}}</a></td>
+                    <td>
+                        <dl ng-repeat="res in item.Results">
+                            <dt>{{res.ExamItemTypeName}}</dt>
+                            <dd>
+                                <strong><span style='cursor:pointer;color:{{res.Status == 0 ? "green" : "red"}};' title='{{res.StatusMsg}}'>{{res.Result}}</span>&nbsp;</strong>
+                                {{res.UnifiedUnit}}&nbsp;
+                                【{{res.HospitalName}}】
+                            </dd>
+
+                        </dl>
+
+                    </td>
+                    <td>{{item.LastExamTime | date: 'yyyy-MM-dd'}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div ng-if="tab=='MyFamilies'" ng-controller="MyFamiliesController">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>{{'ExaminedRecords-lblFileID' | translate}}</th>
+                    <th>{{'ExaminedRecords-lblFileNumber' | translate}}</th>
+                    <th>{{'ExaminedRecords-lblExaminationDate' | translate}}</th>
+                    <th>{{'ExaminedRecords-lblinformationSources' | translate}}</th>
+                    <th>{{'ExaminedRecords-lblDoctor' | translate}}</th>
+                    <th style="width:150px;">{{'lblOperator'|translate}}</th>
+                </tr>
+            </thead>
+            <tbody ng-show="MyFamiliesList==null||MyFamiliesList.length<=0">
+                <tr>
+                    <td colspan="7">{{'msgNoData'|translate}}</td>
+                </tr>
+            </tbody>
+            <tbody>
+                <tr ng-repeat="item in MyFamiliesList">
+                    <td>{{item.ExamId}}</td>
+                    <td>{{item.ExamNo}}</td>
+                    <td>{{formatDate(item.ExamDate)}}</td>
+                    <td>{{getExamType(item.ExamType)}}</td>
+                    <td>{{item.Doctor}}</td>
+                    <td>
+                        <button class="btn btn-sm btn-success" ng-click="showDetail(item.ExamId,item.ExamDate,item.Doctor)">{{'lblShowExamDetail' | translate}}</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <!--分页控件-->
+        <pager-nav page-list="[5,10,20,25]" page="CurrentPage" page-Size="pageSize" total-Count="totalCount" on-change="onSearch()" />
+    </div>
+
+    <div ng-if="tab=='MyMemberEMRs'" ng-controller="MemberEMRsController">
+        <div ng-hide="IsDetail">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th style="width:200px;">{{'Room-lblMedicalrecordName' | translate}}</th>
+                        <th>{{'appointment-uname' | translate}}</th>
+                        <th style="width:120px;">{{'Room-lblPatient' | translate}}</th>
+                        <th style="width:120px;">{{'InspectEdit-lblCheckTime' | translate}}</th>
+                        <th style="width:120px;">{{'lblOperator'|translate}}</th>
+                    </tr>
+                </thead>
+                <tbody ng-show="ListItems==null||ListItems.length<=0">
+                    <tr>
+                        <td colspan="5">{{'ExamItems-lblConditionsSearch'|translate}}</td>
+                    </tr>
+                </tbody>
+                <tbody>
+                    <tr ng-repeat="item in ListItems">
+                        <td>{{item.EMRName}}</td>
+                        <td>
+                            {{item.HospitalName}}
+                        </td>
+                        <td>
+                            {{item.MemberName}}
+                        </td>
+                        <td>{{item.Date | date: 'yyyy-MM-dd'}}</td>
+                        <td>
+                            <button class="btn btn-sm btn-success" ng-click="showDetail(item.UserMemberEMRID)">{{'btnView' | translate}}</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <!--分页控件-->
+            <pager-nav page-list="[5,10,20,25]"
+                       page="pageIndex"
+                       page-Size="pageSize"
+                       total-Count="totalCount" on-change="search()" />
+        </div>
+        <div ng-show="IsDetail">
+                <div class="form-group" style="margin-top:10px">
+                    <div class="col-md-6">
+                        <label>{{'ExamItems-lblPatient'|translate}} : <span>{{Data.MemberName}}</span></label>
+                    </div>
+                    <div class="col-md-6">
+                        <label>{{'Room-lblMedicalrecordName'|translate}}: <span>{{Data.EMRName}}</span></label>
+                    </div>
+                    <div style="clear:both"></div>
+                </div>
+                <div class="form-group" style="margin-top:10px">
+                    <div class="col-md-6">
+                        <label>{{'appointment-uname'|translate}}: <span>{{Data.HospitalName}}</span></label>
+                    </div>
+                    <div class="col-md-6">
+                        <label>{{'InspectEdit-lblCheckTime'|translate}}: <span>{{Data.Date | date : 'yyyy-MM-dd'}}</span></label>
+                    </div>
+                    <div style="clear:both"></div>
+                </div>
+                <div class="form-group" style="margin-top:20px">
+                    <div class="col-md-12">
+                        <label>{{'lblExplain'|translate}}:</label>
+                    </div>
+                    <div class="col-md-12">
+                        {{Data.Remark}}
+                    </div>
+                    <div style="clear:both"></div>
+                </div>
+                <div class="form-group" style="margin-top:10px;margin-left:15px;">
+                    <div>
+                        <label>{{'Room-lblMedicalrecordImage'|translate}}:</label>
+                    </div>
+                    <div>
+                        <div class="emr_image" ng-repeat="item in Data.Files">
+                            <a href="{{ item.UrlPrefix + item.FileUrl }}" target="_blank">
+                                <img ng-src="{{ item.UrlPrefix + item.FileUrl }}" />
+                            </a>
+                        </div>
+                    </div>
+                    <div style="clear:both"></div>
+                </div>
+                <div class="form-group text-center" style="margin-top:20px">
+                    <button class="btn btn-default" type="button" ng-click="goBack()">{{'btnBack'|translate}}</button>
+                </div>
+        </div>
+    </div>
+    
+</div>
+
+
+

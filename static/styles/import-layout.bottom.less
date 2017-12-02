@@ -1,0 +1,36 @@
+﻿@import "import-variable.less";
+
+
+/*公用尾部 2016/8/29*/
+@media screen and (max-width: 1025px){
+    .footer{
+        min-width:998px;
+        .footer-box{width:998px;}
+    }
+}
+@media screen and (min-width: 1025px) and (max-width:1200px)  {
+    .footer{
+        min-width:1024px;
+        .footer-box{width:1024px;}
+    }
+}
+@media screen and (min-width: 1200px) {
+    .footer{
+        min-width:1200px;
+        .footer-box{width:1200px;}
+    }
+}
+.footer { background-color: #fff; margin-top: 32px; overflow: hidden; height: 150px; }
+.footer .footer-box {  margin: 0 auto; }
+
+.footer .service-tel { 
+    height: 62px; 
+    line-height: 62px;
+    img{
+        margin-top: 16px;
+        float: right;
+    }
+}
+.footer .about { line-height: 30px; color:#172833; font-size:18px; text-align: center; }
+.footer .copyright { line-height:30px; color:#172833; font-size:18px; margin-top: 7px; text-align: center; }
+.footer .copyright a{color:#172833}

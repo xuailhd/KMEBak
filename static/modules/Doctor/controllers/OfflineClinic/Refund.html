@@ -1,0 +1,121 @@
+﻿<div ng-controller="OfflineClinicRefundController">
+    <div>
+        <div class="search-ban">
+            <div class="search-ban form-inline">
+                <div class="col-label-search">
+                    日期：
+                </div>
+                <div class="col-date-search">
+                    <div class="input-group date">
+                        <input id="AllBeginDate" class="form-control" size="16" datepicker type="text" value="" ng-model="AllBeginDate" placeholder="{{'lblStartDate' | translate}}" />
+                    </div>
+                </div>
+                <div class="col-label-search">
+                    -
+                </div>
+                <div class="col-date-search">
+                    <div class="input-group date">
+                        <input type="text" placeholder="{{'lblEndDate' | translate}}" datepicker id="AllEndDate" class="form-control" size="16" value="" ng-model="AllEndDate" />
+                    </div>
+                </div>
+                <div class="col-label-search">
+                    关键字：
+                </div>
+                <div class="col-date-search">
+                    <input type="text" placeholder="请输入诊疗卡号或姓名" id="AllKeyword" class="form-control" ng-model="AllKeyword" />
+                </div>
+
+                <div class="col-label-search">
+                    退款状态：
+                </div>
+                <div class="col-date-search">                  
+                    <select ng-model="RefundState" class="form-control">           
+                        <option selected value="0">未申请</option>
+                        <option value="1">申请退款</option>
+                        <option value="4">退款中</option>
+                        <option value="2">已退款</option>
+                        <option value="3">拒绝退款</option>
+                    </select>
+                </div>
+                <div class="col-date-search">
+                    <button type="button" ng-click="onSearch()" class="btn base" style="padding:5px 10px;">{{'btnSearch' | translate}}</button>
+                </div>
+                <div class="div-clear"></div>
+            </div>
+        </div>
+        <table class="table table-condensed ">
+            <thead>
+                <tr>
+                    <th class="col-md-3 text-center">处方详情</th>
+                    <th class="col-md-2 ext-center">患者姓名</th>
+                    <th class="col-md-2 text-center">诊疗卡</th>
+                    <th class="col-md-1 text-center">应收金额</th>
+                    <th class="col-md-1 text-center">退款状态</th>
+                    <th class="col-md-1 text-center">配送状态</th>
+                    <th class="col-md-2 text-center">{{'lblOperator'|translate}}</th>
+                </tr>
+
+            </thead>
+            <tbody ng-show="ListItems.length<=0">
+                <tr>
+                    <td colspan="7">{{'msgNoData'|translate}}</td>
+                </tr>
+            </tbody>
+            <tbody></tbody>
+        </table>
+        <table class="table table-hover table-bordered" ng-repeat="item in ListItems track by item.Order.OrderNo">
+            <thead>
+                <tr>
+                    <td colspan="8">收据号：{{item.BillIn.BillInOutNo}} <span class="pull-right">发票号:{{item.BillIn.BillInOutTickNo}} </span></td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="recipe in item.RecipeFiles">
+                    <td class="col-md-3 text-left">
+                        编号：{{recipe.RecipeNo}}<br />
+                        类型：{{recipe.RecipeTypeName}}<br />
+                        日期：{{recipe.RecipeDate |date:'yyyy-MM-dd'}}
+                    </td>
+                    <td class="col-md-2 text-center">{{item.Member.MemberName}}</td>
+                    <td class="col-md-2 text-center">{{item.Member.MedicalCard.MedicalCardNumber}}</td>
+                    <td class="col-md-1 text-center">￥{{item.Order.TotalFee}}</td>
+                    <td class="col-md-1 text-center">  
+                        <span class="text-info" ng-if="item.RefundState==0">未退款</span>
+                        <span class="text-success" ng-if="item.RefundState==1">申请退款</span>
+                        <span class="text-primary" ng-if="item.RefundState==2">已退款</span>
+                        <span class="text-danger" ng-if="item.RefundState==3">拒绝退款</span>
+                        <span class="text-warning" ng-if="item.RefundState==4">退款中</span>
+                    </td>
+                    <td class="col-md-1 text-center">
+                        <span class="text-info" ng-if="item.Order.LogisticState==-3">审核失败</span>
+                        <span class="text-info" ng-if="item.Order.LogisticState==-2">待审核</span>
+                        <span class="text-info" ng-if="item.Order.LogisticState==-1">审核中</span>
+                        <span class="text-danger" ng-if="item.Order.LogisticState==0">已审核</span>
+                        <span class="text-danger" ng-if="item.Order.LogisticState==1">已备货</span>
+                        <span class="text-danger" ng-if="item.Order.LogisticState==2">已发货</span>
+                        <span class="text-danger" ng-if="item.Order.LogisticState==3">配送中</span>
+                        <span class="text-success" ng-if="item.Order.LogisticState==4">已送达</span>
+                    </td>
+                    <td class="col-md-2 text-center">
+                        <!--未退款并且物流状态等于（审核中、待审核、审核失败）-->
+                        <a  
+                           ng-if="item.RefundState==0 && 
+                           (item.Order.LogisticState==-1 || 
+                           item.Order.LogisticState==-2 || 
+                           item.Order.LogisticState==-3)" 
+                           class="btn btn-sm btn-danger icon glyphicon glyphicon-jpy"
+                           ng-click="onRefund(item)"
+                           target="_blank">申请退款</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <!--分页控件-->
+        <pager-nav page-list="[5,10,20,25]"
+                   page="CurrentPage"
+                   page-Size="pageSize"
+                   total-Count="totalCount" on-change="onSearch()" />
+
+
+    </div>
+</div>

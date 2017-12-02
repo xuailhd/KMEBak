@@ -1,0 +1,18 @@
+﻿<div class="main-content" ng-controller="HealthEducationController">
+    <h4 class="des border-b">
+        健康教育
+    </h4>
+    <div nav-tabs>
+        <ul>
+            <li>
+                <a ng-class="{'current':currentStateName=='Doctor.HealthEducation.Add'}" ui-sref="Doctor.HealthEducation.Add()">发送信息</a>
+            </li>
+            <li>
+                <a ng-class="{'current':currentStateName=='Doctor.HealthEducation.List'}" ui-sref="Doctor.HealthEducation.List()">发送记录</a>
+            </li>
+        </ul>
+    </div>
+    <div ui-view>
+
+    </div>
+</div>

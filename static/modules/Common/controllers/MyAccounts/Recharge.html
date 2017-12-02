@@ -1,0 +1,50 @@
+﻿<style>
+    .mytb { width: 100%; margin-top: 35px; }
+        .mytb .tit { width: 5%; text-align: right; padding-right: 15px; vertical-align: top; height: 70px; padding-top: 10px; }
+        .mytb .con { width: 37%; vertical-align: top; }
+    .error { color: #a94442; }
+    #space .payway { min-width: 200px; height: 56px; border: solid 1px #ccc; float: left; margin: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px; cursor: pointer; }
+        #space .payway .l1 { width: 20px; float: left; text-align: center; padding-top: 16px; }
+        #space .payway .l2 { float: left; margin-left: 5px; }
+            #space .payway .l2 .d1 { font-size: 14px; font-weight: bold; }
+            #space .payway .l2 .d2 { }
+</style>
+<div class="main-content" ng-controller="RechargeController">
+    <h4 class="des border-b">
+        会员充值
+    </h4>
+    <form class="form-horizontal" name="myForm" id="myForm" role="form" on-submit="onSave()" form-validate>
+        <table class="mytb" border="0">
+            <tr>
+                <td class="tit">{{'充值金额'|translate}}</td>
+                <td class="con">
+                    <input type="text" class="form-control" id="RechargeAmount" name="RechargeAmount" ng-model="RechargeAmount" style="width:81%;" placeholder="请输入充值金额" validate="{required:true,rechargeAmount:true,ltAmount:true,messages:{required:'请输入充值金额'}}" />
+                </td>
+            </tr>
+            <!--<tr>
+                <td class="tit" style="padding-top:20px">{{'支付方式'|translate}}</td>
+                <td class="con">
+                    <ul class="payway" ng-repeat="item in PayWayList" ng-click="selectPayWay(item.payWay)">
+                        <li class="l1"><input type="radio" name="payway" value="{{item.payWay}}" ng-model="PayWay" /></li>
+                        <li class="l2"><img ng-src="{{item.imgSrc}}" /></li>
+                        <li style="clear:both"></li>
+                    </ul>
+                    <div style="clear:both"></div>
+                </td>
+            </tr>-->
+        </table>
+        <div class="form-group text-center" style="margin-top:50px;">
+            <input class="btn btn-success" id="btnSubmit" type="submit" value="{{'去支付'|translate}}" />
+            <button type="button" ng-click="onBack()" class="btn btn-default">{{'btnBack'|translate}}</button>
+        </div>
+    </form>
+
+    <form action="/Cashier/Alipay/Pay" target="_blank" method="post" id="payForm">
+        <!--<input type="hidden" name="__RequestVerificationToken"  value=""/>-->
+        <input type="hidden" name="OrderNo" ng-model="pay.OrderNo" />
+        <input type="hidden" name="Subject" ng-model="pay.Subject" />
+        <input type="hidden" name="TotalFee" ng-model="pay.TotalFee" />
+        <input type="hidden" name="Body" ng-model="pay.Body" />
+    </form>
+
+</div>

@@ -1,0 +1,57 @@
+﻿<div class="main-content" ng-controller="MyNoticeController">
+    <h4 class="des border-b">
+        {{'lblMyMessages' | translate}}
+    </h4>
+    <!--<div class="search-ban">
+        <div class="search-ban form-inline">
+            <div class="col-date-search">
+                <button type="button" ng-click="onSearch()" class="btn btn-default" style="padding:5px 10px;">{{'btnSearch' | translate}}</button>
+            </div>
+            <div class="div-clear"></div>
+        </div>
+    </div>-->
+    <div class="notice-deal-box">
+        <button class="btn btn-sm" ng-click="deleteNotice()" ng-disabled="!noSelectFlag">{{'btnDelete' | translate}}</button>
+        <button class="btn btn-sm" ng-click="markRead()" ng-disabled="!noSelectFlag">{{'lblMarkedRead' | translate}}</button>
+        <button class="btn btn-sm marginR" ng-click="markAllRead()">{{'lblMarkedAllRead' | translate}}</button>
+        <a ng-click="allNotices()" class="notice-tab" ng-class="{true:'active',false:''}[ReadStatus==0]" href="javascript:;">{{'lblAllMessages' | translate}}</a>
+        <a ng-click="unreadNotices()" class="notice-tab " ng-class="{true:'active',false:''}[ReadStatus==2]" href="javascript:;">{{'lblUnreadMessages' | translate}}</a>
+    </div>
+
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th><input type="checkbox" name="allSelect" value="0" ng-model="$allChecked" ng-change="checkAll()" /></th>
+                <th style="width:50%">{{'lblMessageContent'|translate}}</th>
+                <th>{{'lblMessageTime'|translate}}</th>
+                <th>{{'lblMessageType'|translate}}</th>
+                <th>{{'lblStatus'|translate}}</th>
+            </tr>
+        </thead>
+        <tbody ng-show="ListItems.length>0">
+            <tr ng-repeat="item in ListItems" ng-class="{true:'',false:'bold'}[item.IsRead]">
+                <td><input type="checkbox" name="noticesSelect" value="0" ng-model="item.$checked" ng-change="checkItem(item)" data-index="item.MessageID" /></td>
+                <td style="text-align:left">
+                    <a ng-click="readNotice(item)" ui-sref="{{item.openUrl}}" target="{{item.openTarget}}">
+                        <i ng-class="{true:'notice-status-icon icon-envelope-alt',false:'notice-status-icon icon-envelope'}[item.IsRead]"></i>
+                        {{item.Summary}}
+                    </a>
+                </td>
+                <td><a ng-click="readNotice(item)" ui-sref="{{item.openUrl}}" target="{{item.openTarget}}">{{item.NoticeDate|date:'yyyy-MM-dd'}}</a></td>
+                <td><a ng-click="readNotice(item)" ui-sref="{{item.openUrl}}" target="{{item.openTarget}}">{{item.NoticeFirstTypeText}}</a></td>
+                <td><a ng-click="readNotice(item)" ui-sref="{{item.openUrl}}" target="{{item.openTarget}}">{{item.IsReadText}}</a></td>
+            </tr>
+        </tbody>
+        <tbody ng-show="ListItems.length<1">
+            <tr>
+                <td colspan="5">{{'msgNoData'|translate}}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!--分页控件-->
+    <pager-nav page-list="[5,10,20,25]"
+               page="CurrentPage"
+               page-Size="pageSize"
+               total-Count="totalCount" on-change="onSearch()" />
+</div>

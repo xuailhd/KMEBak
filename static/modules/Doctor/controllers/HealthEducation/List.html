@@ -1,0 +1,96 @@
+﻿<div class="main-content" ng-controller="HealthEducationListController">
+
+    <div class="modal fade" id="modal-HealthEducationDetail" role="dialog" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content" style="width: 500px;">
+                <div class="modal-header" style="border-bottom: none;">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title  text-center">
+                        {{'详情'|translate}}
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form">
+                        <div class="form-group">
+                            <label>
+                                类型
+                            </label>
+                            <select ng-model="Detail.Title" readonly disabled class="form-control">
+                                <option>健康知识</option>
+                                <option>健康讲座</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>
+                                收信对象
+                            </label>
+                            <select ng-model="Detail.Summary" required disabled class="form-control">
+                                <option value="所有人群">所有人群</option>
+                                <option value="一般人群">一般人群</option>
+                                <option value="老年人">老年人</option>
+                                <option value="0~6岁儿童">0~6岁儿童</option>
+                                <option value="孕产妇">孕产妇</option>
+                                <option value="高血压">高血压</option>
+                                <option value="糖尿病">糖尿病</option>
+                                <option value="精神病">精神病</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>
+                                详细内容
+                            </label>
+                            <textarea readonly disabled rows="5" ng-model="Detail.Content" readonly maxlength="500" required autofocus class="form-control" type="text" />
+                        </div>
+                      
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>  
+
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>教育类型</th>
+            <th>收信人</th>
+            <th>发送日期</th>         
+            <th>发送内容</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr ng-show="loading">
+                <td colspan="5">
+                    <div class="text-center" ng-show="loading">
+                        <img src="/static/images/ico_loading.gif" /> <span>{{'Room-lblLoading'|translate}}</span>
+                    </div>
+                </td>
+            </tr>
+
+            <tr ng-show="ListItems.length<=0">
+                <td colspan="5">{{'msgNoData'|translate}}</td>
+            </tr>
+
+            <tr ng-repeat="item in ListItems">
+                <td>{{item.Title}}</td>
+                <td>{{item.Summary}}</td>
+                <td>{{item.NoticeDate |date:'yyyy-MM-dd'}}</td>
+                <td>{{item.Content}}</td>  
+                <td>
+                    <div>
+                        <button class="btn btn-sm base" ng-click="onView(item)">查看</button>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+  
+      
+    </table>
+    <!--分页控件-->
+    <pager-nav page-list="[5,10,20,25]"
+               page="page"
+               page-Size="pageSize"
+               total-Count="totalCount" on-change="onSearch()"/>
+
+  
+</div>

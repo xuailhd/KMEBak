@@ -1,0 +1,154 @@
+﻿@import "import-mixins.less";
+@import "import-variable.less";
+
+::-webkit-scrollbar {display:none}
+
+.red {
+    color: red;
+}
+
+.main-content {
+    font-size: 16px;
+    .add {
+        cursor: pointer;      
+        border-radius: 3px;
+        width: 154px;
+        height: 40px;
+        line-height: 40px;      
+        color: @white;
+        background-color: @theme-color;
+        vertical-align:middle;
+        padding-left: 24px;
+    }
+
+    .table-wrap {
+        position: relative;
+        font-size: 14px;
+        margin-top: 20px;
+        .title {        
+            height: 36px;
+            line-height: 36px;
+            text-align: center;
+            color: @white;
+            background-color: #1C2F4D;
+        }
+        .pre-week, .next-week {
+            position: absolute;
+            top: 50%;
+            margin-top: -15px;
+        }
+        .pre-week {
+            left: -18px;
+        }
+        .next-week {
+            right: -18px;
+        }
+        .content-wrap {          
+           overflow: hidden;
+        }
+        th, td {
+            text-align:center;
+        }
+        .spec {
+            color: white;
+            width: 104px;
+            height: 58px;
+            background-color:#ADAEB5;
+            border-color:#ADAEB5;
+            &.active {
+                background-color: #0ABF83;
+                border-color: #0ABF83;
+            }          
+        }
+        .time {
+            width: 50px;
+        }
+    }
+
+    .set-wrap {
+
+        .set {
+            border-radius: 3px;
+            display: inline-block;
+            width: 66px;
+            height: 28px;
+            line-height: 28px;
+            margin-right: 8px !important;
+            background-color:@theme-color;
+            color: @white;
+            text-align: center;
+        }
+    }
+    .bottom {
+        position:absolute;
+        bottom: 20px;
+        width: 100%;
+    }
+    .disabled {
+        color: #fff;
+        background-color: #ADAEB5;
+    }
+}
+ 
+.morning, .afternoon, .nigth {
+    position: relative
+}
+
+.potion {
+   cursor: pointer;
+}
+
+.icon {
+    position: relative;  
+    width: 0;
+    height: 0;
+}
+ 
+.icon:before {    
+    overflow: hidden; 
+    margin-top: -3px;  
+    display:inline-block;
+    content: ' ';
+    speak:none;
+    vertical-align:middle;
+}
+     
+.icon-add:before {   
+    margin-right: 12px;
+    width: 16px;
+    height: 16px;
+    background: url('/static/images/schedules/new.png') no-repeat 0 0;
+}
+
+.icon-stop:before {
+    width: 18px;
+    height: 18px;
+    background: url('/static/images/schedules/stop.png') no-repeat 0 0;
+}
+
+.icon-confirm:before {
+    width: 18px;
+    height: 18px;
+    background: url('/static/images/schedules/confirm.png') no-repeat 0 0;
+}
+
+.icon-edit:before {
+    width: 18px;
+    height: 18px;
+    background: url('/static/images/schedules/edit.png') no-repeat 0 0;
+}
+
+.icon-delete:before {
+    width: 18px;
+    height: 18px;
+    background: url('/static/images/schedules/delete.png') no-repeat 0 0;
+}
+
+.icon-hide-top{
+    margin-top: 10px;
+    margin-right: 8px;
+    width: 20px;
+    height: 16px;
+    background: url(/static/images/schedules/hide-top.png) no-repeat 0 0;
+}
+

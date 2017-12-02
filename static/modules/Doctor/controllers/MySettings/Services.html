@@ -1,0 +1,104 @@
+﻿<style type="text/css">
+    .swiftMargin0 {
+        margin-left:0px;
+    }
+     .swiftMargin53 {
+        margin-left:-53px;
+    }
+</style>
+<div class="main-content" ng-controller="ServicesController">
+    <h4 class="des border-b">
+        {{'index-menu-MyServiceSettings'|translate}}
+    </h4>
+  
+    <div nav-tabs>
+        <ul>
+            <li>
+                <a ng-class="{'current':tab=='Services'}" ui-sref="Doctor.MyServiceSettings({tab:'Services'})">{{'index-menu-MyServiceSettings'|translate}}</a>
+            </li>
+            <li>
+                <a ng-class="{'current':tab=='DoctorClinicSet'}" ui-sref="Doctor.MyServiceSettings({tab:'DoctorClinicSet'})">{{'index-menu-DoctorClinicSettings'|translate}}</a>
+            </li>
+
+        </ul>
+    </div>
+    <div ng-if="tab=='Services'" ng-controller="MyServicesController">
+        <form class="form-horizontal" name="myForm" id="myForm" role="form" on-submit="onSave()" form-validate>
+
+            <div class="row" style="margin-top:15px" ng-repeat="item in serviceListItems">
+                <div class="form-group col-md-4 col-sm-12">
+                    <label class="control-label col-md-5" for="txt_search_departmentname">{{'MyService-lblServiceType'|translate}}</label>
+                    <div class="col-md-7">
+                        <input type="text" class="form-control" readonly="readonly" name="{{item.ServiceTypeName}}" ng-model="item.ServiceTypeName">
+                    </div>
+                </div>
+                
+                <div class="form-group col-md-5 col-sm-6">
+                    <label class="control-label col-sm-3" for="txt_search_statu">{{'MyService-lblCost'|translate}}</label>
+                    <div class="col-sm-4">
+                        <input type="number" 
+                               class="form-control" 
+                               max="{{item.ServicePriceUp}}"
+                               min="{{item.ServicePriceDown}}"
+                               validate="{required:true,max:'{{item.ServicePriceUp}}',min:'{{item.ServicePriceDown}}',messages:{required:'请输入费用'}}"
+                               name="ServicePrice{{$index}}" 
+                               ng-model="item.ServicePrice">
+                    </div>
+                    <label class="control-label col-sm-3" style="margin-left:0px;text-align:left;width:80px">{{'lblYuan'|translate}}/{{item.ServiceType==4?"月":"次"}}</label>
+                </div>
+                
+                <div class="form-group col-md-3 col-sm-6">
+                    <div class="col-sm-12">
+                        <div class="bootstrap-switch bootstrap-switch-wrapper bootstrap-switch-animate bootstrap-switch-off" style="width: 108px;">
+                            <div class="{{item.ServiceClass}}" style="width: 159px; " ng-click="setSwitch3(item.ServiceType)" ng-model="item.ServiceClass">
+                                <span class="bootstrap-switch-handle-on bootstrap-switch-primary" style="width: 53px;">ON</span><span class="bootstrap-switch-label" style="width: 53px;">&nbsp;</span><span class="bootstrap-switch-handle-off bootstrap-switch-default" style="width: 53px;">OFF</span><input type="radio" name="radio2">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group text-center" style="margin-top: 20px;">
+                <input class="btn base" type="submit" value="{{'btnSave'|translate}}" />
+            </div>
+        </form>
+    </div>
+
+    <div ng-if="tab=='DoctorClinicSet'" ng-controller="DoctorClinicSetController">
+        <form id="form1" class="form-horizontal" role="form" on-submit="onSubmit()" form-validate>
+
+            <div class="row" style="margin-top:15px">
+                <label class="control-label col-sm-2" for="ServiceTypeName">{{'MyService-lblServiceType'|translate}}</label>
+                <div class="col-sm-2">
+                    <input type="text" class="form-control" id="ServiceTypeName" name="ServiceTypeName" value="{{'MyService-lblPicService'|translate}}" readonly="readonly" />
+                </div>
+                <div class="form-group col-sm-4" style="float:left;">
+                    <label class="control-label col-sm-8" for="AcceptCount" style="padding:7px 15px 7px 0;">{{'MyService-lblTopLimit'|translate}}</label>
+                    <div class="col-sm-4" style="padding-right:0px;padding-left:0px;" >
+                        <input type="text" class="form-control" validate="{min:'1',messages:{min:'必须大于0哟!'}}" id="AcceptCount" name="AcceptCount" ng-model="Data.AcceptCount" placeholder="{{'MyService-lblInputNumber'|translate}}" />
+                    </div>
+                </div>
+                <label class="control-label col-sm-2" style="margin-left:0px;text-align:right;">{{'MyService-lblServiceSwitch'|translate}}</label>
+                <div class="col-sm-2">
+                    <div class="bootstrap-switch bootstrap-switch-wrapper bootstrap-switch-animate bootstrap-switch-on" style="width: 108px;">
+                        <div class="{{ServiceClass}}" style="width: 159px; " ng-click="setSwitch()" ng-model="ServiceClass">
+                            <span class="bootstrap-switch-handle-on bootstrap-switch-primary" style="width: 53px;">ON</span><span class="bootstrap-switch-label" style="width: 53px;">&nbsp;</span><span class="bootstrap-switch-handle-off bootstrap-switch-default" style="width: 53px;">OFF</span><input type="radio" name="radio2">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--datetime/-->
+            <div class="openSetTip"></div>
+            <div class="dateSetBox">
+                <div class="calendarBox">
+                    <table class="calendarTable"></table>
+                </div>
+                <div class="dateTimeBtnBox">
+                    <input type="submit" class="saveBtn" value="{{'btnSave'|translate}}" />
+                </div>
+            </div>
+            <!--/datetime-->
+        </form>
+    </div>
+
+    </div>
+

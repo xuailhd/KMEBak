@@ -1,0 +1,79 @@
+﻿<div>
+    <div class="text-center" ng-show="loading">
+        <img src="/static/images/ico_loading.gif" /> <span>{{'Room-lblLoading'|translate}}</span>
+    </div>
+    <div class="accept" has-permission='KMEHosp.Doctor.Room.Task.TakeTextConsultTask'>
+        <div class="center-align">
+            <div class="bubble" ng-class="{'active': Statistics.TextConsultTotalCount > 0 ? true : false}">
+                <span>等待回答 </span><br />
+                <span class="strong">
+                    {{(Statistics.TextConsultTotalCount || 0)}}人
+                </span>
+                <div class="wave"></div>
+            </div>
+            <div class="text">
+                今日已回答{{(Statistics.TextConsultAlreadyCount || 0)}}人
+            </div>
+            <button ng-disabled="Statistics.TextConsultTotalCount<=0 || disableTakeButton" class="btn room-btn room-btn-primary" ng-click="take()"><i class="receivt-icon"></i><span class="btn-right-text">我来回答</span></button>
+        </div>
+    </div>
+
+    <div class="chat_wrapper" ng-repeat="item in Records track by item.Room.ChannelID">
+        <div class="chat_item slide-left"
+             ng-click="enter(item)"
+             ng-class="{'active': item.Room.ChannelID==room.ChannelID, 'top':item.IsTop}">
+            <div class="ext">
+                <p class="attr">
+                    <span>{{item.MessageTime}} </span>
+                </p>
+                <p class="attr label-status">                 
+                    <span ng-switch="item.Order.CostType">
+                        <span ng-switch-when="0" class="label-info">
+                            {{'Room-lblConsultType-0'|translate}}
+                        </span>
+                        <span ng-switch-when="1" class="label-default">
+                            {{'Room-lblConsultType-1'|translate}}
+                        </span>
+                        <span ng-switch-when="2" class="label-info">
+                            {{'Room-lblConsultType-2'|translate}}
+                        </span>
+                        <span ng-switch-when="3" class="label-info">
+                            {{'Room-lblConsultType-3'|translate}}
+                        </span>
+                        <span ng-switch-when="4" class="label-info">
+                            {{'Room-lblConsultType-4'|translate}}
+                        </span>
+                        <span ng-switch-when="5" class="label-info">
+                            {{'Room-lblConsultType-5'|translate}}
+                        </span>
+                    </span>
+                </p>
+            </div>
+            <div class="avatar">
+                <img class="img" ng-src="{{item.PhotoUrl}}" alt="">
+                <i class="icon reddot" ng-if="item.UnreadMsgNum>0">
+                    {{item.UnreadMsgNum}}
+                </i>
+            </div>
+            <div class="status-default">
+                <span ng-if="item.Room.RoomState == 2 || item.Room.RoomState == 3" class="info-grey">已回复</span>
+                <span ng-if="item.Room.RoomState != 2 && item.Room.RoomState != 3" class="info-red">未回复</span>
+            </div>
+            <div class="info">
+                <h3 class="nickname">
+                    <span class="nickname_text">{{item.NickName}}</span>
+                </h3>
+                <p class="msg">
+                    <span ng-if="item.UnreadMsgNum>0">[{{item.UnreadMsgNum}}条]</span>
+                    <span ng-bind-html="item.MessageContent"></span>
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="text-center" ng-if="Records.length<=0">
+        <br />
+        {{'Room-lblNoRecord'|translate}}
+    </div>
+</div>
+
+

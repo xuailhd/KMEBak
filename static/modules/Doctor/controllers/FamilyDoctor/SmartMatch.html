@@ -1,0 +1,66 @@
+﻿<div class="main-content" ng-controller="SmartMatchController">
+    <h4 class="des border-b">
+        智能签约
+    </h4>
+    <form class="form-horizontal" ng-submit="onSearch()">
+        <div class="search-ban">
+            <div class="col-date-search">
+                <button type="button" class="btn btn-default" ng-click="MatchDoctorGroup()">
+                    <span class="glyphicon glyphicon-screenshot">智能匹配</span>
+                </button>
+            </div>
+                <div class="col-date-search">
+                    <button type="button" class="btn btn-default"ng-click="SaveMatch()" >
+                        <span class="glyphicon glyphicon-inbox">保存</span>
+                    </button>
+                </div>
+                <div class="col-date-search">
+                    <select ng-model="OrgnazitionID" class="form-control">
+                        <option ng-repeat="item in OrgList" value="{{item.Value}}">{{item.Text}}</option>
+                    </select>
+                </div>
+                <div class="col-date-search">
+                    <button class="btn base" type="submit" ng-click="GetPageList()" style="padding:5px 10px;">{{'btnSearch' | translate}}</button>
+                </div>
+
+                <div class="div-clear"></div>
+            </div>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>{{'家庭户主姓名'|translate}}</th>
+                    <th>{{'家庭人数'|translate}}</th>
+                    <th>{{'家庭住址'|translate}}</th>
+                    <th>{{'匹配社区'|translate}}</th>
+                    <th>{{'匹配团队'|translate}}</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-show="loading">
+                    <td colspan="8">
+                        <div class="text-center" ng-show="loading">
+                            <img src="/static/images/ico_loading.gif" /> <span>{{'Room-lblLoading'|translate}}</span>
+                        </div>
+                    </td>
+                </tr>
+                <tr  ng-show="pageList == null || pageList.length == 0">
+                    <td colspan="8">{{'msgNoData'|translate}}</td>
+                </tr>
+                <tr ng-repeat="item in pageList">
+                    <td>{{item.UserName}}</td>
+                    <td>{{item.UserCount}}</td>
+                    <td>{{item.Address}}</td>
+                    <td>{{item.OrgnazitionName || ''}}</td>
+                    <td>{{item.DoctorGroupName || ''}}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!--分页控件-->
+        <pager-nav page-list="[5,10,20,25]"
+                   page="CurrentPage"
+                   page-Size="PageSize"
+                   total-Count="TotalCount" on-change="onSearch()" />
+
+    </form>
+</div>

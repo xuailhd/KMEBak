@@ -1,0 +1,14 @@
+﻿<div class="main-content" ng-controller="MyNoticeDetailController">
+    <h4 class="des border-b">
+        {{'消息详情' | translate}}
+    </h4>
+    <div style="margin:10px; margin-top:15px;">
+        <span style="font-size:14px; font-weight:bold">【{{model.NoticeFirstTypeText}}】{{model.Title}}</span>
+        <span style="float:right;">{{model.NoticeDate|date:'yyyy-MM-dd'}}</span>
+        <div style="clear:both"></div>
+    </div>
+    <div style="padding:5px;">{{model.Content}}</div>
+    <div class="form-group text-right" style="margin-top:10px;">
+        <input class="btn btn-default" type="button" ng-click="goBack();" value="{{'btnBack' | translate}}" style="padding:5px 10px;" />
+    </div>
+</div>

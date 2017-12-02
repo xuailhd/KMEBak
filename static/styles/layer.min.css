@@ -1,0 +1,284 @@
+.wrapper {
+  width: 100%;
+  margin: 0 auto;
+  padding: 0;
+  max-width: 920px;
+}
+.red {
+  color: #f22f27;
+}
+.border-none {
+  border: none;
+}
+.Theme-color {
+  color: #fff;
+  background-color: #0accce;
+}
+.Theme-color:hover {
+  color: #fff;
+  background-color: #09b0b3;
+}
+.pt-20 {
+  padding-top: 20px;
+}
+.mb-22 {
+  margin-bottom: 22px;
+}
+/*标题*/
+.des {
+  font-size: 20px;
+  font-weight: 600;
+  padding-bottom: 18px;
+}
+.fl {
+  float: left;
+}
+.fr {
+  float: right;
+}
+.border-b {
+  border-bottom: 1px solid #dfe0e5;
+}
+.cboth {
+  clear: both;
+}
+/*距离*/
+.m-r-5 {
+  margin-right: 5px;
+}
+.m-r-10 {
+  margin-right: 10px;
+}
+.m-t-25 {
+  margin-top: 25px;
+}
+/*排班情况 B*/
+.top-wrap {
+  /*margin-bottom: 56px;*/
+}
+.top-wrap > div {
+  display: inline-block;
+  width: 100%;
+}
+.top-wrap .top-nav {
+  text-align: center;
+}
+.top-wrap .top-nav .t-n-btn {
+  display: inline-block;
+  cursor: pointer;
+  font-size: 18px;
+  width: 80px;
+  height: 30px;
+  line-height: 30px;
+  border-radius: 0 15px 15px 0;
+  background-color: #dee0e5;
+}
+.top-wrap .top-nav .t-n-btn:first-child {
+  border-radius: 15px 0 0 15px;
+}
+.top-wrap .top-nav .t-n-btn.active {
+  background-color: #0accce;
+  color: white;
+}
+.top-wrap .top-nav .f-style {
+  color: #333;
+}
+/* 业务统计 B */
+.search-ban .word {
+  display: inline-block;
+  width: 40px;
+  text-align: center;
+}
+/* 业务统计 E */
+.worktime {
+  display: block;
+  width: 110px;
+  float: left;
+}
+.small_pie {
+  height: 300px;
+  padding: 0px;
+}
+.bar {
+  height: 300px;
+  min-width: 320px;
+}
+.schedule td {
+  border: 1px solid #ccc;
+}
+.schedule .enabled {
+  background-color: #fff;
+}
+.schedule .checked {
+  background-color: #0acdce;
+  border: 1px solid #fff;
+}
+.schedule .disabled {
+  background-color: #efefef;
+  border: 1px solid #ddd;
+}
+.schedule .icon-schedule {
+  background: url('/static/images/icon-schedule.png') no-repeat;
+  width: 14px;
+  height: 14px;
+  display: inline-block;
+  position: relative;
+  top: 2px;
+}
+.schedule .icon-schedule-3 {
+  background-position: 0 0;
+}
+.schedule .icon-schedule-2 {
+  background-position: -28px 0;
+}
+.schedule .icon-schedule-1 {
+  background-position: -14px 0;
+}
+.schedule .disabled .icon-schedule {
+  background-position-y: -14px;
+}
+/*排班情况 E*/
+/**------------------------------------------------服务情况------------------------------------------------------------*/
+.des-ser {
+  margin-top: 10px;
+  padding-right: 30px;
+  font-size: 14px;
+  font-weight: normal;
+}
+ul.service-list {
+  margin: 0;
+  padding: 0;
+}
+ul.service-list li {
+  float: left;
+  width: 20%;
+  display: block;
+  text-align: center;
+  min-width: 100px;
+  height: 170px;
+}
+.photo {
+  display: inline-block;
+  width: 82px;
+  height: 82px;
+  margin-bottom: 8px;
+}
+.price {
+  font-size: 12px;
+  color: #f22f27;
+}
+.txt {
+  font-size: 14px;
+  font-weight: 500;
+}
+.p1 i {
+  background: url("/static/images/doctor/photo_words.png") no-repeat 0 0;
+}
+.p1.off i {
+  background: url("/static/images/doctor/photo_words_off.png") no-repeat 0 0;
+}
+.p1.off .price {
+  color: #adb5cc;
+}
+.p1.off .txt {
+  color: #adb5cc;
+}
+.p2 i {
+  background: url("/static/images/doctor/sound.png") no-repeat 0 0;
+}
+.p2.off i {
+  background: url("/static/images/doctor/sound_off.png") no-repeat 0 0;
+}
+.p2.off .price {
+  color: #adb5cc;
+}
+.p2.off .txt {
+  color: #adb5cc;
+}
+.p3 i {
+  background: url("/static/images/doctor/video.png") no-repeat 0 0;
+}
+.p3.off i {
+  background: url("/static/images/doctor/video_off.png") no-repeat 0 0;
+}
+.p3.off .price {
+  color: #adb5cc;
+}
+.p3.off .txt {
+  color: #adb5cc;
+}
+.p4 i {
+  background: url("/static/images/doctor/doc.png") no-repeat 0 0;
+}
+.p4.off i {
+  background: url("/static/images/doctor/doc_off.png") no-repeat 0 0;
+}
+.p4.off .price {
+  color: #adb5cc;
+}
+.p4.off .txt {
+  color: #adb5cc;
+}
+.p5 i {
+  background: url("/static/images/doctor/remotely.png") no-repeat 0 0;
+}
+.p5.off i {
+  background: url("/static/images/doctor/remotely_off.png") no-repeat 0 0;
+}
+.p5.off .price {
+  color: #adb5cc;
+}
+.p5.off .txt {
+  color: #adb5cc;
+}
+/**------------------------------------------------服务情况 END--------------------------------------------------------*/
+/*v4.5--start*/
+html.full-height-layout {
+  overflow: hidden;
+  height: 100%;
+}
+html.full-height-layout body {
+  height: 100%;
+}
+html.full-height-layout body > .ui-view {
+  height: 100%;
+  /*padding-top: 140px;*/
+  background-color: #F6F4F5;
+  /*padding-bottom: 240px;*/
+}
+html.full-height-layout body > .ui-view #space {
+  height: 100%;
+}
+html.full-height-layout body > .ui-view #space .header {
+  position: fixed;
+  top: 0px;
+  z-index: 1000;
+}
+html.full-height-layout body > .ui-view #space .footer {
+  position: fixed;
+  bottom: 0px;
+  width: 100%;
+  z-index: 1000;
+}
+html.full-height-layout body > .ui-view #space #contentDiv {
+  height: 100%;
+}
+html.full-height-layout body > .ui-view #space #contentDiv .content {
+  height: 100%;
+}
+html.full-height-layout body > .ui-view #space #contentDiv .content .ui-view {
+  height: 100%;
+  overflow: auto;
+}
+/*v4.5--end*/
+/*语言切换V4.5.1--start*/
+.lang-box {
+  display: inline-block;
+  font-size: 12px;
+  padding: 0 4px;
+}
+.lang-box .active {
+  color: #fff;
+}
+/*语言切换V4.5.1--end*/
+/*# sourceMappingURL=static/styles/layer.min.css.map */

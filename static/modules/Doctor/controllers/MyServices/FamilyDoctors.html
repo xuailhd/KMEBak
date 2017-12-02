@@ -1,0 +1,46 @@
+﻿<div ng-controller="MyFamilyDoctorController">
+
+    <form class="form-horizontal">
+        <div class="search-ban">
+            <div class="col-date-search">
+                <input type="text" class="form-control" id="Keyword" ng-model="Keyword" placeholder="{{'lblInserKey' | translate}}">
+            </div>
+            <div class="col-date-search">
+                <button class="btn btn-default" type="submit" style="padding:5px 10px;" ng-click="onSearch()">{{'btnSearch' | translate}}</button>
+            </div>
+            <div class="div-clear"></div>
+        </div>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>{{'myfamilydoctor-patientname' | translate}}</th>
+                    <th>{{'myfamilydoctor-enddate' | translate}}</th>
+                    <th>{{'myfamilydoctor-price' | translate}}</th>
+                    <th>{{'myfamilydoctor-pic' | translate}}</th>
+                    <th>{{'myfamilydoctor-vid' | translate}}</th>
+                </tr>
+            </thead>
+            <tbody ng-show="ListItems == null || ListItems.length == 0">
+                <tr>
+                    <td colspan="5">{{'msgNoData'|translate}}</td>
+                </tr>
+            </tbody>
+            <tbody>
+                <tr ng-repeat="item in ListItems">
+                    <td>{{item.UserName}}</td>
+                    <td>{{item.StartDate}} {{'lblTo'|translate}} {{item.EndDate}}</td>
+                    <td>{{item.ServicePrice}}</td>
+                    <td>{{item.PicConsumeCount}}/{{item.PicServiceCount}}</td>
+                    <td>{{item.VidConsumeCount}}/{{item.VidServiceCount}}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!--分页控件-->
+        <pager-nav page-list="[5,10,20,25]"
+                   page="CurrentPage"
+                   page-Size="pageSize"
+                   total-Count="totalCount" on-change="onSearch()" />
+
+    </form>
+</div>

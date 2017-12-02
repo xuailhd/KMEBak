@@ -1,0 +1,35 @@
+﻿<div class="main-content" ng-controller="PersonalInfoController">
+    <h4 class="des border-b">
+        {{'个人资料'|translate}}
+    </h4>
+    <br />
+    <form name="myForm" id="myForm" role="form" class="form-horizontal" on-submit="save()" form-validate>
+        <div class="form col-md-10 form-horizontal">
+            <div class="form-group">
+                <label class="control-label col-md-3">{{'头像' | translate}}：</label>
+                <span class="col-md-9">
+                    <!--<input type="file" class="form-control uploadPhotoFile" id="filePhotoUrl" ng-disabled="Uploading" />-->
+                    <div ng-hide="Data.PhotoFullUrl == undefined || Data.PhotoFullUrl == ''" class="upload-photo-box">
+                        <img ng-src="{{Data.PhotoFullUrl}}" style="max-width:100px; max-height:100px;" />
+                    </div>
+                    <div class="uploadPhotoFileBtn"><span>替换头像</span><input type="file" class="form-control uploadPhotoFile" id="filePhotoUrl" ng-disabled="Uploading" /></div>
+                </span>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-md-3">{{'擅长领域' | translate}}：</label>
+                <span class="col-md-9"><input type="text" class="form-control" ng-model="Data.Specialty" /></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-md-3">{{'疾病标签' | translate}}：</label>
+                <span class="col-md-9"><input type="text" class="form-control" ng-model="Data.DiseaseLabel" /></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-md-3">{{'个人简介' | translate}}：</label>
+                <span class="col-md-9"><textarea id="txtIntro" name="txtIntro" ng-model="Data.Intro" editor style="width: 100%; height:400px;"></textarea></span>
+            </div>
+            <div class="form-group">
+                <span class="col-md-9 col-md-offset-3"><input class="btn base" type="submit" value="{{'btnSave' | translate}}" /></span>
+            </div>
+        </div>
+    </form>
+</div>

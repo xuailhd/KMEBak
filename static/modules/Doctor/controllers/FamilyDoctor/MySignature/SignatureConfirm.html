@@ -1,0 +1,48 @@
+﻿<div class="main-content" ng-controller="FamilyServiceConfirmController">
+    <div class="alert alert-warning" role="alert">
+        注意：仅显示已经签约 “{{HospitalName}}”并等待医生确认的信息。
+    </div>
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>家庭代表姓名</th>
+            <th>身份证号码</th>
+            <th>家庭地址</th> 
+            <th>签约时间</th>
+            <th>签约社区</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-show="loading">
+            <td colspan="7">
+                <div class="text-center" ng-show="loading">
+                    <img src="/static/images/ico_loading.gif" /> <span>{{'Room-lblLoading'|translate}}</span>
+                </div>
+            </td>
+        </tr>
+        <tr ng-show="ListItems.length<=0">
+                <td colspan="7">{{'msgNoData'|translate}}</td>
+            </tr>
+        <tr ng-repeat="item in ListItems">
+            <td>{{item.SignatureUserName}}</td>
+            <td>{{item.SignatureUserIDCard}}</td>
+            <td>{{item.FamilyProvince}} {{item.FamilyCity}} {{item.FamilyDistrict}} {{item.FamilySubdistrict}} {{item.FamilyAddress}}</td>
+            <td>{{item.CreateTime |date:'yyyy-MM-dd'}}</td>
+            <th>{{item.OrgnazitionName}}</th>
+            <td>
+                <div>
+                    <button class="btn btn-sm base" ng-click="onConfirm(item)">确认签约</button>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+   
+    </table>
+    <!--分页控件-->
+    <pager-nav page-list="[5,10,20,25]"
+               page="page"
+               page-Size="pageSize"
+               total-Count="totalCount" on-change="onSearch()"/>
+
+</div>

@@ -1,0 +1,126 @@
+﻿<div class="main-content" ng-controller="FamilyServiceDetailController">
+    <h4 class="des border-b clearfix">
+        服务详情
+
+        <a target="_blank" href="/Jump?url={{CommonApiUrl}}/File/ContactFile/{{item.SignatureID}}" class="btn  btn-md pull-right btn-default" type="button"  >  <!--ng-click="ContractFileView()"-->
+            <i class="glyphicon glyphicon-edit"></i>
+            {{'打印' | translate}}
+        </a>
+        <a class="btn btn-info btn-add btn-md pull-right" type="button" data-toggle="modal" data-target="#services-modal" style="margin-right:5px" has-permission="KMEHosp.Doctor.FamilyDoctor.ChangeSignature">
+            <i class="glyphicon glyphicon-edit"></i>
+            {{'更换签约医生' | translate}}
+        </a>
+    </h4>
+    
+    <style>
+        #space .form .info-dl dt {
+            width: 120px;
+        }
+
+        #space .form .info-dl dd {
+            width: calc(100% - 120px);
+        }
+    </style>
+    <div class="form">
+        <dl class="info-dl">
+            <dt>签约机构：</dt>
+            <dd>{{item.OrgnazitionName ||'-'}}</dd>
+            <dt>签约团队：</dt>
+            <dd>{{item.FDGroupName ||'-'}}</dd>
+            <dt>家庭健康档案号：</dt>
+            <dd>{{item.FamilyFN ||'-'}}</dd>
+            <dt>家庭代表：</dt>
+            <dd>{{item.SignatureUserName ||'-'}}</dd>
+            <dt>家庭人数：</dt>
+            <dd>{{item.Members.length ||'-'}}</dd>
+            <dt>家庭地址：</dt>
+            <dd>{{item.ProvinceName ||'-'}} {{item.CityName}} {{item.DistrictName}} {{item.SubdistrictName}} {{item.Address}}</dd>
+            <dt>签约状态：</dt>
+            <dd>{{item.StatusName ||'-'}}</dd>
+        </dl>
+    </div>
+    <div class="radio-ban-list">
+        <ul>
+            <li ng-repeat="member in item.Members track by $index">
+                <a ng-class="{'current':currentMember === member}"
+                   ng-click="onChooseMember(member)">{{member.MemberName}}</a>
+            </li>
+
+        </ul>
+    </div>
+    <div ng-repeat="package in currentMember.Packages">
+        <h3>{{package.PackageName}}(￥{{package.Price}})</h3>
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th style="width: 20%">服务项目</th>
+                <th style="width: 50%">内容</th>
+                <th style="width: 15%">剩余次数</th>
+                <th style="width: 15%">操作</th>
+            </tr>
+            </thead>
+            <tbody ng-if="package.Details.length>0">
+            <tr ng-repeat="item in  package.Details track by $index">
+                <td>{{item.ServiceItemName}}</td>
+                <td>{{item.ServiceItemContent}}</td>
+                <td>{{item.ServiceCount - item.ConsumeCount}}</td>
+                <td>
+                    <div>
+                        <button class="btn btn-sm base" ng-click="onConsume(item)" ng-disabled="item.ServiceCount <= item.ConsumeCount">扣费</button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+            <tbody ng-if="package.Details.length<=0">
+            <tr>
+                <td colspan="4" style="text-align: center">无数据</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div id="services-modal" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">更换签约医生</h4>
+                </div>
+                <form on-submit="fn.onSubmit()" form-validate>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="OrgnazitionID">甲方（社康服务中心）</label>
+                            <select id="OrgnazitionID"
+                                    class="form-control"
+                                    name="OrgnazitionID"
+                                    required
+                                    ng-options="item.Value as item.Text for item in firstParty.select"
+                                    ng-model="signInfo.OrgnazitionID" ng-change="fn.onOrgnazitionChange()"
+                                    validate="{required:true, selected: true, messages: { required: '请选择社康服务中心'}}">
+                                <option value="" selected="selected">请选择社康服务中心</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInput2">家庭医生</label>
+                            <select id="exampleInput2"
+                                    class="form-control"
+                                    required
+                                    ng-options="item.Value as item.Text for item in doctorList.select"
+                                    ng-model="signInfo.DoctorID"
+                                    validate="{required:true, selected: true, messages: { required: '请选择家庭医生'}}">
+                                <option value="" selected="selected">请选择家庭医生</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInput3">更换原因</label>
+                            <textarea id="exampleInput3" name="Reason" class="form-control" ng-modal="signInfo.Reason" rows="4" validate="{required:true, messages: { required: '请输入原因'}}"></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                        <button type="submit" class="btn btn-info" on-submit="fn.onSubmit()">确认</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

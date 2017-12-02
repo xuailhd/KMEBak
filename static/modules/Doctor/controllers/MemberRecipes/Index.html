@@ -1,0 +1,96 @@
+﻿<div class="main-content" ng-controller="MemberRecipesIndexController">
+    <h4 class="des border-b">
+        坐诊开方
+    </h4>
+    <div class="clearfix">
+        <div class="pull-left">
+            <div class="search-ban form-inline claerfix">
+                <div class="col-date-search">
+                    坐诊药店：
+                    <select class="form-control"
+                            ng-model="orgID"
+                            name="{{'Drugstore'+$index}}"
+                            ng-options="Drugstore.OrgnazitionID as Drugstore.DrugstoreName for Drugstore in doctorDrugstores"
+                            ng-change="changeOrgID()"
+                            style="width:auto;">
+                        <option value="">请选择坐诊药店</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="pull-left">
+            <div class="search-ban form-inline clearfix">
+                <div class="col-date-search">
+                    <a class="btn btn-info m-r-5" ng-click="newRecipeFile(1)"><i class="glyphicon glyphicon-plus"></i> 中药处方</a>
+                    <a class="btn btn-info" ng-click="newRecipeFile(2)"><i class="glyphicon glyphicon-plus"></i> 西药处方</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="search-ban form-inline">
+        <div class="col-date-search">
+            {{'lblName'|translate}}：<input type="text" class="form-control" id="Keyword" ng-model="Keyword" placeholder="{{'msgInputMemberName'|translate}}" style="width:170px;">
+        </div>
+        <div class="col-date-search search-int">
+            申请时间：
+            <div class="input-group">
+                <input id="BeginDate" class="form-control" placeholder="开始日期" datepicker size="16" type="text" ng-model="SubmitStart" />
+            </div>
+            -
+            <div class="input-group ">
+                <input id="EndDate" class="form-control" placeholder="截止日期" size="16" datepicker type="text" value="" ng-model="SubmitEnd" />
+            </div>
+        </div>
+        <div class="col-date-search search-int">
+            处方状态：
+            <select class="form-control control-select" id="DrugstoreRecipeStatus" ng-model="DrugstoreRecipeStatus">
+                <option selected="selected" value="">{{'Room-lblChoosePlaceholder'|translate}}</option>
+                <option value="4">未提交</option>
+                <option value="5">已提交</option>
+                <option value="6">已签名</option>
+            </select>
+        </div>
+        <div class="col-date-search">
+            <button class="btn btn-info" type="submit" ng-click="onSearch()"><i class="glyphicon glyphicon-search"></i> {{'btnSearch' | translate}}</button>
+        </div>
+        <div class="div-clear"></div>
+    </div>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>{{'Drugstore-RecipeName' | translate}}</th>
+                <th>{{'Drugstore-MemberName' | translate}}</th>
+                <th>{{'Drugstore-RecipeStatus' | translate}}</th>
+                <th>{{'Drugstore-ApplyTime' | translate}}</th>
+                <th>{{'Drugstore-Amount' | translate}}</th>
+                <th width="280">{{'lblOperator'|translate}}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-show="ListItems.length<=0">
+                <td colspan="6">{{'msgNoData'|translate}}</td>
+            </tr>
+            <tr ng-repeat="item in ListItems">
+                <td>{{item.RecipeTypeName}}</td>
+                <td>{{item.PatientName}}</td>
+                <td>{{item.StatusName}}</td>
+                <td>{{item.SumitDate}}</td>
+                <td>{{item.Amount}}</td>
+                <td>
+                    <button class="btn btn-info m-r-5" ng-if="item.State < 5" ng-click="onEdit(item.RecipeFileID)"><i class="icon edit-icon"></i>{{'btnEdit' | translate}}</button>
+                    <button class="btn btn-infod m-r-5" ng-if="item.State < 5" ng-click="Remove(item.RecipeFileID)"><i class="icon cancel-icon"></i>{{'btnDelete' | translate}}</button>
+                    <button class="btn btn-info m-r-5" ng-if="item.State >= 5" ng-click="onDetail(item.RecipeFileID)"><i class="icon details-white-icon"></i>{{'Drugstore-Detail' | translate}}</button>
+                    <button class="btn btn-info m-r-5" ng-if="item.State == 6" ng-click="onPreview(item.RecipeFileID)"><i class="icon ption-icon"></i>{{'处方' | translate}}</button>
+                    <button class="btn btn-info m-r-5" ng-if="item.State < 6" ng-click="onPreview2(item.RecipeFileID)"><i class="icon ption-icon"></i>{{'预览' | translate}}</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="clearfix" ng-show="ListItems.length > 0">
+        <!--分页控件-->
+        <pager-nav page-list="[5,10,20,25]"
+                   page="CurrentPage"
+                   page-Size="pageSize"
+                   total-Count="totalCount" on-change="onSearch()" />
+    </div>
+</div>

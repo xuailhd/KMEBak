@@ -1,0 +1,35 @@
+﻿     <!--视频，语音，远程会诊才显示-->
+<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 left">
+    <!--呼叫控制-->
+    <chat-Call-Ctrl room="room">
+        <!--视频窗口-->
+        <chat-audio room="room"></chat-audio>
+        <!--用户列表-->
+        <!--<chat-users  ng-show="false"  room="room"></chat-users>-->
+    </chat-Call-Ctrl>
+</div>
+<bg-splitter orientation="horizontal"  class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+    <bg-pane min-size="500" class="middle chat-content">
+        <div class="toolbar">
+            <a class="tool" ng-class="{'active':Audio.toolbar=='comment'}" ng-click="Audio.toolbarClick('comment');Audio.LazyLoad['Diagnose']=true;"><i class="glyphicon glyphicon-comment"></i> {{'Room-btnChat'|translate}}</a>
+            <!--看诊的时候才显示诊断按钮-->
+            <a class="tool" ng-class="{'active':Audio.toolbar=='diagnose'}" ng-click="Audio.toolbarClick('diagnose');Audio.LazyLoad['Diagnose']=true;"><i class="glyphicon glyphicon-facetime-video"></i> {{'Room-btnConsultations'|translate}}</a>
+            <a class="tool" ng-class="{'active':Audio.toolbar=='recipe'}" ng-click="Audio.toolbarClick('recipe');Audio.LazyLoad['Diagnose']=true;"><i class="glyphicon glyphicon-file"></i> {{'Room-btnPrescription'|translate}}</a>
+            <a class="tool" ui-sref="HealthPlan({memberId: $root.memberID})" target="_blank"><i class="glyphicon glyphicon-time"></i> {{'Room-btnHealthPlan'|translate}}</a>
+            <a class="tool" href="/HealthReport?MemberID={{$root.memberID}}" target="_blank"><i class="glyphicon glyphicon-heart"></i> {{'Room-btnHealthReport'|translate}}</a>
+        </div>
+        <div class="border-both" style="height:100%; position:relative;">
+            <!--就诊中-->
+            <!--<countdown room="room"></countdown>-->
+            <!--助手-->
+            <modal-Assistant-Diagnose room="room"></modal-Assistant-Diagnose>
+
+            <chat-Comment ng-show="Audio.toolbar=='comment'" room="room" on-Msg="onMsg" on-Url-Click="onUrlClick" on-Answer="onAnswer"></chat-Comment>
+            <chat-diagnose ng-show="Audio.toolbar=='diagnose'" ng-if="Audio.LazyLoad['Diagnose']" class="chat-Diagnose" room-Type="online" room="room"></chat-diagnose>
+            <chat-Recipe ng-show="Audio.toolbar=='recipe'" ng-if="Audio.LazyLoad['Diagnose']" class="chat-Diagnose" room-Type="online" room="room"></chat-Recipe>
+        </div>
+    </bg-pane>
+    <bg-pane min-size="260" class="no-boder-left right">
+        <chat-patientInfo class="chat-patientInfo" room="room"></chat-patientInfo>
+    </bg-pane>
+</bg-splitter>

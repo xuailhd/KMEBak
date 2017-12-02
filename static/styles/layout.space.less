@@ -1,0 +1,1779 @@
+﻿@import "import-mixins.less";
+@import "import-reset.less";
+@import "import-variable.less";
+@import "import-animate.less";
+@import "import-layout.bottom.less";
+@import "import-layout.menu.less";
+@import "import-layout.pagination.less";
+@thColor: #333;
+@borderColor: #ccc;
+@activeBg: #377bee;
+@fcolor: #0accce;
+@hcolor: #fff;
+
+.mr-55 {
+    margin-right: 55px !important;
+}
+
+.base {
+    color: #fff;
+    background-color: #0accce;
+}
+.base:hover {
+    color: #fff;
+    background-color: #09b0b3;
+}
+.btn-yellow {
+    color: #fff;
+    background-color: #e6bf1f;
+}
+
+.btn-yellow:hover {
+    color: #fff;
+    background-color: #cca91d;
+}
+
+.form-control {
+    box-shadow: none !important;
+}
+
+.table>tbody+tbody {
+    border-top: none;
+}
+
+/* OA 模态框 */
+#myModal {
+    .modal-dialog {
+        background-color: #f7f7f7;
+        width: 830px;
+        .modal-header {
+            height: 48px;
+        }
+        .modal-body {
+            iframe {
+                width: 800px;
+                height: 800px;           
+            }
+        }
+    }
+
+}
+
+/*
+ * 背景图切换
+*/
+.fn(@name, @img){
+    .icon-@{name} {
+        background: url("/static/images/doctor/@{img}.png") no-repeat 0 0;  
+    }
+
+    .menu-list ul li a:hover .icon-@{name},
+    .menu-list ul li a.current .icon-@{name} {
+        background: url("/static/images/doctor/@{img}_active.png") no-repeat 0 0 !important;  
+    }
+    
+}
+
+/* 头部时间tab B */
+.choose {
+    margin-top: 15px;
+    span{
+        margin-right: 56px;
+        font-size:14px;
+        &:first-child {
+            margin-right: 46px;
+        }
+        a.current {
+            color: @fcolor;
+        }
+    }  
+}
+/* 头部时间tab E */
+@media screen and (max-width: 1024px) {
+     #space {
+         /*.header{min-width:998px;}*/
+        .header .headerBox{width:998px;min-width:998px;}
+        /*.header .topBox{ min-width:998px;}*/
+        .header .top-ban {width:100%;}
+        .headerBox .top{width:998px;}
+        .headerBox .nav-ban ul li{
+        margin-left:7px;
+        max-width:90px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;}
+        .banner-line {min-width:998px;}
+        /*.content {width:998px;}*/
+         /*.main-content {width:670px;}*/
+         .radio-ban-list ul li a {padding:0 7px;}
+         .table tr td{word-break:break-all;}
+         .table tr td.noBreakWord{word-break:normal;}
+ 
+         .authentication-content{width:998px; height:10px;}
+     }
+      .table .btn-sm,  .table .btn{margin-bottom:8px;}
+}
+@media screen and (min-width: 1024px)  and (max-width: 1200px){
+    /*我的挂号修改1.22*/
+    #contentDiv{
+        table>tbody>tr>td{
+            padding:8px 0;
+            text-align:center;
+
+           /*我的地址，地址太长不换行，用....代替*/
+            white-space:nowrap;
+            text-overflow:ellipsis;
+            overflow: hidden;
+        }
+    };
+    #contentDiv {
+         table.table-td-style > tbody > tr > td {
+             padding: 15px;
+             text-align: initial;
+             white-space: normal;
+         }
+         table.table-td-style > tbody > tr > td.tit {
+             text-align: right;
+         }
+    }
+     #space {
+         .header{min-width:1024px;}
+        .header .headerBox{width:1024px;min-width:1024px;}
+        .header .topBox{min-width:1024px;}
+        .header .top-ban {width:1024px;}
+        .headerBox .top{width:1024px;}
+        .headerBox .nav-ban ul li{
+        margin-left:10px;
+        max-width:90px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;}
+        .banner-line {min-width:1024px;}
+        /*.content {width:1024px;}*/
+        // .main-content {width:696px;
+                /*医生-远程会诊 1024-1200 标题不换行*/
+                /*
+                .table thead tr th{
+                    padding:8px 0;
+                    white-space:nowrap;
+                    text-align:center;
+                };
+                
+                .table thead tr:nth-child(7){
+                     
+                }*/
+         //}
+         .radio-ban-list ul li a {padding:0 7px;}
+         .table tr td{word-break:break-all;}
+         .table tr td.noBreakWord{word-break:normal;}
+         .authentication-content{width:1024px;}
+     }
+      .table .btn-sm,  .table .btn{margin-bottom:8px;}
+}
+@media screen and (min-width: 1200px) {
+     #space {
+          .header{min-width:1200px;}
+        .header .headerBox{width:1200px;min-width:1200px;}
+        .header .topBox{min-width:1200px;}
+        .header .top-ban {width:1200px;}
+        .headerBox .top{width:1200px;}
+        .headerBox .nav-ban ul li{margin-left:20px;}
+        .banner-line {min-width:1200px;}
+        /*.content {width:1200px;}*/
+        //.main-content {width:870px;}
+         .radio-ban-list ul li a {padding:0 20px;}
+         .authentication-content{width:1200px;}
+     }
+   
+}
+/*用户中心首页样式*/
+#space {
+    background-color: #F6F4F5;
+    &.whiteBg{
+        background-color:#fff;
+    }
+    /*公用头部start 2016/8/29123*/
+    .header {
+        width: 100%;
+        background: #fff;
+        height: 120px;
+        .top-msg {
+            border-top: 1px solid #dfe0e5;
+            height: 40px;
+        }
+    }
+
+    .header .headerBox {
+        overflow: hidden;
+        height: auto;
+        margin: auto;
+        background: #fff;
+        clear:both;
+    }
+
+    .header .topBox {
+        width: 100%;
+        height: 80px;
+    }
+
+    .header .top-ban {
+        margin: 0 auto;
+        height: 36px;
+        line-height:42px;
+        font-size: 14px;
+        text-align: right;
+        color: #4c4c4c;
+        padding: 0 10px;
+    }
+
+    .header .top-ban .top-ban-vip {
+        float: left;
+        margin-left: 340px;
+    }
+
+    .header .top-ban .top-ban-vip a {
+        color: #ff8431;
+    }
+
+    .header .top-ban a {
+        color: #4c4c4c;
+        outline:none;
+    }  
+    .header .top-ban a:hover{color:#0CBFBA;}
+
+    .header .top-ban i {
+        padding: 0 2px;
+    }
+    
+     .topBox .logo {
+        float: left;
+        margin-top: 12px;
+        padding: 8px 0 0;
+    }
+
+.header .top-ban .lang-box{display:inline-block;text-align:right;}
+.header .top-ban .login-status-box{float:right;display:inline-block;}
+    .headerBox .top {
+        overflow: hidden;
+        line-height: 36px;
+        h4{
+                display: inline-block;
+                padding: 14px 0 0 15px;
+                font-size: 20px;
+                font-weight: bold;
+                color: #333;
+            }
+    }
+
+   
+
+    .headerBox .logo img {
+        width: auto;
+    }
+
+    .headerBox .nav-title {
+        color: #333;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    .headerBox .nav-title a:link, .headerBox .nav-title a:visited, .headerBox .nav-title a:hover, .headerBox .nav-title a:active {
+        color: #333;
+    }
+
+    .headerBox .personCenter.active {
+        color: #0CBFBA;
+    }
+
+    .headerBox .nav-ban {
+        float: left;
+        line-height: 26px;
+        font-size: 18px;
+        margin: 24px 0 0;
+    }
+
+    .headerBox .nav-ban ul li {
+        float: right;
+    }
+
+    .headerBox .nav-ban ul li:first-child {
+        margin-right: 0;
+    }
+
+    .headerBox .nav-ban ul li i {
+        padding: 0 30px;
+        font-size: 14px;
+    }
+
+    .headerBox .nav-ban ul li a {
+        font-size: 18px;
+    }
+
+    .headerBox .nav-ban ul li a:hover {
+        color: #0CBFBA;
+    }
+
+    .headerBox .nav-ban ul li a.active {
+        color: #0CBFBA;
+    }
+
+    .headerBox .nav-search {
+        position: relative;
+        float: right;
+        margin-top: 20px;
+        width: 180px;
+        height: 34px;
+        background: #fff;
+        border: 1px solid #a0a0a0;
+    }
+
+    .headerBox .nav-search .searchInput {
+        position: absolute;
+        top: 0;
+        left: 0;
+        padding-left: 20px;
+        padding-right: 20%;
+        width: 100%;
+        height: 32px;
+        line-height: 32px;
+        border-radius: 0;
+        border: none;
+        font-size: 14px;
+        &:focus {outline: none;box-shadow:none;} 
+    }
+
+    .headerBox .nav-search .searchBtn {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 20%;
+        height: 32px;
+        line-height: 32px;
+        text-align: center;
+        background: url(../images/icon-search.png) no-repeat center center;
+        border: none;
+    }
+.messages-tips-box{position:relative;display:inline;padding:5px 0;
+    .notice-amount{color:#b94a48;font-style:normal;font-weight:bold;}
+    .messages-list{position:absolute;top:28px;right:-55px;display:none;z-index:1020;width:350px;border:1px solid #e7e7e7;background:#fff;text-align:left;
+               &:before,&:after{
+                   position:absolute;top:-16px;right:80px;width:6px;height:4px;content:"";border-width:8px;border-style:dashed dashed solid;border-color: transparent transparent #e7e7e7;
+               }
+               &:after{
+                   top:-14px;border-color: transparent transparent #fafafa;
+               }
+               .messages-title{margin:0;width:100%;height:36px;line-height:36px;padding-left:10px;border-bottom:1px solid #e7e7e7;background:#fafafa;font-size:14px;}
+               ul{overflow:hidden;margin:0;padding:20px 10px;width:100%;
+                   li{width:100%;line-height:30px;border-bottom:1px dashed #e7e7e7;
+                      a{display:block;width:100%;height:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+                      &.noborder{border-bottom:none;}
+                   }
+               }
+               .messages-more{width:100%;height:30px;line-height:30px;border-bottom:none;background:#0CBFBA;text-align:center;color:#fff;
+                               a{display:block;width:100%;height:100%;color:#fff;}
+                               &:hover a{cursor:pointer;}
+               }
+            }
+    &:hover{
+        .messages-list{display:block;}
+    }
+}
+
+/*我的消息V4.5.1--start*/
+.messages{
+    /*width: 20px;
+    height: 20px;
+    background-image: url(/static/images/icon-msg.png);
+    background-repeat: no-repeat;
+    background-position: 1px 1px;
+    display: inline-block;*/
+    margin-left: 5px;
+    cursor: pointer;
+
+    .messages-list{
+        position:absolute;
+        top:137px;
+        right:-195px;
+        display:none;
+        z-index:1020;
+        width:350px;
+        border:1px solid #e7e7e7;
+        background:#fff;
+        text-align:left;
+        line-height:0px;
+        &:before,&:after{
+            position:absolute;
+            top:-16px;
+            left:44px;
+            width:6px;
+            height:4px;
+            content:"";
+            border-width:8px;
+            border-style:dashed dashed solid;
+            border-color: transparent transparent #e7e7e7;
+        }
+        &:after{
+            top:-14px;border-color: transparent transparent #fafafa;
+        }
+        .messages-title{
+            margin:0;
+            width:100%;
+            height:36px;
+            line-height:36px;
+            padding-left:10px;
+            border-bottom:1px solid #e7e7e7;
+            background:#fafafa;
+            font-size:14px;
+            font-weight: normal;
+            color: #4c4c4c;
+            outline: none;
+        }
+
+        .messages-title:hover, ul>li>a:hover{
+            color: #0cbfba;
+        }
+
+        ul{
+            overflow:hidden;
+            margin:0;
+            padding:20px 10px;
+            width:100%;
+            li{
+                width:100%;
+                line-height:30px;
+                border-bottom:1px dashed #e7e7e7;
+                a{
+                    display:block;
+                    width:100%;
+                    height:100%;
+                    overflow:hidden;
+                    text-overflow:ellipsis;
+                    white-space:nowrap;
+                    font-size:14px;
+                    font-weight: normal;
+                    color: #4c4c4c;
+                    outline: none;
+
+                }
+                &.noborder{
+                    border-bottom:none;
+
+                }
+            }
+        }
+        .messages-more{
+            width:100%;
+            height:30px;
+            line-height:30px;
+            border-bottom:none;
+            background:#0CBFBA;
+            text-align:center;
+            color:#fff;
+            a{
+                display:block;
+                width:100%;
+                height:100%;
+                color:#fff;
+                font-size: 14px;
+                font-weight: normal;
+            }
+            
+            &:hover a{
+                cursor:pointer;
+            }
+        }
+    }
+
+    /*&:hover{
+        .messages-list{
+            display:block;
+        }
+    }*/
+}
+
+/*我的消息V4.5.1--end*/   
+
+
+
+    img {
+        vertical-align: top;
+        border: none;
+    }
+
+    button, select, textarea {
+        outline: none;
+    }
+
+    figure, form, fieldset {
+        border: 0;
+        margin: 0;
+        padding: 0;
+    }
+
+    ul, li {
+        list-style-type: none;
+        padding: 0px;
+        margin: 0px;
+    }
+
+    .nav-title {
+        font-size: 36px;
+        margin-left: 16px;
+        float: left;
+        margin-top: 54px;
+    }
+
+    .focus img {
+        width: 100%;
+    }
+
+    .banner-line {
+        width: 100%;
+        height: 3px;
+        background-color: #0cbfba;
+        border: 1px solid #0cbfba;
+    }
+
+
+    .content {
+        /*margin: auto;*/
+        width: 100%;
+        /*margin-top: 20px;*/
+    }
+    /**********个人中心**********/
+    .col-date-search {
+        float: left;
+        margin: 5px;
+    }
+
+    .col-label-search {
+        float: left;
+        padding: 10px 2px;
+    }
+
+    .pwd-box {
+        margin: 20px auto;
+    }
+
+    .pwd-box-label {
+        float: left;
+        width: 30%;
+        text-align: right;
+        padding: 8px 5px;
+    }
+
+    .pwd-box-input {
+        float: left;
+        width: 50%;
+    }
+
+    #healthRecord .col-md-1 {
+        width: 15%;
+    }
+
+    #healthRecord .col-md-3 {
+        width: 30%;
+    }
+
+    #healthRecord .col-md-11 {
+        padding: 6px 5px;
+        width: 85%;
+    }
+
+    .content-overflow {
+        margin: -1px;
+        width: 100px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        display: inline-block;
+        line-height: 30px;
+        height: 30px;
+        margin: 0;
+        padding: 0;
+    }
+
+
+    .control-select {
+        height: 34px;
+        width: 200px;
+    }
+
+    .div-clear {
+        clear: both;
+    }
+
+
+    .scrollable-dropdown-menu ul {
+        height: 300px;
+        overflow-y: scroll;
+    }
+
+    @media screen and (min-width: 768px) {
+        .modal-dia {
+            width: 600px;
+            margin: 80px auto;
+        }
+
+        .modal-content {
+            -webkit-box-shadow: 0 5px 15px rgba(0, 0, 0, .5);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, .5);
+        }
+
+        .modal-sm {
+            width: 300px;
+        }
+    }
+
+
+    .modal {
+        display: none;
+    }
+
+
+
+
+    #imgLoginVerify {
+        width: 100px;
+        height: 35px;
+        cursor: pointer;
+        vertical-align: middle;
+    }
+
+    .content {
+        border: 1px solid #DFDFDF;
+        background-color: #FFFFFF;
+        overflow: hidden;
+        height: auto;
+    }
+
+    .menuBg {
+        position: relative;
+        background: #f2f2f2;
+    }
+
+    .nav-menu {
+        position: absolute;
+        top: 0;
+        left: 0;
+        border-right: 1px solid #dfdfdf;
+        background-color: #1c304c;
+        width: 280px;
+        height: 100%;
+    }
+
+    .noborder {
+        border: none;
+    }
+
+    .user-info {
+        height: 190px;
+        overflow: hidden;
+        height: auto;
+        text-align:center;
+    }
+    .user-info-hello {
+        font-size: 18px;
+        color: #fff;
+        margin-bottom: 5px;
+    }
+    .user-info-action {
+        font-size: 0;
+        color: @fcolor;
+        margin-bottom: 20px;
+        line-height: 16px;
+    }
+    .user-info-img {      
+       margin-top: 30px;
+       margin-bottom: 16px;   
+       vertical-align:middle;
+    }
+
+    .user-info-img img {
+        border-radius: 50%;
+        width: 60px;
+        max-width:60px;
+        height: 60px;
+        max-height:60px;
+    }
+
+    .user-info-msg a { 
+        font-size: 12px;
+        color: @fcolor;
+        padding: 0 4px;
+    }
+
+    .user-info-msg a.lang-active{
+        color: #fff;
+    }
+
+    .user-info-msg a:hover {
+        color: @hcolor;
+    }
+
+    .insertContentBox {
+        overflow: hidden;
+        margin-left: 280px;
+        /*min-height: 640px;*/
+        border-left: 1px solid #dfdfdf;
+        background: #fff;
+    }
+
+    .menu-list {
+    }
+
+    .menu-list ul {
+    }
+
+    .menu-list ul li {
+        height: 40px;      
+    }
+    .menu-list ul li a {      
+        color: #fff;
+        display: block;
+        height: 40px;
+        line-height: 40px;
+        padding-left: 40px;
+        font-size: 16px;
+    }
+
+     .menu-list ul li a:hover {
+         background-color: #0acdce;
+     }
+    .menu-list ul li a i {
+       float: left;
+       text-decoration: none;
+       display: inline-block;
+       width: 16px;
+       height: 16px;
+       margin-top: 12px;
+       margin-right: 20px;     
+       background-size: 16px 16px;   
+    }
+    .menu-list ul li a:focus {
+        text-decoration: none;
+    }
+
+
+    .fn(home,icon_home);
+    .fn(ambulance, icon_room);
+    .fn(plus-sign-alt, icon_servier);
+    .fn(user, icon_user);
+    .fn(paste, icon_paste);
+    .fn(calendar, icon_cal);
+    .fn(cog, icon_cog);
+    .fn(credit-card, icon_credit);
+    .fn(stethoscope, icon_ste);
+    .fn(file, icon_file);
+    .fn(offline, icon_offline);
+          
+
+    .menu-list ul li a.current { 
+        background-color: #0acdce;
+    }
+
+    .main-content {
+        float: left;
+        padding: 20px;
+        width: 100%;
+    }
+
+    .main-content-title {
+        font-size: 20px;
+        font-weight: bold;
+        border-bottom-style: solid;
+        border-bottom-width: 1px;
+        border-bottom-color: #DFDFDF;
+        line-height: 40px;
+    }
+
+    .main-content-title i {
+        padding: 0 10px;
+    }
+    .account-info-box{
+        .account-info-top{
+            float:left;
+            display:inline-block;
+            margin-right:24px;
+        }
+    }
+
+    .search-ban {
+        margin-top: 10px;
+        margin-bottom: 15px;
+        .form-control{
+
+            width:120px;
+        }
+    }
+    .table>thead>tr>th {
+        border-bottom:1px solid #ddd;
+    }
+    .radio-ban-list {
+        margin-top: 10px;
+        overflow: hidden;
+        height: auto;
+    }
+
+    .radio-ban-list ul {
+        overflow: hidden;
+        height: auto;
+        width: auto;
+        display: inline-block;
+        border-radius: 15px;
+    }
+
+    .radio-ban-list ul li {
+        height: 30px;
+        line-height: 30px;
+        float: left;
+        background-color: #dee0d5;
+    }
+
+    .radio-ban-list ul li a {
+        display: block;
+    }
+
+    .radio-ban-list ul li a.current {
+        background-color: #0acdce;
+        color: #ffffff;
+    }
+    .hospital-doctor-list{
+        margin:20px 20px 10px 20px;
+       overflow:hidden;
+        ul{ 
+            width:100%; 
+            height:auto; 
+            overflow:hidden;
+                li {
+                    position:relative;  
+                    float:left;
+                    margin-bottom:20px;
+                    width:50%;
+
+                }
+        }
+    }
+    .hospital-doctor-img{position:absolute;top:0;left:10px; width:60px; height:60px;}
+    .hospital-doctor-img img{border-radius: 50%;width:60px; height:60px; }
+    .hospital-doctor-info{ 
+        padding-left:80px;
+        width:100%; 
+        height:80px;
+        p{margin:0;
+          /*患者-我们医生-文字过长隐藏后面，用。。。代替*/
+          /*需要rem width:335px;*/
+          width: 70%;
+          white-space:nowrap;
+          text-overflow:ellipsis;
+          overflow: hidden;
+        }
+        .hospital-doctor-good-at{
+            padding-right:100px;
+            width:100%;
+            overflow:hidden;
+            text-overflow:ellipsis;
+            white-space:nowrap;
+            .overflowTips{
+                width:100%;
+                height:100%;
+            }
+        }
+    }
+    .hospital-doctor-action{ position:absolute;top:0;right:0; text-align:center; margin:0 20px 0 0;
+                             a{
+                                 display:block;
+                                 margin-bottom:10px;
+                             }
+    }
+
+    .schedule-time-td {
+        border-bottom: 1px solid #ccc;
+        /*1.20医生-我的排版-时间不要换行*/
+        padding:8px 0;
+    }
+
+    .unCheckedTd {
+        border: 1px solid #ccc;
+        background-color: #fff;
+        cursor: pointer;
+    }
+
+    .disabledTd {
+        background: #efefef;
+        cursor: default;
+    }
+
+    .disabledTd.checkedTd {
+        border: 1px solid #ddd;
+        background: #bbb url("../images/selectedIcon.png") no-repeat scroll center center / 15% auto;
+    }
+
+    .checkedTd {
+        border: 1px solid #fff;
+        background: #0accce url("../images/selectedIcon.png") no-repeat scroll center center / 15% auto;
+    }
+
+    .form {
+    }
+
+    .form dl {
+        height: auto;
+        overflow: hidden;
+    }
+
+    .form dt {
+        width: 40%;
+        float: left;
+        text-align: right;
+        margin-top: 10px;
+    }
+
+    .form dt label {
+        padding-right: 10px;
+    }
+
+    .form dd {
+        width: 60%;
+        float: left;
+        margin-top: 10px;
+    }
+
+    .middle {
+        margin-top: 10px;
+        text-align: center;
+    }
+
+
+    .invite-box {
+        position: fixed;
+        right: 10px;
+        bottom: 100px;
+        z-index: 99;
+    }
+    /***************义诊设置日历*******************/
+    .openSetTip {
+        margin: 20px 0;
+        width: 100%;
+
+        p {
+            clear:both;
+            text-align: center;
+            color: #F00;
+        }
+    }
+
+    .dateSetBox {
+        display: none;
+        width: 100%;
+    }
+
+    .calendarBox {
+        width: 100%;
+
+        .calendarTable {
+            width: 100%;
+
+            tr {
+                width: 100%;
+                height: 48px;
+
+                .dateSwitch {
+                    text-align: center;
+                }
+
+                th {
+                    padding: 0 15px;
+                    color: @thColor;
+                    text-align: center;
+
+                    &.prev,
+                    &.next {
+                        text-align: center;
+                        font-size: 36px;
+                        color: @fcolor;
+
+                        &:hover {
+                            cursor: pointer;
+                        }
+
+                        &.disabled {
+                            color: #ccc;
+                            cursor: default;
+                        }
+                    }
+                }
+
+                td {
+                    text-align: center;
+                    border: 1px solid @borderColor;
+                    cursor: pointer;
+
+                    &.disabledClick {
+                        cursor: default;
+                        background: #e7e7e7;
+
+                        &.active {
+                            background:#bbb;
+                          //  background: #bbb url("../images/selectedIcon.png") no-repeat scroll 80% center / 20% auto;
+                        }
+                    }
+
+                    &.active {
+                        background:@btn-theme-color;
+                       // background: @activeBg url("../images/selectedIcon.png") no-repeat scroll 80px center / 15% auto;
+                        color: #fff;
+                        border: 1px solid #fff;
+                    }
+                }
+            }
+        }
+    }
+
+    .dateTimeBtnBox {
+        padding-top: 10px;
+        width: 100%;
+        text-align: center;
+
+        .saveBtn {
+            padding: 10px 0;
+            width: 124px;
+            border: none;
+            border-radius: 4px;
+            moz-border-radius: 4px;
+            webkit-border-radius: 4px;
+            background: #0accce;
+            font-size: 18px;
+            color: #fff;
+        }
+    }
+
+
+
+    .drugstore .prescription-content .prescription-title-ban ul li {
+        line-height: 26px;
+        list-style: outside none none;
+    }
+
+    .drugstore .prescription-content .prescription-title-ban .prescription-function a.tag.current {
+        color: white;
+        background-color: #337ab7;
+    }
+
+    .drugstore .prescription-content .prescription-title-ban .prescription-function a.tag {
+        display: block;
+        padding-right: 20px;
+        padding-left: 10px;
+        float: left;
+        line-height: 28px;
+        border: 1px solid #DFE0E1;
+        text-decoration: none;
+    }
+
+    .drugstore .prescription-content .prescription-title-ban .prescription-function .remove-item-box {
+        float: left;
+    }
+
+    .drugstore .prescription-content .prescription-title-ban .prescription-function .remove-item {
+        font-style: normal;
+        position: absolute;
+    }
+
+    .drugstore .prescription-content .prescription-title-ban .prescription-function .remove-item-box .remove-item a {
+        position: relative;
+        right: 15px;
+        text-decoration: none;
+    }
+    #Keyword,.form-control.nameInputWidth,#AllKeyword{
+        width: 200px;
+    }
+    .table{
+        tr{
+            td{
+                font-size: 12px;
+                vertical-align:middle;
+                &.overflowAuto{
+                    display: block;
+                    overflow-x:hidden;
+                    overflow-y:auto;
+                    max-height:100px;
+                }
+                .moreInfor{
+                        display:none;
+                    }
+                &.more{
+                     position:relative;
+                    .moreInfor{
+                        color:#0CBFBA;
+                    }
+                }
+               
+            }
+        }
+    }
+    //药房看诊医生排版
+.Drugstore-doctor-list {
+    overflow:hidden;
+    margin-left:-20px;
+    width:100%;
+    ul {
+        width: 100%;
+        li {
+            position: relative;
+            float: left;
+            margin-bottom:14px;
+            width: 25%;
+            height: 260px;
+            overflow: hidden;
+            border-top:1px solid #e7e7e7;
+            border-right:1px solid #e7e7e7;
+            border-bottom:1px solid #e7e7e7;
+            text-align: center;
+             img {
+                display:inline-block;
+                padding: 2px;
+                width: 82px;
+                height: 82px;
+                border: 1px solid #e4e4e4;
+                border-radius: 50%;
+            }
+            /*&:after {
+                position: absolute;
+                right: 0;
+                top: 0;
+                width: 1px;
+                height: 260px;
+                content: "";
+                background: #e7e7e7 none repeat scroll 0 0;
+            }*/
+            a {
+                display: inline-block;
+                padding: 22px 20px 18px 22px;
+                width: 100%;
+                height: 100%;
+                outline: medium none;
+                color: #4c4c4c;
+            }
+            &:nth-child(4n-3) {
+                border-left:1px solid #e7e7e7;
+            }
+            &:nth-child(4n) {
+                margin-right: 0;
+                border-right:1px solid #e7e7e7;
+            }
+            &:nth-child(4n)::after {
+                //width: 0;
+                border-right:none;
+            }
+            &:hover {
+                border:1px solid #0CBFBA;
+                //border-bottom-color: #e7e7e7;
+                cursor: pointer;
+                a:hover {
+                    color: #4c4c4c;
+                }
+            }
+            .doctor-name {
+                float: left;
+                margin-top: 8px;
+                width: 100%;
+                font-size: 18px;
+                .doctor-level {
+                    font-size: 14px;
+                }
+            }
+             .doctor-introduction {
+                float: left;
+                margin-top: 2px;
+                padding-top: 8px;
+                width: 100%;
+                height: 40px;
+                line-height: 20px;
+                border-top: 1px solid #e7e7e7;
+                font-size: 12px;
+                color: #888;
+                text-align: left;
+            }
+        }
+    }
+}
+
+/*药店剂量样式*/
+.prel{position:relative;}
+.doseInputWid{min-width:130px;}
+.doseInput{padding-right: 60px;width: 100%;height: 100%;}
+.doseUnitSel{position: absolute; right: 0; top: 0;z-index: 2;padding: 0; width: 50px;height: 100%;}
+
+/*我的消息*/
+.notice-deal-box{
+    margin:20px 0;
+    width:100%;
+    button{padding:6px 20px;border:1px solid #e7e7e7;background:#fff;color:#377bee;text-align:center;vertical-align:middle;
+           &.marginR{margin-right:20px;}
+    }
+    .notice-tab {padding:6px 20px;border:1px solid #e7e7e7;background:#fff;color:#377bee;text-align:center;vertical-align:middle;
+                 &.active{border:1px solid #377bee;background:#377bee;color:#fff;}
+    }
+}
+.notice-status-icon {padding-right:20px;}
+.bold{font-weight:bold;
+      .notice-status-icon {
+          color:#377bee;
+      }
+}
+/*上传头像input样式*/
+.upload-photo-box{
+    width:100px;
+    max-height:100px;
+    text-align:center;
+    vertical-align:middle;
+    img{
+        vertical-align:middle;
+    }
+}
+.uploadPhotoFileBtn{
+    position:relative;
+    margin-top:10px;
+    width:100px;
+    height:30px;
+    line-height:30px;
+    border:1px dashed #e7e7e7;
+    text-align:center;
+    span{
+        font-size:14px;
+        color:#666;
+    }
+    &:hover{
+        cursor:pointer;
+        border-color:#337ab7;
+    }
+    .uploadPhotoFile{position:absolute;top:0;left:0;z-index:2;padding:0;width:100%;height:100%;opacity:0;}
+}
+
+}
+/*重置医生中心表格居中样式*/
+.table > thead > tr > th{vertical-align:middle;}
+/*医生认证样式*/
+.authentication-content{
+    margin:0 auto;
+    padding:20px;
+    overflow:hidden;
+    .Authentication-title-ban{
+        margin-bottom: 20px;
+        width: 100%;
+        border-bottom: 1px solid #e7e7e7;
+        font-size: 16px;
+        line-height: 40px;
+        span{
+            &.curDir {
+                color: #a3a3a3;
+            }
+        }
+        }
+    .anthenticationForm{
+        padding-left:130px;
+        width:100%;
+        .form-group{
+            label.control-label{
+                color:#666;
+            }
+            .input-box{
+                position:relative;
+                input{
+                    display:inline-block;
+                    width:100%;
+                    height:100%;
+                }
+                .error{
+                    color:#a94442;
+                }
+            }
+            .authentication-submit-btn{
+                margin-left:128px;
+                padding:6px 30px;
+                border:none;
+                background:#0accce;
+                font-size:16px;
+            }
+        }
+        .IDPhotos-box{
+            overflow:hidden;
+            padding-left:88px;
+             width:100%;
+             h4{
+                 line-height: 40px;
+                 border-bottom: 1px solid #e7e7e7;
+                 font-size: 16px;
+             }
+             .upload-IDPhoto-ul{
+                 padding:20px 0;
+                 width:100%;
+                 .upload-IDPhoto-li{
+                     float:left;
+                     overflow:hidden;
+                     display:inline-block;
+                     margin-right:20px;
+                     margin-left:0;
+                     width:154px;
+                     
+                     .IDPhoto-title{
+                         width:100%;
+                         text-align:center;
+                         color:#333;
+                     }
+                     .IDPhoto-cont{
+                         width:100%;
+                         height:110px;
+                         text-align:center;
+                         vertical-align:middle;
+                         border:1px solid #ccc;
+                         background-repeat:no-repeat;
+                         background-size: cover;
+                         background-position:center center;
+                         &.IDCardPhotoDefault{
+                            background-image: url("/static/images/IDCard.jpg");
+                         }
+                         &.handIDCardPhotoDefault{
+                             background-image: url("/static/images/handIDCard.jpg");
+                         }
+                         &.practicingCertificateDefault{
+                             background-image: url("/static/images/practicingCertificate.jpg");
+                         }
+                         img{
+                             width:100%;
+                             height:100%;
+                             vertical-align:middle;
+                             text-align:center;
+                             background-color:#fff;
+                         }
+                     }
+                     .uploadPhoto-btn{
+                         position:relative;
+                         overflow:hidden;
+                         margin:14px auto;
+                         width:92px;
+                         height:32px;
+                         line-height:32px;
+                         background:#dedede;
+                         text-align:center;
+                         color:#333;
+                         .fileLayer{
+                         position:absolute;
+                         top:0;
+                         left:0;
+                         width:100%;
+                         height:100%;
+                         opacity:0;
+                     }
+                     }
+
+                 }
+             }
+             .uploadPhoto-musts{
+                 clear:both;
+                 position:relative;
+                 width:100%;
+                 color:#888;
+                 dt{
+                     position:absolute;
+                     top:0;
+                     left:0;
+                     width:40px;
+                     line-height:28px;
+                     font-weight:normal;
+                 }
+                 dd{
+                     padding-left:40px;
+                     line-height:28px;
+                 }
+             }
+        }
+    }
+
+    /*正在认证*/
+    .authenticating-box{
+        margin-bottom:40px;
+        padding:50px;
+        width:100%;
+        border:1px solid #e7e7e7;
+        .authentication-icon{
+            margin:0 auto;
+            width:125px;
+            height:125px;
+
+        }
+        .authentication-status{
+            font-size:18px;
+            color:#0CBFBA;
+            &.authentication-error{
+                color:#ec6941;
+            }
+        }
+        .authentication-desc-box{
+            padding-left:150px;
+            width:100%;
+            .authentication-desc{
+                font-size:16px;
+                color:#666;
+            }
+            .authentication-other{
+                color:#888;
+                a{ 
+                color:#0CBFBA;
+                }
+            }
+        }
+    }
+}
+
+.service-detail{
+    padding:0;
+    height: 640px;
+    overflow-y: auto;
+    section{
+        padding: 20px 50px 20px 50px;
+        table{
+            .img{
+                border: 1px solid #dfe0e5;
+                cursor: pointer;                
+                line-height: 80px;
+                display: inline-block;
+                margin-right: 30px; 
+            }
+            tr{
+                height: 30px;
+                line-height: 30px;
+            }
+            tr.input{
+                height: 50px;
+            }
+            tr.textarea{
+                height: 105px;
+            }
+            tr.image{
+                height: 105px;
+                line-height: 95px;
+            }
+            td.field{
+                width:auto;
+                text-align: left;
+                font-size: 14px;
+            }
+            td.value{
+                width:110px;
+                font-size: 14px;                
+            }
+            td.blod{
+                font-weight: bold;
+            }
+            td.mid-space{
+                width:200px;
+            }
+
+            td.large-space{
+                width:710px;
+            }
+            td.padding-left{
+                padding-left: 10px;
+            }
+        }
+        textarea{
+            height: 80px;
+        }
+        .form-control{
+            background-color: #edeff4;
+        }        
+    }
+    .detail-header{
+        background-color: #dfe0e5;
+        height: 50px;
+        line-height: 50px;
+        text-indent: 20px;
+        font-size: 18px;
+        font-weight: bold;
+    }
+    .padding-left{
+        padding-left: 15px;
+    }
+}
+
+.J_Preview {
+
+    .mask {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        filter: alpha(opacity=75);
+        -moz-opacity: .75;
+        -khtml-opacity: .75;
+        opacity: .75;
+        background-color: #000;
+        z-index: 9998;
+    }
+
+    .preview_mask {
+        filter: alpha(opacity=92);
+        -moz-opacity: .92;
+        -khtml-opacity: .92;
+        opacity: .92;
+    }
+
+    .img_preview_container {
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        margin: auto;
+        text-align: center;
+        z-index: 10000;
+        *height: 100%;
+        overflow: hidden;
+    }
+
+    .img_preview_container.loading .img_container {
+        background: transparent url(/static/images/icon-black_load@2x.gif) no-repeat center center;
+        -webkit-background-size: 60px auto;
+        background-size: 60px auto;
+        margin: 0 auto;
+        width: 80%;
+        height: 100%;
+    }
+
+    .img_preview_container .img_wrp {
+        position: absolute;
+        cursor: move;
+        -webkit-backface-visibility: hidden;
+        backface-visibility: hidden;
+    }
+
+    .img_preview_container .img_wrp img {
+        width: 100%;
+        height: 100%;
+        min-width: 50px;
+        min-height: 50px;
+    }
+
+    .img_preview_container .img_wrp img.rotate90 {
+        -webkit-transform: rotate(-90deg);
+        transform: rotate(-90deg);
+    }
+
+    .img_preview_container .img_wrp img.rotate180 {
+        -webkit-transform: rotate(-180deg);
+        transform: rotate(-180deg);
+    }
+
+    .img_preview_container .img_wrp img.rotate270 {
+        -webkit-transform: rotate(-270deg);
+        transform: rotate(-270deg);
+    }
+
+    .img_preview_container .img_opr_container {
+        position: fixed;
+        left: 50%;
+        bottom: 100px;
+        margin-left: -325px;
+        width: 650px;
+        text-align: center;
+    }
+
+    .img_preview_container .img_opr_list {
+        display: inline-block;
+        *display: inline;
+        *zoom: 1;
+        border-radius: 45px;
+        -moz-border-radius: 45px;
+        -webkit-border-radius: 45px;
+        padding: 0 4px;
+        line-height: 32px;
+        background: rgba(255,255,255,.1);
+    }
+
+    .img_preview_container .img_opr_item {
+        float: left;
+    }
+
+    .img_preview_container .img_opr_item:first-child {
+        border-left-width: 0;
+    }
+
+    .img_preview_container .img_opr_item a {
+        display: block;
+        padding: 0 32px;
+        color: #fff;
+        text-decoration: none;
+    }
+
+    .img_preview_container .img_opr_item a:hover {
+        text-decoration: none;
+    }
+
+    .img_preview_close {
+        position: absolute;
+        right: -28px;
+        top: -28px;
+    }
+
+    .icon_img_preview_close {
+        background: transparent url(/static/images/icon-preview_close_window@2x.png) no-repeat 0 0;
+        width: 55px;
+        height: 55px;
+        vertical-align: middle;
+        display: inline-block;
+        -webkit-background-size: 55px 55px;
+        background-size: 55px 55px;
+    }
+
+    .icon_img_preview {
+        font-size: 0;
+    }
+
+    .icon_img_preview.prev {
+        background: transparent url(/static/images//static/images/icon-preview_left@2x.png) no-repeat 0 0;
+        width: 90px;
+        height: 90px;
+        vertical-align: middle;
+        display: inline-block;
+        -webkit-background-size: 90px 90px;
+        background-size: 90px 90px;
+    }
+
+    .icon_img_preview.next {
+        background: transparent url(/static/images//static/images/icon-preview_right@2x.png) no-repeat 0 0;
+        width: 90px;
+        height: 90px;
+        vertical-align: middle;
+        display: inline-block;
+        -webkit-background-size: 90px 90px;
+        background-size: 90px 90px;
+    }
+
+    .icon_img_preview.download {
+        background: transparent url(/static/images/icon-preview_download@2x.png) no-repeat 0 0;
+        width: 90px;
+        height: 90px;
+        vertical-align: middle;
+        display: inline-block;
+        -webkit-background-size: 90px 90px;
+        background-size: 90px 90px;
+    }
+
+    .icon_img_preview.turn {
+        background: transparent url(/static/images/icon-preview_turn@2x.png) no-repeat 0 0;
+        width: 90px;
+        height: 90px;
+        vertical-align: middle;
+        display: inline-block;
+        -webkit-background-size: 90px 90px;
+        background-size: 90px 90px;
+    }
+
+    .image_preview .dialog_bd {
+        height: 300px;
+        padding: 15px;
+    }
+
+    .image_preview .dialog_bd .loading {
+        display: block;
+        margin: 0 auto;
+    }
+
+    .image_preview .dialog_bd .img {
+        display: block;
+        margin: 0 auto;
+        max-width: 100%;
+        max-height: 100%;
+    }
+
+    .web_wechat_left_disable {
+        background: url(/static/images/icon-chat.png) 0 -1047px;
+        width: 60px;
+        height: 60px;
+        vertical-align: middle;
+        display: inline-block;
+    }
+
+    .web_wechat_download {
+        background: url(/static/images/icon-chat.png) 0 -735px;
+        width: 60px;
+        height: 60px;
+        vertical-align: middle;
+        display: inline-block;
+    }
+
+    .web_wechat_left {
+        background: url(/static/images/icon-chat.png) 0 -987px;
+        width: 60px;
+        height: 60px;
+        vertical-align: middle;
+        display: inline-block;
+    }
+
+    .web_wechat_right {
+        background: url(/static/images/icon-chat.png) 0 -1796px;
+        width: 60px;
+        height: 60px;
+        vertical-align: middle;
+        display: inline-block;
+    }
+
+    .web_wechat_right_disable {
+        background: url(/static/images/icon-chat.png) 0 -1856px;
+        width: 60px;
+        height: 60px;
+        vertical-align: middle;
+        display: inline-block;
+    }
+
+    .web_wechat_turn {
+        background: url(/static/images/icon-chat.png) 0 -2302px;
+        width: 60px;
+        height: 60px;
+        vertical-align: middle;
+        display: inline-block;
+    }
+}
+
+/* tab B*/
+.tab-left {
+    height: 30px;
+    line-height: 30px;
+    border-radius: 15px 0 0 15px;
+}
+
+.tab-right {
+    line-height: 30px;
+    height: 30px;
+    border-radius: 0 15px 15px 0;
+}
+/*tab E*/
+
+
+/*处方表格--start*/
+.my-modal-content{
+
+    .my-header {
+        font-size: 20px;
+        height: 50px;
+        line-height: 50px;
+        padding-left: 20px;
+       .my-close {
+            height: 50px;
+            width: 50px;
+            margin: 0;
+            background-color: red;
+            border-radius: 0 6px 0 0;
+            opacity: 1;
+            color: #fff;
+        }
+       .my-title {
+            height: 50px;
+            line-height: 50px;
+       }
+    }
+}
+
+/*处方表格--end*/

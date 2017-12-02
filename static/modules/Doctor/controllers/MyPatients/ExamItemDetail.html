@@ -1,0 +1,74 @@
+﻿<style type="text/css">
+    .auto-break {
+        word-break: break-all; /*支持IE，chrome，FF不支持*/
+        word-wrap: break-word; /*支持IE，chrome，FF*/
+    }
+    .indent {
+        text-indent:1em;
+    }
+</style>
+<div class="main-content" ng-controller="ExamItemDetailController">
+    <div class="main-content-title">
+        <span id="ptitle">{{'Room-lblLIS&PACS' | translate}} - {{Data.ExamItemTypeName}}</span>
+        <div class="pull-right">
+            <a class="btn btn-default" data-toggle="modal" data-target="#divAddResultModal" style="padding:6px 10px;">{{'ExamItems-lblAddInspectionResults' | translate}}</a>
+            <a class="btn btn-default" ng-click="goBack()">{{'btnBack' | translate}}</a>
+        </div>
+    </div>
+    <exam-result-charts member-id="memberId" exam-item-type-id="examItemTypeId"></exam-result-charts>
+    <form class="form-horizontal">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th style="width:150px;">{{'lblTime' | translate}}</th>
+                    <th>{{'lblResult' | translate}}</th>
+                    <th>{{'lblEnclosure' | translate}}</th>
+                    <th style="width:150px;">{{'lblOperator'|translate}}</th>
+                </tr>
+            </thead>
+            <tbody ng-show="Data.Results==null||Data.Results.length<=0">
+                <tr>
+                    <td colspan="4">{{'msgNoData'|translate}}</td>
+                </tr>
+            </tbody>
+            <tbody>
+                <tr ng-repeat="item in Data.Results">
+                    <td>{{item.ExamTime | date:'yyyy-MM-dd'}}</td>
+                    <td ng-if="item.SubExamResults == null">
+                        <dl>
+                            <dt></dt>
+                            <dd class="auto-break indent">
+                                <strong><span  style='cursor:pointer;color:{{item.Status == 0 ? "green" : "red"}};' title='{{item.StatusMsg}}'>{{item.Result | defaultValue : '---'}}</span>&nbsp;</strong>
+                                {{item.UnifiedUnit}}&nbsp;
+                            </dd>
+                            <dd class="auto-break" ng-show="$last" style="font-weight:bold;">{{'lblHospital'|translate}}：{{item.HospitalName}}</dd>
+                        </dl>
+                    </td>
+                    <td ng-if="item.SubExamResults != null">
+                        <dl ng-repeat="res in item.SubExamResults">
+                            <dt>{{res.ExamItemTypeName}}</dt>
+                            <dd class="auto-break indent">
+                                <strong><span style='cursor:pointer;color:{{res.Status == 0 ? "green" : "red"}};' title='{{res.StatusMsg}}'>{{res.Result | defaultValue : '---'}}</span>&nbsp;</strong>
+                                {{res.UnifiedUnit}}&nbsp;
+                                
+                            </dd>
+                            <dd class="auto-break" ng-show="$last" style="font-weight:bold;">{{'lblHospital'|translate}}：{{res.HospitalName}}</dd>
+                        </dl>
+                    </td>
+                    <td>
+                        <dl class="auto-break" ng-repeat="attchment in item.ExamResultAttachments">
+                            <dd>
+                                <a href='{{attchment.FilePath}}' target="_blank" style='color:red;'>{{attchment.FilePath | fileName}}</a>&nbsp;
+                            </dd>
+                        </dl>
+                    </td>
+                    <td>
+                        <button class="btn btn-sm btn-danger" ng-click="delete(item)">{{'btnDelete' | translate}}</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+    <exam-result-editor member-id="memberId" exam-item-type-id="examItemTypeId" on-saved="reload()" />
+</div>
+

@@ -1,0 +1,27 @@
+﻿<bg-splitter orientation="horizontal">
+
+    <bg-pane min-size="500" class="middle chat-content">
+        <div class="toolbar ng-scope">
+            <a class="tool ng-binding active" ng-class="{'active':TextConsult.toolbar=='comment'}" ng-click="TextConsult.toolbarClick('comment')" style="">{{'Room-btnChat'|translate}}</a>
+            <!--看诊的时候才显示诊断按钮-->
+            <a class="tool ng-binding" ng-class="{'active':TextConsult.toolbar=='diagnose'}" ng-click="TextConsult.toolbarClick('diagnose');TextConsult.LazyLoad['Diagnose']=true;">{{'Room-btnConsultations'|translate}}</a>
+            <a class="tool ng-binding" ng-class="{'active':TextConsult.toolbar=='recipe'}" ng-click="TextConsult.toolbarClick('recipe');TextConsult.LazyLoad['Diagnose']=true;">{{'Room-btnPrescription'|translate}}</a>
+            <a class="tool" ui-sref="HealthPlan({memberId: $root.memberID})" target="_blank">{{'Room-btnHealthPlan'|translate}}</a>
+            <a class="tool" href="/HealthReport?MemberID={{$root.memberID}}" target="_blank">{{'Room-btnHealthReport'|translate}}</a>
+        </div>
+        <div class="border-both" style="height:100%; position:relative;">
+            <!--就诊中-->
+            <!--<countdown room="room"></countdown>-->
+            <!--助手-->
+            <modal-Assistant-Diagnose room="room"></modal-Assistant-Diagnose>
+
+            <chat-Comment ng-show="TextConsult.toolbar=='comment'" room="room" on-Msg="onMsg" on-Url-Click="onUrlClick" on-answer="onAnswer"></chat-Comment>
+            <chat-diagnose ng-show="TextConsult.toolbar=='diagnose'" ng-if="TextConsult.LazyLoad['Diagnose']" class="chat-Diagnose" room-Type="online" room="room"></chat-diagnose>
+            <chat-Recipe ng-show="TextConsult.toolbar=='recipe'" ng-if="TextConsult.LazyLoad['Diagnose']" class="chat-Diagnose" room-Type="online" room="room"></chat-Recipe>
+        </div>
+    </bg-pane>
+    <bg-pane min-size="260" class="no-boder-left right">
+        <chat-patientInfo class="chat-patientInfo" room="room"></chat-patientInfo>
+    </bg-pane>
+</bg-splitter>
+

@@ -1,0 +1,224 @@
+﻿<div class="modal fade" id="modal-service-detail" role="dialog">
+    <div class="modal-dialog" role="document" style="width:950px;">
+        <div class="modal-content my-modal-content" >
+            <div class="modal-header modal-header-bg">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title text-center">{{'ServiceDetail-lblServerDetail'|translate}}</h4>
+            </div>
+            <div class="modal-body service-detail">
+                <div class="detail-header">
+                    {{'ServiceDetail-lblOrderInfo'|translate}}
+                </div>
+                <section>
+                    <table>
+                        <tr>
+                            <td class="field">{{'Inquiries-lblOrderNumber'|translate}}：</td>
+                            <td class="value" colspan="3">{{opdRegister.Order.OrderNo}}</td>
+                            <td class="field">{{'Inquiries-lblState'|translate}}：</td>
+                            <td class="value mid-space">{{opdRegister.Order.OrderState|orderState}}</td>
+                        </tr>
+                        <tr>
+                            <td class="field">{{'ServiceDetail-lblPatientName'|translate}}：</td>
+                            <td class="value">{{opdRegister.Member.MemberName}}</td>
+                            <td class="field">{{'RemoteConsults-lblGender'|translate}}：</td>
+                            <td class="value">{{opdRegister.Member.Gender == 0 ? "男" : "女"}}</td>
+                            <td class="field">{{'RemoteConsults-lblAge'|translate}}：</td>
+                            <td class="value mid-space">{{opdRegister.Member.Age}}</td>
+                        </tr>
+                        <tr>
+                            <td class="field">{{'ServiceDetail-lblPayDate'|translate}}：</td>
+                            <td class="value" colspan="3">{{opdRegister.Order.TradeTime|date:'yyyy-MM-dd'}}</td>
+                            <td class="field">{{'ServiceDetail-lblOPDTimeSpan'|translate}}：</td>
+                            <td class="value mid-space">{{opdRegister.OPDDate|date:'yyyy-MM-dd'}} {{opdRegister.OPDBeginTime}}-{{opdRegister.OPDEndTime}}</td>
+                        </tr>
+                    </table>
+                </section>
+                <div class="detail-header">
+                    {{'ServiceDetail-lblPatientConditionInfo'|translate}}
+                </div>
+                <section>
+                    <table>
+                        <tr>
+                            <td class="field">{{'lblDiseaseName'|translate}}：</td>
+                            <td class="value large-space padding-left">{{opdRegister.ConsultDisease}}</td>
+                        </tr>
+                        <tr class="textarea" style="resize : none;">
+                            <td class="field">{{'ServiceDetail-lblDiseaseDesc'|translate}}：</td>
+                            <td class="value large-space padding-left">
+                                <textarea class="form-control blod" readonly="readonly">{{opdRegister.ConsultContent}}</textarea>
+                            </td>
+                        </tr>
+                        <tr class="image">
+                            <td class="field">{{'ServiceDetail-lblAttachment'|translate}}：</td>
+                            <td class="value large-space padding-left" ng-if="imageList.length != 0">
+                                <a class="img" href="" target="_blank"  ng-click="onPreview($index, $event)" ng-repeat="item in imageList">
+                                    <img width="80" height="80" alt="" ng-src="{{item.url}}" onerror="this.parentNode.href = this.src + '?download=1'; this.src = '/static/images/unknow.png';" />
+                                </a>
+                            </td>      
+                            <td class="value large-space padding-left" ng-if="imageList.length == 0">
+                                {{'暂无附件'|translate}}
+                            </td>                      
+                        </tr>
+                    </table>
+                </section>
+                <div class="detail-header">
+                    {{'ServiceDetail-lblMyDiagnosis'|translate}}
+                </div>
+                <section>
+                    <table>
+                        <tr class="input">
+                            <!--主诉-->
+                            <td class="field">{{'Room-lblComplained'|translate}}：</td>
+                            <td class="value large-space padding-left"><input class="form-control" value="{{diagnoseRecipe.MedicalRecord.Sympton}}" readonly="readonly" /></td>
+                        </tr>
+                        <tr class="input">
+                            <!--现病史-->
+                            <td class="field">{{'Room-lblHPI'|translate}}：</td>
+                            <td class="value large-space padding-left"><input class="form-control" value="{{diagnoseRecipe.MedicalRecord.PresentHistoryIllness}}" readonly="readonly" /></td>
+                        </tr>
+                        <tr class="input">
+                            <!--过敏史-->
+                            <td class="field">{{'Room-lblAH'|translate}}：</td>
+                            <td class="value large-space padding-left"><input class="form-control" value="{{diagnoseRecipe.MedicalRecord.AllergicHistory}}" readonly="readonly" /></td>
+                        </tr>
+                        <tr class="input">
+                            <!--既往病史-->
+                            <td class="field">{{'Room-lblPMH'|translate}}：</td>
+                            <td class="value large-space padding-left"><input class="form-control" value="{{diagnoseRecipe.MedicalRecord.PastMedicalHistory}}" readonly="readonly" /></td>
+                        </tr>
+                        <tr class="textarea">
+                            <!--初步诊断-->
+                            <td class="field">{{'Room-lblPreliminaryDiagnosis'|translate}}：</td>
+                            <td class="value large-space padding-left">
+                                <textarea class="form-control" readonly="readonly">{{diagnoseRecipe.MedicalRecord.PreliminaryDiagnosis}}</textarea>
+                            </td>
+                        </tr>
+                        <tr class="input">
+                            <!--治疗意见-->
+                            <td class="field">{{'Room-lblDoctorAdvised'|translate}}：</td>
+                            <td class="value large-space padding-left">
+                                <input class="form-control" value="{{diagnoseRecipe.MedicalRecord.Advised}}" readonly="readonly" />
+                            </td>
+                        </tr>
+                    </table>
+                </section>
+                <div class="detail-header">
+                    {{'ServiceDetail-lblPhysicalExam'|translate}}
+                </div>
+                <section>
+                    <table>
+                        <tr>
+                            <td class="field">{{'ServiceDetail-lblPhysiqueExam'|translate}}：</td>
+                            <td class="value large-space padding-left">
+                                <div ng-repeat="item in diagnoseRecipe.PhysicalExam" class="form-group col-md-6">
+                                    <span class="form-control" style="text-align:left">
+                                        <label>{{item.ItemCNName}}({{item.ItemENName}})：</label>
+                                        {{item.Result}}  {{item.Unit}}
+                                    </span>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </section>
+                <div class="detail-header">
+                    {{'ServiceDetail-lblRecipe'|translate}}
+                </div>
+                <section>
+                    <table>
+                        <tr ng-if="diagnoseRecipe.RecipeList == null || diagnoseRecipe.RecipeList.length == 0">
+                            <td class="field">处方</td>
+                            <td class="value large-space padding-left">
+                                暂无处方
+                            </td>
+                        </tr>
+                        <tr ng-repeat="recipeFile in diagnoseRecipe.RecipeList|orderBy:'RecipeType'">
+                            <td class="field">
+                                {{recipeFile.RecipeName}}({{recipeFile.RecipeTypeName}})：                                
+                            </td>
+                            <td class="value large-space padding-left">
+                                <div class="pharmacy">
+                                    <div>
+                                        <!--处方->诊断 -->
+                                        <table cellspacing="0" class="table table-bordered">
+                                            <tbody>
+                                                <tr>
+                                                    <th width="280">诊断名称</th>
+                                                    <th>备注</th>
+                                                </tr>
+                                                <tr ng-if="recipeFile.DiagnoseList == null || recipeFile.DiagnoseList.length == 0">
+                                                    <td colspan="2">无</td>
+                                                </tr>
+                                                <tr ng-repeat="item in recipeFile.DiagnoseList">
+                                                    <td>{{item.Detail.DiseaseName}}</td>
+                                                    <td>{{item.Description}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <div ng-if="recipeFile.RecipeType == 1">
+                                            <table cellspacing="0" class="table table-bordered">
+                                                <tbody>
+                                                    <tr>
+                                                        <th width="280">药品名称</th>
+                                                        <th>剂量</th>
+                                                        <th>价格</th>
+                                                    </tr>
+                                                    <tr ng-if="recipeFile.Details == null || recipeFile.Details.length == 0">
+                                                        <td colspan="3">无</td>
+                                                    </tr>
+                                                    <tr ng-repeat="drugItem in recipeFile.Details">
+                                                        <td>{{drugItem.Drug.DrugName}}</td>
+                                                        <td>{{drugItem.Dose}}{{drugItem.Drug.DoseUnit}}</td>
+                                                        <td>￥{{((drugItem.Dose || 1) * (drugItem.Drug.UnitPrice || 0)) |number:'2'}}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            <div>
+                                                <div>
+                                                    <label>剂数</label>
+                                                    <span class="padding-left">共{{recipeFile.TCMQuantity}}剂</span>
+                                                </div>
+                                                <div >
+                                                    <label>用法</label>
+                                                    <span class="padding-left">{{recipeFile.Usage}}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div ng-if="recipeFile.RecipeType ==2">
+                                            <table cellspacing="0" class="table table-bordered">
+                                                <tbody>
+                                                    <tr>
+                                                        <th width="240">药品名称</th>
+                                                        <th>计费数量</th>
+                                                        <th>价格</th>
+                                                        <th>剂量</th>
+                                                        <th>频率</th>
+                                                        <th>用药途径</th>
+                                                    </tr>
+                                                    <tr ng-if="recipeFile.Details == null || recipeFile.Details.length == 0">
+                                                        <td colspan="6">无</td>
+                                                    </tr>
+                                                    <tr ng-repeat="drugItem in recipeFile.Details">
+                                                        <td>{{drugItem.Drug.DrugName}} </td>
+                                                        <td>{{drugItem.Quantity}} {{drugItem.Drug.Unit}}</td>
+                                                        <td>￥{{((drugItem.Quantity || 1) * (drugItem.Drug.UnitPrice || 0))|number:'2'}}</td>
+                                                        <td>{{drugItem.Dose}} {{drugItem.Drug.DoseUnit}}</td>
+                                                        <td>{{drugItem.Frequency}}</td>
+                                                        <td>{{drugItem.DrugRouteName}}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </section>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">{{'btnClose'|translate}}</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+
+</div><!-- /.modal -->

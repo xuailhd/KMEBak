@@ -1,0 +1,90 @@
+﻿
+<div class="main-content" ng-controller="FeedbackController">
+    <style type="text/css">
+        .emr_image {
+            margin: 5px;
+            width: 160px;
+            display: block;
+            float: left;
+            border: 1px solid #dfdfdf;
+            text-align: center;
+        }
+
+            .emr_image img {
+                width: 100%;
+                height: 160px;
+            }
+
+        .emr_image_del {
+            color: red;
+        }
+
+        .addImgBtn {
+            border: 1px dotted #e7e7e7;
+            font-size: 64px;
+            color: #888;
+            height: 182px;
+            line-height: 160px;
+        }
+
+            .addImgBtn:hover {
+                cursor: pointer;
+            }
+    </style>
+    <h4 class="des border-b">
+        {{'意见反馈'|translate}}
+    </h4>
+    <br />
+    <form name="myForm" id="myForm" role="form" on-submit="onSubmit()" form-validate class="form form-horizontal">
+        <div class="form-group " style="margin-top:10px">
+            <div class="col-md-12">
+                <label>{{'功能/模块名称'|translate}}</label>
+            </div>
+            <div class="col-md-12">
+                <input class="form-control" type="text" ng-model="Data.Subject" maxlength="100" id="Subject" name="Subject" ng-readonly="ReadOnly" validate="{required:true,messages:{required:'请输入功能/模块名称'}}" />
+            </div>
+        </div>
+        <div class="form-group" style="margin-top:10px">
+            <div class="col-md-12">
+                <label>{{'问题/建议内容'|translate}}</label>
+            </div>
+            <div class="col-md-12">
+                <textarea rows="5" class="form-control" ng-model="Data.Content" maxlength="1000" ng-readonly="ReadOnly" validate="{required:true,messages:{required:'请输入问题/建议内容'}}"></textarea>
+            </div>
+        </div>
+        <div class="form-group" style="margin-top:10px;">
+            <div class="col-md-12">
+                <label>{{'相关图片'|translate}}</label>
+            </div>
+            <div class="col-md-12">
+                <div class="emr_image" ng-repeat="item in Data.Attachments">
+                    <a ng-href="{{item.FullUrl}}" target="_blank">
+                        <img ng-src="{{item.FullUrl}}" />
+                    </a>
+
+                    <a class="emr_image_del" href="javascript:viod()" ng-hide="ReadOnly" ng-click="deleteImage(item.URL)">{{'btnDelete'|translate}}</a>
+                </div>
+                <div ng-click='selectImage()' ng-hide="ReadOnly" class="addImgBtn emr_image">+</div>
+            </div>
+            <div style="clear:both"></div>
+            <div>
+                <input type='file' style='display:none' id='fileUpload' />
+            </div>
+            <div style="clear:both"></div>
+        </div>
+        <div class="form-group" style="margin-top:10px" ng-show="ReadOnly">
+            <div class="col-md-12">
+                <label>{{'回复内容'|translate}}</label>
+            </div>
+            <div class="col-md-12">
+                {{Data.ReplyContent | defaultValue: '---无回复---'}}
+            </div>
+        </div>
+        <div class="form-group text-center" style="margin-top:20px">
+            <input class="btn base" type="submit" ng-hide="ReadOnly" value="{{'btnSave' | translate}}" />
+
+            <input class="btn btn-default" type="button" value="{{'btnBack' | translate}}" ng-click="goBack()" />
+            <!--<input class="btn btn-default" type="button" value="{{'TEST' | translate}}" ng-click="saleUserPackage()" />-->
+        </div>
+    </form>
+</div>

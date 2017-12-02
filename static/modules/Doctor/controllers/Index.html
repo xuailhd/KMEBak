@@ -1,0 +1,80 @@
+﻿<div ng-controller="DoctorIndexController" id="space" im-init>
+    <div class="notifications top-right"></div>    
+    <div id="contentDiv">
+        <div class="content menuBg">
+            <div class="nav-menu noborder">
+                <div class="user-info">                    
+                    <div class="user-info-img">
+                        <a ui-sref="Doctor.PersonalInfo">
+                            <img id="PhotoUrl" ng-src="{{loginInfo.PhotoUrl}}" onerror="this.src = '/static/images/unknow.png'" />
+                        </a>
+                    </div>
+                    <div class="user-info-msg">
+                        <div class="user-info-hello">
+                            {{lang=='zh-cn'?loginInfo.UserCNName:loginInfo.UserENName}}
+                            <span class="messages badge">
+                                <i class="glyphicon glyphicon-bell"></i>{{unreadCount}}
+                                <div class="messages-list">
+                                    <a ui-sref="Doctor.MyNotice"><div class="messages-title">查看全部消息</div></a>
+                                    <ul>
+                                        <li ng-repeat="item in myMsgs">
+                                            <a ng-click="setReaded(item.MessageID)" ui-sref="{{item.openUrl}}" target="{{item.openTarget}}">{{item.Summary}}</a>
+                                        </li>
+                                    </ul>
+                                    <div class="messages-more" ng-if="unreadCount>5"><a ui-sref="Doctor.MyNotice">查看更多</a></div>
+                                </div>
+                            </span>
+                        </div>
+                        <div class="user-info-action">
+                            <div class="lang-box">
+                                <script>
+                                    var main_language = "zh_CN";
+                                </script>
+                                [
+                                <a style="padding: 0;" ng-class="{'lang-active': lang == 'zh-cn'}" onclick="return false;" hreflang="zh" ng-click="fn.onSetLang('zh-cn')">中</a>
+                                <i class="line">/</i>
+                                <a style="padding: 0;" ng-class="{'lang-active': lang == 'en-us'}" hreflang="en" ng-click="fn.onSetLang('en-us')">EN</a>
+                                ]
+                            </div>
+                            <a ui-sref="Doctor.PersonalInfo" id="PersonalInfo">[ {{'个人资料'|translate}} ]</a>
+                            <a id="doctorOA" ng-click="fn.OA($event)">[ {{'医生工单'|translate}} ]</a>
+                            <br />
+                            <a ui-sref="Doctor.Feedbacks" id="Feedbacks">[ {{'意见反馈'|translate}} ]</a>                            
+                            <a ui-sref="Doctor.ChangePassword">[ {{'lblChangePassword'|translate}} ]</a>
+                            <a ng-click="fn.onLogout()">[ {{'lblLogout'|translate}} ]</a>
+                        </div>
+                    </div>
+                </div>
+                <div id="myModal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg" role="document">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal"
+                                    aria-hidden="true">
+                                ×
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <iframe id="oaIframe" src="/Doctor/GoToOA" frameborder="0"></iframe>
+                        </div>
+                    </div>
+                </div>
+                <div class="menu-list">
+                    <ul ng-init="fn.onOpenMenu(Modules[0])">
+                        <li ng-repeat="item in Modules">
+                            <a ng-class="{'current':currentMenu==item.href}" 
+                               ng-click="fn.onOpenMenu(item)" 
+                               target="{{item.target}}"
+                               href="{{item.href}}"><i class="{{item.cssClass}}"></i>{{item.title}}</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="ui-view insertContentBox">
+            </div>
+        </div>
+    </div> 
+</div>
+<script type="text/javascript">
+    $(".personCenter").addClass("active");
+    $(".nav-ban ul li a").removeClass("active");
+</script>

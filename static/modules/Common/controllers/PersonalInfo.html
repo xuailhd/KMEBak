@@ -1,0 +1,42 @@
+﻿<div class="main-content" ng-controller="PersonalInfoController">
+    <div class="main-content-title">
+        <i class="icon-user"></i>{{'个人资料'|translate}}
+    </div>
+    <br />
+    <form name="myForm" id="myForm" role="form" class="form-horizontal" on-submit="save()" form-validate>
+        <div class="form col-md-10 form-horizontal">
+            <!--<div class="form-group">
+                <label class="control-label col-md-3" for="OldPassword">{{'中文名' | translate}}：</label>
+                <span class="col-md-9"><input type="text" class="form-control" ng-model="Data.UserCNName" /></span>
+            </div>-->
+
+            <!--<div class="form-group">
+
+                <label class="control-label col-md-3" for="NewPassword">{{'英文名' | translate}}：</label>
+                <span class="col-md-9"><input type="text" class="form-control" ng-model="Data.UserENName" /></span>
+
+            </div>-->
+
+            <div class="form-group">
+                <label class="control-label col-md-3" for="ConfirmPassword">{{'电子邮箱' | translate}}：</label>
+                <span class="col-md-9"><input type="email" class="form-control" ng-model="Data.Email" validate="{ email:true }" /></span>
+
+            </div>
+            <div class="form-group">
+                <label class="control-label col-md-3" for="ConfirmPassword">{{'头像' | translate}}：</label>
+                <span class="col-md-9">
+                    <!--<input type="file" class="form-control uploadPhotoFile" id="filePhotoUrl" ng-disabled="Uploading" />-->
+                    <div ng-hide="Data.PhotoFullUrl == undefined || Data.PhotoFullUrl == ''" class="upload-photo-box">
+                        <img src="{{Data.PhotoFullUrl}}" style="max-width:100px; max-height:100px;" />
+                    </div>
+                    <div class="uploadPhotoFileBtn"><span>替换头像</span><input type="file" class="form-control uploadPhotoFile" id="filePhotoUrl" ng-disabled="Uploading" /></div>
+                </span>
+
+            </div>
+
+            <div class="form-group">
+                <span class="col-md-9 col-md-offset-3"><input class="btn btn-primary" type="submit" value="{{'btnSave' | translate}}" /></span>
+            </div>
+        </div>
+    </form>
+</div>

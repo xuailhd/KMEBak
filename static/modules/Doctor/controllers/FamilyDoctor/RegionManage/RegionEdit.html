@@ -1,0 +1,58 @@
+﻿<div class="main-content" ng-controller="RegionEditController">
+    <h4 class="des border-b">
+        编辑区域
+    </h4>
+    <form id="myForm" form-Validate on-submit="submit()">
+        <div class="form-group col-md-4">
+            <div class="col-md-4">
+                区域级别
+            </div>
+            <div class="col-md-8">
+                <select name="TownRegionID" validate="{required:true,selected:true,messages:{required:'请选择区域级别',selected:'请选择区域级别'}}"
+                        class="form-control" ng-model="model.RegionLevel">
+                    <option value="0">国</option>
+                    <option value="1">省</option>
+                    <option value="2">市</option>
+                    <option value="3">区/县</option>
+                    <option value="4">街道/乡镇</option>
+                    <option value="5">居委/村</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group col-md-4">
+            <div class="col-md-4">
+                上级区域编码
+            </div>
+            <div class="col-md-8">
+                <input id="ParentID" class="form-control" name="ParentID" maxlength="8" type="text"
+                       ng-model="model.ParentID" placeholder="上级区域编码" validate="{required:true,messages:{required:'上级区域编码'}}" />
+            </div>
+        </div>
+        <div class="div-clear"></div>
+        <div class="form-group col-md-4">
+            <div class="col-md-4">
+                编码
+            </div>
+            <div class="col-md-8">
+            <input id="RegionID" class="form-control" name="RegionID" maxlength="8" type="text" 
+                   ng-model="model.RegionID" placeholder="请输入编码" validate="{required:true,messages:{required:'请输入编码'}}" />
+            </div>
+        </div>
+
+        <div class="form-group col-md-4">
+            <div class="col-md-4">
+                区域名称
+            </div>
+            <div class="col-md-8">
+                <input id="RegionName" class="form-control" name="RegionName" maxlength="8" type="text"
+                       ng-model="model.RegionName" placeholder="请输入区域名称" validate="{required:true,messages:{required:'请输入区域名称'}}" />
+            </div>
+        </div>
+        <div class="div-clear"></div>
+        <div class="form-group col-md-offset-4">
+            <button class="btn btn-info" type="submit">提交</button>
+            <a class="btn btn-default" ng-click="back()">返回</a>
+        </div>
+    </form>
+</div>

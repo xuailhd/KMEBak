@@ -1,0 +1,15 @@
+﻿<ul class="timeline" >
+    <li ng-repeat="item in timePoints" class="{{$index%2===0?'':'timeline-inverted'}}" ng-class="{'active': currentIdx == $index}" style="z-index: {{1000 + timePoints.length - $index}}">
+        <div class="timeline-badge"><i ng-if="item.icon" class="glyphicon {{item.icon}}"></i></div>
+        <div class="timeline-panel"  ng-click="onClick($index);">
+            <div class="timeline-heading">
+                <p><small class="text-muted"><i class="glyphicon glyphicon-time"></i>{{item.datetime|date:'yyyy-MM-dd'}}</small></p>
+                <h4 class="timeline-title">{{item.title}}</h4>
+            </div>
+            <div class="timeline-body">
+                <p ng-repeat="p in item.contents">{{p}}</p>
+                <p ng-if="item.showDetail" class="detail"><a ng-click="onDetail(item);" style="z-index:500;">{{'查看详情' | translate}}<i class="glyphicon glyphicon-circle-arrow-right"></i></a></p>
+            </div>
+        </div>
+    </li>
+</ul>

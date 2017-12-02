@@ -1,0 +1,60 @@
+﻿<style type="text/css">
+    .name-style {
+        max-width:200px;
+        white-space:nowrap;
+        overflow:hidden;
+        text-overflow:ellipsis;
+    }
+</style>
+<div class="main-content" ng-controller="RecipeFormFilesController">
+    <h4 class="des border-b">
+        {{'index-menu-MyRecipeFormFiles'|translate}}
+    </h4>
+    <form ng-submit="onSearch()">
+        <div class="search-ban">
+            <div class="col-label-search">
+                {{'lblTitle'|translate}}
+            </div>
+            <div class="col-date-search">
+                <input class="form-control" ng-model="Keyword">
+            </div>
+            <div class="col-date-search">
+                <button class="btn base" type="submit" style="padding:5px 10px;">{{'btnSearch' | translate}}</button>
+            </div>
+            <div class="col-date-search">
+                <a class="btn base" type="button" ui-sref="Doctor.RecipeFormFileAdd" style="padding:5px 10px;">{{'btnAdd' | translate}}</a>
+            </div>
+        </div>
+        <table class="table  table-hover">
+            <thead>
+                <tr>
+                    <th>{{'Room-lblRecipeSetName'|translate}}</th>
+                    <th>{{'Room-lblRecipeType'|translate}}</th>
+                    <th>{{'lblCreateTime'|translate}}</th>
+                    <th style="width:15%">{{'lblOperator'|translate}}</th>
+                </tr>
+            </thead>
+            <tbody ng-show="ListItems.length<=0">
+                <tr>
+                    <td colspan="4">{{'msgNoData'|translate}}</td>
+                </tr>
+            </tbody>
+            <tbody>
+                <tr ng-repeat="item in ListItems">
+                    <td><div class="name-style">{{item.RecipeFormulaName}}</div></td>
+                    <td>{{item.RecipeType==1?'中药处方':'西药处方'}}</td>
+                    <td>{{item.CreateTime|date:'yyyy-MM-dd HH:mm'}}</td>
+                    <td>
+                        <button class="btn btn-sm base" ng-click="onEdit(item.RecipeFormulaFileID)">{{'btnEdit' | translate}}</button>
+                        <button class="btn btn-sm btn-danger" ng-click="onRemove(item)">{{'btnDelete' | translate}}</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <!--分页控件-->
+        <pager-nav page-list="[5,10,20,25]"
+                   page="page"
+                   page-Size="pageSize"
+                   total-Count="totalCount" on-change="onSearch()" />
+    </form>
+</div>

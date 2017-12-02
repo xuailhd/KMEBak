@@ -1,0 +1,97 @@
+﻿<div class="chat-callCtrl">
+    <div class="info-title info-padding">
+        <span class="text-left">
+            <span ng-switch="room.State">
+                <span ng-switch-when="0">
+                    {{'Room-lblRoomState-0'|translate}}
+                </span>
+                <span ng-switch-when="1">
+                    {{'Room-lblRoomState-1'|translate}}
+                </span>
+                <span ng-switch-when="2">
+                    {{'Room-lblRoomState-2'|translate}}
+                </span>
+                <span ng-switch-when="3">
+                    {{'Room-lblRoomState-3'|translate}}
+                </span>
+                <span ng-switch-when="4">
+                    {{'Room-lblRoomState-4'|translate}}
+                </span>
+                <span ng-switch-when="5">
+                    {{'Room-lblRoomState-5'|translate}}
+                </span>
+                <span ng-switch-when="6">
+                    {{'Room-lblRoomState-6'|translate}}
+                </span>
+                <span ng-switch-when="7">
+                    {{'Room-lblRoomState-1'|translate}}
+                </span>
+                <span ng-switch-default>
+                    {{'Room-lblRoomState-0'|translate}}
+                </span>
+            </span>
+        </span>
+        <span class="pull-right tools">
+            <a ng-if="connectioned || Disconnected || Waiting || Calling || Closed" ng-click="toggleVolume()" class="icon glyphicon" ng-class="{'icon-sound-on': Volume>0,'icon-sound-off':Volume<=0}" style=""></a>
+
+            <!--<a ng-if="connectioned" class="icon glyphicon icon-config-edit"  data-toggle="modal" data-target="#dialog-device"></a>-->
+        </span>
+    </div>
+    <div ng-show="connectioned" ng-transclude></div>
+    <div class="ibox-content body">
+
+        <div ng-if="!connectioned && !Disconnected && !Waiting && !Calling && !Closed" class="text-center summary default">
+            <span> 患者尚未进入诊室</span>
+        </div>
+
+        <!--已结束-->
+        <div ng-if="Closed" class="text-center summary default">
+            <span> 本次就诊已经结束</span>
+        </div>
+
+        <!--断开连接-->
+        <div ng-if="Disconnected" class="text-center summary default">患者已离开诊室</div>
+
+        <!--候诊中-->
+        <div ng-if="Waiting" class="text-center summary success">
+            患者正在候诊中...
+        </div>
+        <!--呼叫中-->
+        <div ng-if="Calling" class="summary danger">
+            正在呼叫患者中...
+        </div>
+        <table class="table table-striped">
+            <tbody>
+                <tr><td>订单编号：</td><td >{{OPDInfo.OrderNo}}</td></tr>
+                <tr><td>就诊编号：</td><td >{{OPDInfo.ChannelID}}</td></tr>
+                <tr><td>患者姓名：</td><td >{{OPDInfo.MemberName}}</td></tr>
+                <tr><td>患者来源：</td><td>{{OPDInfo.OrgName}}</td></tr>
+                <tr><td>预约时段：</td><td>{{OPDInfo.OPDDate |date:'yyyy-MM-dd'}} {{OPDInfo.OPDBeginTime}}~{{OPDInfo.OPDEndTime}}</td></tr>
+            </tbody>
+        </table>
+        <div class="col-md-12">
+            
+
+            <button ng-if="Waiting" class="btn btn-success btn-block" ng-click="onCall()">立即呼叫</button>
+            <button ng-if="Calling" class="btn btn-danger btn-block" ng-click="onCallCancel()">取消呼叫</button>
+            
+            <button ng-if="Disconnected" class="btn btn-danger btn-block" ng-click="onHangup()">结束看诊</button>
+            <button ng-show="connectioned" class="btn btn-danger btn-block" ng-click="onHangup()">结束看诊</button>
+            <button ng-if="!connectioned && !Closed && !Disconnected && !Calling" class="btn btn-info btn-block" ng-click="onTriage()">呼叫下一位</button>
+        </div>
+
+        <!--<br />
+        <br />
+        <br />
+        <br />-->
+        <!--<center ng-if="connectioned || Disconnected || Waiting || Calling || Closed">
+            <button ng-click="toggleVolume()"
+                    class="btn btn-default glyphicon text-center "
+                    ng-class="{'glyphicon-volume-up': Volume>0,'glyphicon-volume-off':Volume<=0}"></button>
+        </center>-->
+        <!--<br />
+        <br />-->
+    </div>
+
+    <chat-Device-Setting room="room"></chat-Device-Setting>
+</div>

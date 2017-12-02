@@ -1,0 +1,58 @@
+﻿<table cellspacing="0" class="table table-bordered table-striped recipeDiagnoseList">
+    <thead>
+        <tr style="background-color:#f4f5f9">
+            <th width="120">{{'Room-lblTCD'|translate}}</th>
+            <th>{{'Room-lblDiagnosisCode'|translate}}</th>
+            <th>{{'Room-lblNotes'|translate}}</th>
+            <th width="30" align="center">
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-show="Diagnosis.length<=0">
+            <td colspan="4">
+                <center>{{'Room-lblNotDiagnosis'|translate}}</center>
+            </td>
+        </tr>
+        <tr ng-repeat="item in Diagnosis">
+            <td align="center">
+                {{item.Detail.DiseaseCode}}
+                <input type="hidden" name="DiseaseCode" ng-model="item.Detail.DiseaseCode" />
+                <input type="hidden" name="ID" ng-model="item.Detail.ID" />
+            </td>
+            <td>
+                <div class="td-full form-group-sm form-group">
+                    <input type="text" class="form-control"
+                           name="DiseaseName{{$index}}"
+                           autocomplete="off"
+                           ng-readonly="item.Detail.DiseaseCode!=''"
+                           ng-model="item.Detail.DiseaseName"
+                           placeholder="{{'Room-lblDiseaseNamePlaceholder'|translate}}"
+                           typeahead="diagnose as diagnose.DiseaseName for diagnose in getICDRecords($viewValue,type)"
+                           typeahead-editable="true"
+                           typeahead-on-select="onDiseaseSelect(item,$model,$label)"
+                           validate="{required:true,messages:{required:'{{'Room-lblDiseaseNamePlaceholder'|translate}}'}}" />
+                </div>
+            </td>
+            <td>
+                <div class="td-full form-group-sm form-group">
+                    <input class="form-control"
+                           autocomplete="off"
+                           type="text" name="Description{{$index}}"
+                           ng-model="item.Description"
+                           placeholder="{{'Room-lblDescriptionPlaceholder'|translate}}" />
+                </div>
+            </td>
+            <td align="center">
+                <center> <a class="delete_button" href="javascript:void(0);" ng-click="onRemoveICDRecord(item)">-</a></center>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4">
+                <div class="td-full form-group-sm">
+                    <button type="button" class="btn btn-block btn-default btn-sm" ng-click="onAddICDRecord()"><span class="glyphicon glyphicon-plus text-success"></span> {{'btnAdd'|translate}}</button>
+                </div>
+            </td>
+        </tr>
+    </tbody>
+</table>

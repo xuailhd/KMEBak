@@ -1,0 +1,16 @@
+﻿<div class="main-content" ng-controller="RecipeFormFileController">
+    <h4 class="des border-b">
+        <span ng-if="isAdd">{{'btnAddPrescription'|translate}}</span><span ng-if="!isAdd">{{'btnEditPrescription'|translate}}</span>
+    </h4>
+    <br />
+    <form role="form" class="col-md-12" on-submit="recipeFormularCallback.submitCallback()" form-validate>
+        <div editor-Recipe-Formular id="recipeFormularID" callback="recipeFormularCallback"></div>
+
+        <div class="form-group text-center">
+            <button type="submit" class="btn base" ng-disabled="submiting">{{'btnSave' | translate}}</button>
+            <a ui-sref="Doctor.RecipeFormFiles" class="btn btn-default">{{'btnBack' | translate}}</a>
+        </div>
+    </form>
+</div>
+
+

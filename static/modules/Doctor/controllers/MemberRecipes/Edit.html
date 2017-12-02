@@ -1,0 +1,451 @@
+﻿<div  class="main-content" ng-controller="EditController">
+    <div style="font-size:20px;font-weight:bold;line-height:40px">
+        <div id="drugstoreNametitle" style="text-align:center"></div>
+    </div>
+    <div class="main-content-title clearfix" style="margin-bottom:10px">
+        <div id="ptitle" class="pull-left"></div>
+    </div>
+    <form form-validate id="myForm">
+        <div class="form-horizontal">
+            <div class="doctor-input add-form m-t-25">
+                <div class="row">
+                    <div class="col-xs-4 form-group">
+                        <div class="col-md-4" style="line-height:30px">
+                            <span style="float:right"><em>*</em>{{'姓名：' | translate}}</span>
+                        </div>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control" required 
+                                autocomplete="off"
+                                name="PatientName"
+                                ng-model="RecipeFile.PatientName"
+                                placeholder="{{'请输入就诊人姓名'|translate}}"
+                                typeahead="member as formatName(member, member.MemberName) for member in getUserMember($viewValue)"
+                                typeahead-editable="true"
+                                typeahead-on-select="onUserMemberSelect($item, $model, $label)"
+                                validate="{required:true,messages:{required:'请输入就诊人姓名'}}"
+                                ng-disabled="DrugstoreRecipeID.length>0" />
+                        </div>
+                    </div>
+                    <div class="col-xs-4 even form-group">
+                        <div class="col-md-4" style="line-height:30px">
+                            <span style="float:right"><em></em>{{'身份证号：' | translate}}</span>
+                        </div>
+                        <div class="col-md-8">
+                            <input id="IDNumber" class="form-control" name="IDNumber" type="text" ng-keyup="XToUp()" ng-model="RecipeFile.IDNumber" ng-disabled="inputIr" ng-maxlength="20" placeholder="{{'请输入身份证号' | translate}}" validate="{required:false,idNumber:true,messages:{required:'{{'FamiliesEdit-msgIDNumberError' | translate}}'}}" />
+                        </div>
+                    </div>
+                    <div class="col-xs-4 form-group">
+                        <div class="col-md-4" style="line-height:30px">
+                            <span class="left" style="float:right"><em></em>{{'联系电话：' | translate}}</span>
+                        </div>
+                        <div class="col-md-8">
+                            <input class="form-control" type="text" ng-model="RecipeFile.PatientTel" ng-maxlength="20" placeholder="{{'请输入电话号码' | translate}}" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-4 form-group">
+                        <div class="col-md-4" style="line-height:30px">
+                            <span style="float:right"><em>*</em>{{'性别：' | translate}}</span>
+                        </div>
+                        <div class="col-md-8">
+                            <select id="Gender" name="Gender" class="form-control" ng-model="RecipeFile.PatientGender" ng-disabled="inputIr" validate="{required:true,selected:true,messages:{required:'请选择性别',selected:'请选择性别'}}">
+                                <option value="0">男性</option>
+                                <option value="1">女性</option>
+                            </select>
+                        </div>
+                        </div>
+                    <div class="col-xs-4 even form-group">
+                        <div class="col-md-4" style="line-height:30px">
+                            <span style="float:right"><em>*</em>{{'年龄：' | translate}}</span>
+                        </div>
+                        <div class="col-md-8">
+                            <input id="Birthday" class="form-control" name="Birthday" type="number" ng-model="RecipeFile.PatientAge" ng-disabled="inputIr" placeholder="请输入年龄" min="1" max="120" validate="{required:true,messages:{required:'请输入年龄'}}" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="prescriptionData" class="pharmacy drugstore" style="margin-top:10px">
+            <div class="diagnose-content prescription-content">
+                <!--处方->诊断 -->
+                <table cellspacing="0" class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th width="120">{{'Room-lblTCD'|translate}}</th>
+                            <th>{{'Room-lblDiagnosisCode'|translate}}</th>
+                            <th>{{'Room-lblNotes'|translate}}</th>
+                            <th width="30" align="center" ng-if="RecipeFile.Diagnoses.length>0">
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-show="RecipeFile.Diagnoses.length<=0">
+                            <td colspan="4">
+                                <center>{{'Room-lblNotDiagnosis'|translate}}</center>
+                            </td>
+                        </tr>
+                        <tr ng-repeat="item in RecipeFile.Diagnoses">
+                            <td align="center">
+                                {{item.DiseaseCode}}
+                                <input type="hidden" name="DiseaseCode" ng-model="item.DiseaseCode" />
+                                <!--<input type="hidden" name="ID" ng-model="item.Detail.ID" />-->
+                            </td>
+                            <td class="form-group">
+                                <div class="td-full form-group-sm">
+                                    <input type="text" class="form-control"
+                                            name="DiseaseName{{$index}}"
+                                            ng-model="item.DiseaseName"
+                                            placeholder="{{'Room-lblDiseaseNamePlaceholder'|translate}}"
+                                            typeahead="diagnose as diagnose.DiseaseName for diagnose in getICDRecords($viewValue,RecipeFile.RecipeType)"
+                                            typeahead-editable="true"
+                                            typeahead-on-select="onDiseaseSelect(item,$model,$label)"
+                                            typeahead-items ="8"
+                                            validate="{required:true,messages:{required:'请输入诊断名称或诊断拼音首拼'}}" />
+                                </div>
+                            </td>
+                            <td class="form-group">
+                                <div class="td-full form-group-sm">
+                                    <input class="form-control"
+                                            type="text" name="Description{{$index}}"
+                                            ng-model="item.Description"
+                                            placeholder="{{'Room-lblDescriptionPlaceholder'|translate}}" />
+                                </div>
+                            </td>
+                            <td align="center">
+                                <center> <a title="{{'btnDelete'|translate}}" class="delete_button" href="javascript:void(0);" ng-click="onRemoveICDRecord(item)">×</a></center>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-right" colspan="4">
+                                <a class="btn btn-default btn-sm" ng-click="onAddICDRecord()">+{{'btnAddDiagnosis'|translate}}</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div ng-if="RecipeFile.RecipeType== 1">
+                    <table cellspacing="0" class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>{{'lblDrugName'|translate}}</th>
+                                <th class="required" width="105">{{'Room-lblFootNote'|translate}}</th>
+                                <th width="100">{{'lblDose'|translate}}</th>
+                                <th width="60">{{'Room-lblPrice'|translate}}</th>
+                                <th width="30" align="center" ng-if="RecipeFile.Details.length>0">
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-show="RecipeFile.Details.length<=0">
+                                <td colspan="4">
+                                    <center>
+                                        {{'Room-lblNotTCMMedicine'|translate}}
+                                    </center>
+                                </td>
+                            </tr>
+                            <tr ng-repeat="drugItem in RecipeFile.Details">
+                                <td class="form-group-sm form-group">
+                                    <input class="form-control"
+                                           type="text"
+                                           name="{{'DrugName'+$index}}"
+                                           placeholder="{{'Room-lblDrugNamePlaceholder'|translate}}"
+                                           ng-model="drugItem.Drug"
+                                           ng-keyup="selectKeyup($index, $event)"
+                                           typeahead="detail as formatDrugItem(detail) for detail in getDrugDetails($viewValue,1)"
+                                           typeahead-editable="false"
+                                           typeahead-on-select="onDrugSelect(drugItem, $model, $label, $index)"
+                                           validate="{required:true, drugs:true, messages:{required:'请输入药品名称或拼音首拼，如：红花，HH'}}" />
+
+                                </td>
+                                <td class="form-group-sm form-group">
+                                    <select class="form-control"
+                                            ng-model="drugItem.FootNote"
+                                            name="{{'FootNote'+$index}}"
+                                            ng-options="item.name as item.name for item in ENUM_FootNote"
+                                            validate="{required:true,messages:{required:'请选择注脚'}}">
+                                        <option value="">{{'Room-lblChoosePlaceholder'|translate}}</option>
+                                    </select>
+                                </td>
+                                <td class="form-group-sm form-group">
+                                    <div class="input-group input-group-sm prel doseInputWid">
+                                        <input class="form-control doseInput right-border-radius"
+                                                type="number"
+                                                name="{{'Dose'+$index}}"
+                                                value="1"
+                                                min="0.01"
+                                                ng-model="drugItem.Dose"
+                                                validate="{required:true,min:0.01,messages:{required:'请输入剂量'}}" />
+                                        <!--<span class="input-group-addon">{{drugItem.DoseUnit}}</span>-->
+                                        <select class="form-control doseUnitSel"
+                                                ng-model="drugItem.DoseUnit"
+                                                name="{{'DoseUnit'+$index}}"
+                                                ng-options="doseUnit as doseUnit for doseUnit in doseUnitCN"
+                                                validate="{required:true, selected:true,messages:{required:'请选择剂量单位',selected:'请选择剂量单位'}}">
+                                            <option value="">{{'Room-lblChoosePlaceholder'|translate}}</option>
+                                        </select>
+                                    </div>
+                                </td>
+                                <td>
+                                    ￥{{((drugItem.Dose || 1) * (drugItem.UnitPrice || 0)) |number:'2'}}
+                                </td>
+                                <td align="center">
+                                    <a class="delete_button" href="javascript:void(0);" ng-click="onRemoveDrugDetail(drugItem)">×</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-right" colspan="5">
+                                    <a class="btn btn-default btn-sm" ng-click="onAddDrugDetail()">+{{'btnAddDrug'|translate}}</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="input-lmr">
+                        <table cellspacing="0" class="table table-bordered form-inline">
+                            <tr>
+                                <td class="col-md-1 text-center">
+                                    <label>剂数</label>
+                                </td>
+                                <td>
+                                    <span class="input-group-sm">
+                                        <input type="number" class="form-control m-r-5" ng-model="RecipeFile.TCMQuantity" required
+                                               min="1"
+                                               validate="{required:true,messages:{required:'请输入剂数'}}" />
+                                        <span id="basic-addon2">{{'Room-lblTCMQuantityPrefix'|translate}}</span>
+                                        <span> {{RecipeFile.TCMQuantity}} </span>
+                                        <span id="basic-addon2">{{'Room-lblTCMQuantitySuffix'|translate}}</span>
+                                    </span>
+                                </td>
+                            </tr>
+                        </table>
+                        <table cellspacing="0" class="table table-bordered form-inline text-center">
+                            <tr>
+                                <td class="col-md-1 text-center"><label class="required">制法</label></td>
+                                <td class="col-md-2 form-group-sm text-left">
+                                    <!--制法-->
+                                    <div class="form-group">
+                                        <select class="form-control"
+                                                ng-model="RecipeFile.BoilWay"
+                                                name="{{'BoilWay'+$index}}"
+                                                ng-options="item.shade as item.name for item in ENUM_BoilWay" validate="{required:true,messages:{required:'请选择制法'}}">
+                                            <option value="">{{'Room-lblChoosePlaceholder'|translate}}</option>
+                                        </select>
+                                    </div>
+                                </td>
+                                <td class="col-md-3 form-group-sm">
+                                    <!--几煎-->
+                                    <div class="form-group" ng-show="RecipeFile.BoilWay == 1">
+                                        <span class="as"></span>
+                                        <input class="form-control" type="number" value="1" placeholder="1" ng-model="RecipeFile.DecoctNum" validate="{required:true,min:1,messages:{required:'请输入大于0的整数',min:'请输入大于0的整数'}}" />
+                                        <span class="as">煎</span>
+                                    </div>
+                                </td>
+                                <td class="col-md-3 form-group-sm">
+                                    <div class="form-group" ng-show="RecipeFile.BoilWay == 1">
+                                        <!--煎前水量-->
+                                        <span class="as">清水</span>
+                                        <input class="form-control" type="number" value="500" placeholder="500" ng-model="RecipeFile.DecoctTotalWater" validate="{required:true,digits:true,min:1,messages:{required:'请输入大于0的整数',digits:'请输入大于0的整数',min:'请输入大于0的整数'}}" />
+                                        <span class="as">毫升</span>
+                                    </div>
+                                </td>
+                                <td class="col-md-3 form-group-sm">
+                                    <div class="form-group" ng-show="RecipeFile.BoilWay == 1">
+                                        <span class="as">煎至</span>
+                                        <!--煎后水量-->
+                                        <input class="form-control" type="number" value="300" placeholder="300" ng-model="RecipeFile.DecoctTargetWater" validate="{required:true,digits:true,min:1,messages:{required:'请输入大于0的整数',digits:'请输入大于0的整数',min:'请输入大于0的整数'}}" />
+                                        <span class="as">毫升</span>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                        <table cellspacing="0" class="table table-bordered form-inline text-center">
+                            <tr>
+                                <td class="col-md-1 text-center">
+                                    <label class="required">用法</label>
+                                </td>
+                                <td class="col-md-2 form-group-sm text-left">
+                                    <div class="form-group">
+                                        <select class="form-control"
+                                                ng-model="RecipeFile.Usage"
+                                                name="{{'Usage'+$index}}"
+                                                ng-options="item.shade as item.shade for item in ENUM_Usage" validate="{required:true,messages:{required:'请选择用法'}}">
+                                            <option value="">{{'Room-lblChoosePlaceholder'|translate}}</option>
+                                        </select>
+                                    </div>
+                                </td>
+                                <td class="col-md-3 form-group-sm">
+                                    <div class="form-group">
+                                        <span class="as">每</span>
+                                        <!--每日几剂频率-->
+                                        <input class="form-control" type="number" placeholder="1" ng-model="RecipeFile.FreqDay" validate="{required:true,digits:true,min:1,messages:{required:'请输入大于0的整数',digits:'请输入大于0的整数',min:'请输入大于0的整数'}}" />
+                                        <span class="as">日</span>
+                                    </div>
+                                </td>
+                                <td class="col-md-3 form-group-sm">
+                                    <div class="form-group">
+                                        <span class="as"></span>
+                                        <input class="form-control" type="number" placeholder="1" ng-model="RecipeFile.FreqTimes" validate="{required:true,digits:true,min:1,messages:{required:'请输入大于0的整数',digits:'请输入大于0的整数',min:'请输入大于0的整数'}}" />
+                                        <span class="as">剂</span>
+                                    </div>
+                                </td>
+                                <td class="col-md-3 form-group-sm">
+                                    <div class="form-group">
+                                        <span class="as">分</span>
+                                        <!--分几次服-->
+                                        <input class="form-control" type="number" placeholder="1" ng-model="RecipeFile.Times" validate="{required:true,digits:true,min:1,messages:{required:'请输入大于0的整数',digits:'请输入大于0的整数',min:'请输入大于0的整数'}}" />
+                                        <span class="as">次服</span>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <div ng-if="RecipeFile.RecipeType==2">
+                    <table cellspacing="0" class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>{{'Room-lblDrugName'|translate}}</th>
+                                <th width="115">{{'Room-lblBillingAmount'|translate}}</th>
+                                <th width="60">{{'Room-lblPrice'|translate}}</th>
+                                <th width="100">{{'Room-lblDosage'|translate}}</th>
+                                <th width="105">{{'Room-lblFrequency'|translate}}</th>
+                                <th width="105">{{'Room-lblRoute'|translate}}</th>
+                                <th width="30" align="center" ng-if="RecipeFile.Details.length>0">
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-show="RecipeFile.Details.length<=0">
+                                <td colspan="7">
+                                    <center>
+                                        {{'Room-lblNotMedicine'|translate}}
+                                    </center>
+                                </td>
+                            </tr>
+                            <tr ng-repeat="drugItem in RecipeFile.Details">
+                                <!-- <td class="form-group  form-group-sm" ng-class="{'has-error':!drugItem.Drug,'has-error':drugItem.Drug}"> -->
+                                <td class="form-group form-group-sm">
+                                    <input class="form-control" type="hidden"
+                                            name="{{'DrugCode'+$index}}"
+                                            ng-model="drugItem.DrugCode" />
+                                    <input class="form-control"
+                                            type="text"
+                                            name="{{'DrugName'+$index}}"
+                                            placeholder="{{'Room-lblDrugNamePlaceholder'|translate}}"
+                                            ng-model="drugItem.Drug"
+                                            ng-keyup="selectKeyup($index, $event)"
+                                            typeahead="detail as formatDrugItem(detail) for detail in getDrugDetails($viewValue,2)"
+                                            typeahead-editable="false"
+                                            typeahead-on-select="onDrugSelect(drugItem, $model, $label, $index) "
+                                            validate="{required:true, drugs:true, messages:{required:'请输入药品名称或拼音首拼，如：红花，HH'}}" />
+                                </td>
+                                <td class="form-group form-group-sm">
+                                    <div class="input-group input-group-sm">
+                                        <input class="form-control"
+                                                type="number"
+                                                name="{{'Quantity'+$index}}"
+                                                ng-model="drugItem.Quantity"
+                                                ng-change="drugItem.Dose=drugItem.Drug.TotalDose*drugItem.Quantity"
+                                                required
+                                                min="1"
+                                                validate="{required:true,min:1,messages:{required:'请输入数量'}}" />
+                                        <span class="input-group-addon">{{drugItem.Unit}}</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    ￥{{((drugItem.Quantity || 1) * (drugItem.UnitPrice || 0))|number:'2'}}
+                                </td>
+                                <td class="form-group form-group-sm">
+                                    <div class="input-group input-group-sm prel doseInputWid">
+                                        <input class="form-control doseInput right-border-radius"
+                                                type="number"
+                                                name="{{'Dose'+$index}}"
+                                                ng-model="drugItem.Dose"
+                                                validate="{required:true,min:0.01,messages:{required:'请输入剂量'}}" />
+                                        <select class="form-control doseUnitSel"
+                                                ng-model="drugItem.DoseUnit"
+                                                name="{{'DoseUnit'+$index}}"
+                                                ng-options="doseUnit as doseUnit for doseUnit in doseUnitEN"
+                                            validate="{required:true, selected:true,messages:{required:'请选择剂量单位',selected:'请选择剂量单位'}}">
+                                            <option value="">{{'Room-lblChoosePlaceholder'|translate}}</option>
+                                        </select>
+                                    </div>
+                                </td>
+                                <td class="form-group form-group-sm">
+                                    <select class="form-control"
+                                            ng-model="drugItem.Frequency"
+                                            name="{{'Frequency'+$index}}"
+                                            ng-options="drugItem.shade as drugItem.name for drugItem in drugFrequency"
+                                            validate="{required:true, selected:true,messages:{required:'请选择用药频率',selected:'请选择用药频率'}}">
+                                        <option value="">{{'Room-lblChoosePlaceholder'|translate}}</option>
+                                    </select>
+                                </td>
+                                <td class="form-group form-group-sm">
+                                    <select class="form-control"
+                                            name="{{'DrugRouteName'+$index}}"
+                                            ng-model="drugItem.DrugRouteName"
+                                            ng-options="drugRoteItem.shade as drugRoteItem.shade for drugRoteItem in drugRoteItems"
+                                           validate="{required:true,selected:true,messages:{required:'请选择用药途径',selected:'请选择用药途径'}}">
+                                        <option value="">{{'Room-lblChoosePlaceholder'|translate}}</option>
+                                    </select>
+                                </td>
+                                <td align="center">
+                                    <a class="delete_button" href="javascript:void(0);" ng-click="onRemoveDrugDetail(drugItem)">×</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-right" colspan="7">
+                                    <a class="btn btn-default btn-sm" ng-click="onAddDrugDetail()">+{{'btnAddDrug'|translate}}</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div ng-show="RecipeFile.RecipeVerfifyLogs.length>0">
+            <div style="margin-bottom:5px;"> <span style="font-size: 16px;font-weight:bold">操作记录</span> </div>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th class="col-md-2">
+                            操作时间
+                        </th>
+                        <th class="col-md-3">
+                            操作人
+                        </th>
+                        <th class="col-md-3">
+                            类型
+                        </th>
+                        <th class="col-md-4">
+                            备注
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="item in RecipeFile.RecipeVerfifyLogs">
+                        <td>{{item.OpTime}}</td>
+                        <td>{{item.UserName}}</td>
+                        <td>{{item.OpName}}</td>
+                        <td>
+                            <ul>
+                                <li ng-repeat="remark in item.Remarks">{{remark}}</li>
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="text-center">
+            <input type="button" class="btn btn-info m-r-5" value="{{'btnSave'|translate}}" ng-if="RecipeFile.State<5" ng-click="onSubmit(0)" />
+            <input type="button" class="btn btn-info m-r-5" value="{{'btnSubmit'|translate}}" ng-if="RecipeFile.State<5" ng-click="onSubmit(1)"/>
+            <input type="button" class="btn btn-default" ng-click="GoBack()" value="{{'btnBack' | translate}}" />
+        </div>
+        </form>
+</div>
+<style>
+    .dropdown-menu {overflow:scroll;height:200px}
+    em{color:#f00;width:8px;vertical-align:middle;text-align:center;display:inline;font-style:normal}
+</style>

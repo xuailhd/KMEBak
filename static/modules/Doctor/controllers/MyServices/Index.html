@@ -1,0 +1,25 @@
+﻿<div class="main-content" ng-controller="ServicesOrderController">
+    <h4 class="des border-b">
+        {{'index-menu-MyServices'|translate}}
+    </h4>
+
+    <div nav-tabs>
+        <ul>
+            <li>
+                <a ng-class="{'current':currentStateName=='Doctor.MyServices.Inquiries'}" ui-sref="Doctor.MyServices.Inquiries({ type:currentFilterType })">{{'Doctor-tab-Inquiries'|translate}}</a>
+            </li>
+            <li>
+                <a ng-class="{'current':currentStateName=='Doctor.MyServices.Consults'}"  ui-sref="Doctor.MyServices.Consults({ type:currentFilterType })">{{'Doctor-tab-Consults'|translate}}</a>
+            </li>
+        </ul>
+        <div class="choose">
+            <span><a ng-click="onDateFilter(0)" ng-class="{'current': currentFilterType==0 }">{{'Doctor-tab-SearchAll'|translate}}</a></span>
+            <span><a ng-click="onDateFilter(1)" ng-class="{'current': currentFilterType==1 }">{{'Doctor-tab-Last3Days'|translate}}</a></span>
+            <span><a ng-click="onDateFilter(2)" ng-class="{'current': currentFilterType==2 }">{{'Doctor-tab-LastWeeks'|translate}}</a></span>            
+            <span><a ng-click="onDateFilter(3)" ng-class="{'current': currentFilterType==3 }">{{'Doctor-tab-LastMonths'|translate}}</a></span>
+        </div>
+    </div>
+    <div ui-view>
+
+    </div>
+</div>

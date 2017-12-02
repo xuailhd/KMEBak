@@ -1,0 +1,72 @@
+﻿<div  ng-controller="InterpretationsController">
+    <style type="text/css">
+        .color_orange{
+            color: orange;
+        }
+        .color_blue{
+            color: blue;
+        }
+    </style>
+    <div class="search-ban">
+        <div class="search-ban form-inline">
+            <div class="col-label-search">
+                {{'Consults-lblConsultingDate'|translate}}：
+            </div>
+            <div class="col-date-search">
+                <div class="input-group date">
+                    <input id="AllBeginDate" class="form-control" size="16" datepicker type="text" value="" ng-model="AllBeginDate" placeholder="{{'lblStartDate' | translate}}" />
+                </div>
+            </div>
+            <div class="col-label-search">
+                -
+            </div>
+            <div class="col-date-search">
+                <div class="input-group date">
+                    <input type="text" placeholder="{{'lblEndDate' | translate}}" datepicker id="AllEndDate" class="form-control" size="16" value="" ng-model="AllEndDate" />
+                </div>
+            </div>
+            <div class="col-label-search">
+                {{'Consults-lblPatientVisits'|translate}}：
+            </div>
+            <div class="col-date-search">
+                <input type="text" placeholder="{{'msgInputPatientName' | translate}}" id="AllKeyword" class="form-control" ng-model="AllKeyword" />
+            </div>
+            <div class="col-date-search">
+                <button type="button" ng-click="onSearch()" class="btn btn-default" style="padding:5px 10px;">{{'btnSearch' | translate}}</button>
+            </div>
+            <div class="div-clear"></div>
+        </div>
+    </div>
+    <table class="table table-hover" style="margin-top:10px">
+        <thead>
+            <tr>
+                <th>{{'Consults-lblPatientVisits'|translate}}</th>
+                <th>{{'Consults-lblConsultingContent'|translate}}</th>
+                <th>{{'Consults-lblConsultationTime'|translate}}</th>
+                <th>{{'Consults-lblAdvisoryStatus'|translate}}</th>
+                <th>{{'Room-lblOperator'|translate}}</th>
+            </tr>
+        </thead>
+        <tbody ng-show="ListItems.length>0">
+            <tr ng-repeat="item in ListItems">
+                <td>{{item.UserMember.MemberName}}</td>
+                <td>{{item.ConsultContent}}</td>
+                <td>{{item.ConsultTime|date:'yyyy-MM-dd HH:mm'}}</td>
+                <td class="{{item.ConsultStateName == '未回复' ? 'color_orange' : ''}}">{{item.ConsultStateName}}</td>
+                <td>
+                    <a class="btn btn-small btn-success" target="_blank" ui-sref="RoomByChannelID({ChannelID: item.Room.ChannelID })">{{'Consults-lblDetails' | translate}}</a>
+                </td>
+            </tr>
+        </tbody>
+        <tbody ng-show="ListItems.length<=0">
+            <tr>
+                <td colspan="5">{{'msgNoData'|translate}}</td>
+            </tr>
+        </tbody>
+    </table>
+    <!--分页控件-->
+    <pager-nav page-list="[5,10,20,25]"
+               page="CurrentPage"
+               page-Size="pageSize"
+               total-Count="totalCount" on-change="onSearch()" />
+</div>

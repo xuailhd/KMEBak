@@ -1,0 +1,74 @@
+﻿
+<div class="row form-horizontal">
+    <div class="form-group col-sm-12 col-md-6">
+        <label class="control-label col-sm-4" for="MemberName"><font class="text-danger">*</font>{{'lblName'|translate}}</label>
+        <div class="col-sm-8">
+            <input class="form-control"
+                    ng-model="member.MemberName"
+                    name="MemberName" 
+                    placeholder="{{'FamiliesEdit-msgEnterName'|translate}}"
+                    validate="{required:true,messages:{required:'{{'FamiliesEdit-msgEnterName'|translate}}'}}" />
+        </div>
+    </div>
+    <div class="form-group col-sm-12 col-md-6">
+        <label class="control-label col-sm-4" for="Mobile"><font class="text-danger">*</font>{{'lblTel'|translate}}</label>
+        <div class="col-sm-8">
+            <input class="form-control"
+                   ng-model="member.Mobile"
+                   name="Mobile"
+                   placeholder="{{'FamiliesEdit-msgEnterPhone'|translate}}"
+                   validate="{required:true,phone:true,messages:{required:'{{'FamiliesEdit-msgEnterPhone'|translate}}'}}" />
+        </div>
+    </div>    
+</div>
+<div class="row form-horizontal">
+    <div class="form-group col-sm-12 col-md-6">
+        <label class="control-label col-sm-4" for="Gender"><font class="text-danger">*</font>{{'lblSex'|translate}}</label>
+        <div class="col-sm-8">
+            <select class="form-control"
+                    id="Gender"
+                    name="Gender"
+                    ng-model="member.Gender"
+                    ng-disabled="isInputIDNumber"
+                    ng-readonly="isInputIDNumber"
+                    ng-options="item.Key as item.Value for item in genders"
+                    placeholder="{{'请选择性别'|translate}}"
+                    validate="{required:true,selected:true,messages:{required:'{{'请选择性别'|translate}}',selected:'{{'请选择性别'|translate}}'}}">
+            </select>
+
+        </div>
+    </div>
+    <div class="form-group col-sm-12 col-md-6">
+        <label class="control-label col-sm-4" for="Birthday"><font class="text-danger">*</font>{{'lblBirth'|translate}}</label>
+        <div class="col-sm-8">
+            <input name="Birthday" class="form-control"
+                   datepicker
+                   type="text"
+                   id="Birthday"
+                   ng-model="member.Birthday"
+                   ng-readonly="isInputIDNumber"
+                   placeholder="{{'请选择出生日期'|translate}}" 
+                   validate="{required:true,messages:{required:'{{'请选择出生日期'|translate}}'}}"/>
+        </div>
+    </div>
+</div>
+<div class="row form-horizontal">
+    <div class="form-group col-sm-12 col-md-6">
+        <label class="control-label col-sm-4" for="IDNumber">{{'lblIDCode'|translate}}</label>
+        <div class="col-sm-8">
+            <input class="form-control"
+                   ng-model="member.IDNumber"
+                   name="IDNumber" placeholder="{{'FamiliesEdit-msgEnterIDNumber'|translate}}" 
+                   validate="{idNumber:true}" />
+        </div>
+    </div>
+    <div class="form-group col-sm-12 col-md-6">
+        <label class="control-label col-sm-4" for="Email">{{'lblAge'|translate}}</label>
+        <div class="col-sm-8">
+            <input class="form-control"
+                   ng-readonly="true"
+                   ng-model="member.Age"
+                   name="Age" />
+        </div>
+    </div>
+</div>

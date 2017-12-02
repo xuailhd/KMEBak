@@ -1,0 +1,73 @@
+﻿<span ng-switch="field.type">
+    <!--下拉选择-->
+    <span ng-switch-when="select">
+        <span ng-switch="field.formcontrol">
+            <span ng-switch-when="selecttree">
+                <select class="form-control" selecttree="field.selecttree" ng-class="field.class" ng-required="filed.validate.required" ng-readonly="field.editable==false || field.editable=='readonly'" id="{{field.name}}" name="{{field.name}}" ng-multiple="field.multiple" validate="{{field.validate}}" value="{{field.defaultValue}}" ng-model="field.value" placeholder="{{field.placeholder}}" options="field.options" ng-options="{{field.optionRegex}}" ng-change="field.onChange(field)"></select>
+            </span>
+            <span ng-switch-default>
+                <select class="form-control" ng-class="field.class" ng-required="filed.validate.required" ng-readonly="field.editable==false || field.editable=='readonly'" id="{{field.name}}" name="{{field.name}}" ng-multiple="field.multiple" validate="{{field.validate}}" value="{{field.defaultValue}}" ng-model="field.value" placeholder="{{field.placeholder}}" ng-options="{{field.optionRegex}}" ng-change="field.onChange(field)"></select>
+            </span>
+        </span>
+    </span>
+    <!--编辑框-->
+    <span ng-switch-when="textarea">
+        <span ng-switch="field.formcontrol">
+            <span ng-switch-when="editor">
+                <textarea editor ng-class="field.class" ng-required="filed.validate.required" ng-readonly="field.editable==false || field.editable=='readonly'" id="{{field.name}}" name="{{field.name}}" validate="{{field.validate}}" value="{{field.defaultValue}}" ng-model="field.value" placeholder="{{field.placeholder}}"></textarea>
+            </span>
+            <span ng-switch-default>
+                <textarea class="form-control" ng-class="field.class" ng-required="filed.validate.required" ng-readonly="field.editable==false || field.editable=='readonly'" id="{{field.name}}" name="{{field.name}}" validate="{{field.validate}}" value="{{field.defaultValue}}" ng-model="field.value" placeholder="{{field.placeholder}}">{{field.value}}</textarea>
+            </span>
+        </span>
+    </span>
+
+    <!--复选框-->
+    <span ng-switch-when="check">
+        <span ng-class="field.class" ng-repeat="option in field.options" ng-init="add ?field.value=field.defaultValue:void()">
+            <label for="{{field.name}}{{option.value}}">
+                <input type="checkbox" id="{{field.name}}{{option.value}}" ng-class="option.class" ng-required="filed.validate.required" ng-readonly="field.editable==false || field.editable=='readonly'" name="{{field.name}}" validate="{{field.validate}}" value="{{option.value}}" ng-model="field.value" ng-checked="{{field.value===option.value}}" /> {{option.text}}
+            </label>
+        </span>
+    </span>
+
+    <!--单选框-->
+    <span ng-switch-when="radio">
+        <span ng-class="field.class" ng-repeat="option in field.options" ng-init="add ?field.value=field.defaultValue:void()">
+            <label for="{{field.name}}{{option.value}}">
+                <input type="radio" id="{{field.name}}{{option.value}}" ng-class="option.class" ng-required="filed.validate.required" ng-readonly="(edit && field.editable.edit=='readonly') || (add && field.editable.add=='readonly')" title="{{option.text}}" name="{{field.name}}" validate="{{field.validate}}" value="{{option.value}}" ng-model="field.value" ng-checked="{{field.value===option.value}}" /> {{option.text}}
+            </label>
+        </span>
+    </span>
+
+    <!--number/date/file/text-->
+    <span ng-switch-default>
+        <span ng-switch="field.formcontrol">
+
+            <span ng-switch-when="colorpicker">
+                <input type="text" colorpicker class="form-control" ng-class="field.class" ng-required="filed.validate.required" ng-readonly="(edit && field.editable.edit=='readonly') || (add && field.editable.add=='readonly')" id="{{field.name}}" name="{{field.name}}" validate="{{field.validate}}" ng-value="field.value" ng-model="field.value" placeholder="{{field.placeholder}}" />
+            </span>
+            <span ng-switch-when="datepicker">
+                <input type="text" datepicker class="form-control" ng-class="field.class" ng-required="filed.validate.required" ng-readonly="(edit && field.editable.edit=='readonly') || (add && field.editable.add=='readonly')" id="{{field.name}}" name="{{field.name}}" validate="{{field.validate}}" ng-value="field.value" ng-model="field.value" placeholder="{{field.placeholder}}" />
+            </span>
+            <span ng-switch-when="imagepicker">
+                <img style="max-height:200px;_height:200px;" ng-show="field.value.length>0" ng-src="{{field.value}}" />
+                <input type="file" imagepicker class="form-control" ng-class="field.class" ng-required="filed.validate.required" ng-readonly="(edit && field.editable.edit=='readonly') || (add && field.editable.add=='readonly')" id="{{field.name}}" name="{{field.name}}" validate="{{field.validate}}" ng-value="field.value" placeholder="{{field.placeholder}}" />
+            </span>
+            <span ng-switch-when="file">
+                <input type="file" file class="form-control" ng-class="field.class" ng-required="filed.validate.required" ng-readonly="(edit && field.editable.edit=='readonly') || (add && field.editable.add=='readonly')" id="{{field.name}}" name="{{field.name}}" validate="{{field.validate}}" ng-value="field.value" ng-model="field.value" placeholder="{{field.placeholder}}" />
+            </span>
+            <span ng-switch-when="addon-color">
+                <div class="input-group  colorpicker-element">
+                    <span>
+                        <input type="{{field.type}}" style="color:{{model.Color}}" class="form-control" ng-class="field.class" ng-required="filed.validate.required" ng-readonly="(edit && field.editable.edit=='readonly') || (add && field.editable.add=='readonly')" id="{{field.name}}" name="{{field.name}}" validate="{{field.validate}}" ng-value="field.value" ng-model="field.value" placeholder="{{field.placeholder}}" />
+                    </span>
+                    <span class="input-group-addon" colorpicker color="model.Color"><i style="background-color:{{model.Color}}"></i></span>
+                </div>
+            </span>
+            <span ng-switch-default>
+                <input type="{{field.type}}" class="form-control" ng-class="field.class" ng-required="filed.validate.required" ng-readonly="(edit && field.editable.edit=='readonly') || (add && field.editable.add=='readonly')" id="{{field.name}}" name="{{field.name}}" validate="{{field.validate}}" ng-value="field.value" ng-model="field.value" placeholder="{{field.placeholder}}" />
+            </span>
+        </span>
+    </span>
+</span>

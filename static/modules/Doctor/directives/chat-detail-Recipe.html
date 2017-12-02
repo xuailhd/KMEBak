@@ -1,0 +1,350 @@
+﻿<div class="col-md-12" style="height:calc(100% - 135px); overflow-y:auto; ">
+    <!--默认显示中药处方和西药处方-->
+    <div class="diagnose-model">
+        <div class="pull-right">
+            <div class="btn-group pull-left">
+                <button type="button" class="btn btn-default dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ng-disabled="$root.RecipeFiles.length >= 3">
+                    <span class="glyphicon glyphicon-plus  text-success"></span> {{'btnAdd'|translate}} <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" >
+                    <li><a ng-click="onAddRecipeFile(1,'中药处方')">{{'Room-lblChineseMedicine'|translate}}</a></li>
+                    <li><a ng-click="onAddRecipeFile(2,'西药处方')">{{'Room-lblWesternMedicine'|translate}}</a></li>
+                    <!--注意：只允许网络医院的用户使用处方集，其他用户需要限制药品目录-->
+                    <li ng-show="$root.OrgnazitionID=='kmwlyy' || $root.OrgnazitionID=='0'"><a data-toggle="modal" data-target="#dialog-RecipeFiles">{{'Room-lblPrescriptionSet'|translate}}</a></li>
+                </ul>
+            </div>
+            <button class="btn btn-default  btn-sm" ng-click="onRefreshRecipeFiles()" style="margin-left: 10px;">
+                <i class="glyphicon glyphicon-refresh"></i> 刷新
+            </button>
+        </div>
+        <br />
+        <br />
+        <div style="min-width:700px;">
+            <table ng-if="roomType=='offline'" class="table table-bordered table-hover table-responsive">
+                <thead>
+                    <tr>
+                        <th nobr>处方信息</th>
+                        <th>应收金额</th>
+                        <th>实收金额</th>
+                        <th>收费状态</th>
+                        <th>配送状态</th>
+                        <th>操作</th>
+                        <th>处方收费</th>
+                    </tr>
+                </thead>
+                <tbody ng-show="$root.RecipeFiles.length<=0">
+                    <tr>
+                        <td colspan="8" class="text-center">
+                            {{'Room-lblNotPrescription'|translate}}
+                        </td>
+                    </tr>
+                </tbody>
+                <tbody>
+                    <tr ng-repeat="item in $root.RecipeFiles">
+                        <td class="text-left">
+                            编号：<b>{{item.RecipeNo || '（无）'}}</b><br />
+                            类型：{{item.RecipeType==1?'Room-lblChineseMedicine':'Room-lblWesternMedicine'|translate}}<br />
+                            名称：<b><a class="text-info" ng-click="onPreviewRecipeFile(item)">{{item.RecipeName}}</a> <i class="glyphicon glyphicon-print"></i></b>
+                        </td>
+                        <td>
+                            <b class="text-primary">
+                                <!--中药处方，二维计算待煎费用-->
+                                <span ng-if="item.RecipeType==1">
+                                    合计：￥{{item.Order.TotalFee || ((item.ReplaceDose * item.ReplacePrice)+item.Amount) |number:'2'}}
+                                </span>
+                                <!--西药处方-->
+                                <span ng-if="item.RecipeType==2">
+                                    合计：￥{{item.Order.TotalFee || (item.Amount) |number:'2'}}
+                                </span>
+                            </b><br />
+                            <i>药品：￥{{(item.Amount)}}<br /></i>
+                            <span ng-if="item.RecipeType==1">
+                                <i>代煎：￥{{(item.ReplaceDose * item.ReplacePrice) |number:'2'}}<br /></i>
+                            </span>
+                        </td>
+                        <td>￥{{item.BillIn.BillInOutTotalFee || 0 |number:'2'}}</td>
+                        <td>
+
+                            <span class="text-warning" ng-if="!item.Order"><b>未申请 </b></span>
+                            <div ng-if="item.Order && item.Order.RefundState==0">
+                                <b>
+                                    <span class="text-default" ng-if="item.Order.OrderState==-1">未收费</span>
+                                    <span class="text-default" ng-if="item.Order.OrderState==0">未收费</span>
+                                    <span class="text-success" ng-if="item.Order.OrderState==1">已收费</span>
+                                    <span class="text-success" ng-if="item.Order.OrderState==2">已完成</span>
+                                    <span class="text-danger" ng-if="item.Order.OrderState==3">已取消</span>
+                                </b>
+                            </div>
+                            <div ng-if="item.Order && item.Order.RefundState!=0">
+                                <b>
+                                    <span class="text-info" ng-if="item.Order.RefundState==0">未退款</span>
+                                    <span class="text-success" ng-if="item.Order.RefundState==1">申请退款</span>
+                                    <span class="text-primary" ng-if="item.Order.RefundState==2">已退款</span>
+                                    <span class="text-danger" ng-if="item.Order.RefundState==3">拒绝退款</span>
+                                    <span class="text-warning" ng-if="item.Order.RefundState==4">退款中</span>
+                                </b>
+                                <br />
+                                <i>发票号：{{item.BillIn.BillInOutTickNo}}</i><br />
+                                <i>收据号：{{item.BillIn.BillInOutNo}}</i>
+                            </div>
+                        </td>
+                        <td>
+                            <button ng-if="item.Order && (item.Order.OrderState==1 || item.Order.OrderState==2 || item.Order.OrderState==3)"
+                                    class="btn btn-default btn-xs"
+                                    ng-click="onRefreshLogisticInfo(item)">
+                                <i class="glyphicon-refresh glyphicon"></i>
+                                &nbsp;
+                                <b>
+                                    <span class="text-danger" ng-if="item.Order.LogisticState==-2">待申请药房发药</span>
+                                    <span class="text-danger" ng-if="item.Order.LogisticState==-3">药房审核失败</span>
+                                    <span class="text-info" ng-if="item.Order.LogisticState==-1">药房审核中</span>
+                                    <span class="text-success" ng-if="item.Order.LogisticState==0">已审核</span>
+                                    <span class="text-success" ng-if="item.Order.LogisticState==1">已备货</span>
+                                    <span class="text-success" ng-if="item.Order.LogisticState==2">已发货</span>
+                                    <span class="text-success" ng-if="item.Order.LogisticState==3">配送中</span>
+                                    <span class="text-success" ng-if="item.Order.LogisticState==4">已送达</span>
+                                    <span class="text-success" ng-if="item.Order.LogisticState==99">已取消</span>
+                                </b>
+                            </button>
+                            <br />
+                            <div ng-if="item.Order && item.Order.OrderState==1 && item.Order.OrderState==3">
+                                <i>收货人：<a ng-click="onViewLogisticInfo(item)">{{item.Order.Consignee.Name}}</a></i>
+                                <i ng-if="item.Order.LogisticState!=-2">物流号：{{item.Order.LogisticNo}}</i><br />
+                            </div>
+                        </td>
+                        <td>
+                            <!--未申请收费 && 未申请退款的 && 处方未签名 允许删除-->
+                            <button type="button" ng-if="!item.Order" class="btn btn-danger btn-xs" ng-click="onRemoveRecipeFile(item)"><i class="glyphicon glyphicon glyphicon-trash"></i> {{'btnDelete'|translate}}</button>
+                            <!--未申请收费 且 处方未签名 允许编辑-->
+                            <button type="button" ng-if="!item.Order && item.RecipeFileStatus==0" class="btn btn-info btn-xs" ng-click="onEditRecipeFile(item)"><i class="glyphicon glyphicon-pencil"></i> {{'btnEdit'|translate}}</button>
+                        </td>
+                        <td>
+                            <!--未申请收费，处方类型是中药处方的可以申请收费-->
+                            <button type="button" ng-if="!item.Order && item.RecipeType==1" class="btn btn-xs btn-success" ng-click="onChargeRecipe(item)"><i class="glyphicon glyphicon-jpy"></i> 申请收费</button>
+
+                            <!--已经收费且未退费的可以申请退费-->
+                            <button type="button" ng-if="item.Order && item.Order.OrderState==1 && item.Order.RefundState==0 && item.RecipeType==1 && (item.Order.LogisticState==-1 || item.Order.LogisticState==-2 || item.Order.LogisticState==-3)" class="btn btn-xs btn-danger" ng-click="onRefundRecipe(item)"><i class="glyphicon glyphicon-jpy"></i> 申请退款</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table ng-if="roomType=='online'" class="table table-bordered table-hover table-responsive">
+                <thead>
+                    <tr>
+                        <th nobr>处方信息</th>
+                        <th>金额</th>
+                        <th>签名状态</th>
+                        <th>操作</th>
+                        <th>电子签名</th>
+                    </tr>
+                </thead>
+                <tbody ng-show="$root.RecipeFiles.length<=0">
+                    <tr>
+                        <td colspan="8" class="text-center">
+                            {{'Room-lblNotPrescription'|translate}}
+                        </td>
+                    </tr>
+                </tbody>
+                <tbody>
+                    <tr ng-repeat="item in $root.RecipeFiles">
+                        <td class="text-left">
+                            编号：{{item.RecipeNo}}<br />
+                            类型：{{item.RecipeType==1?'Room-lblChineseMedicine':'Room-lblWesternMedicine'|translate}}<br />
+                            名称：<b><a class="text-info" ng-click="onPreviewRecipeFile(item)">{{item.RecipeName}}</a> <i class="glyphicon glyphicon-print"></i></b>
+                        </td>
+                        <td>
+                            <!--中药处方，计算待煎费用-->
+                            <span ng-if="item.RecipeType==1">
+                                合计：￥{{((item.ReplaceDose * item.ReplacePrice)+item.Amount) |number:'2'}}
+                            </span>
+                            <!--西药处方-->
+                            <span ng-if="item.RecipeType==2">
+                                合计：￥{{(item.Amount) |number:'2'}}
+                            </span>
+                        </td>
+                        <td>
+                            <span class="text-danger" ng-if="item.RecipeFileStatus==0">未签名</span>
+                            <span class="text-success" ng-if="item.RecipeFileStatus==1">已签名</span>
+                            <span class="text-primary" ng-if="item.RecipeFileStatus==2">签名中</span>
+                        </td>
+                        <td>
+                            <!-- 处方未签名 允许删除-->
+                            <button type="button" ng-if="item.RecipeFileStatus==0" class="btn btn-danger btn-xs" ng-click="onRemoveRecipeFile(item)"><i class="glyphicon glyphicon glyphicon-trash"></i> {{'btnDelete'|translate}}</button>
+                            <!-- 处方未签名 允许编辑-->
+                            <button type="button" ng-if="item.RecipeFileStatus==0" class="btn btn-info btn-xs" ng-click="onEditRecipeFile(item)"><i class="glyphicon glyphicon-pencil"></i> {{'btnEdit'|translate}}</button>
+                        </td>
+                        <td>
+                            <button type="button" ng-if="item.RecipeFileStatus==0"
+                                    class="btn btn-xs btn-success"
+                                    ng-click="onSignRecipe(item)">
+                                <i class="glyphicon glyphicon-file"></i> 提交签名
+                            </button>
+                            <button type="button" ng-if="item.RecipeFileStatus==2"
+                                    class="btn btn-xs btn-danger"
+                                    ng-click="onRetractRecipe(item)">
+                                <i class="glyphicon glyphicon-file"></i> 撤回签名
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>
+
+<!--编辑处方-->
+<div class="modal fade" id="dialog-RecipeFiles" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header modal-header-bg">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title  text-center">
+                    {{'lblFormulary'|translate}}
+                </h4>
+            </div>
+            <div class="modal-body text-center">
+                <div class="row form-horizontal">
+                    <div class="form-group text-left">
+                        <label class="control-label col-sm-2" for="keyword">{{'lblTitle'|translate}}</label>
+                        <div class="col-sm-4">
+                            <input class="form-control"
+                                   ng-model="Keyword"
+                                   name="keyword" />
+                        </div>
+                        <button class="btn btn-info" type="button" ng-click="onGetRecipeFiles()">{{'btnSearch' | translate}}</button>
+                        <button class="btn btn-info" type="button" ng-click="onAddRecipeFormular()">{{'btnAdd' | translate}}</button>
+                    </div>
+                </div>
+                <table class="table table-responsive table-bordered">
+                    <thead>
+                        <tr>
+                            <th class="text-center" width="60">{{'Room-lblIndex'|translate}}</th>
+                            <th class="text-left">{{'Room-lblRecipeName'|translate}}</th>
+                            <th class="text-center" width="100">{{'Room-lblRecipeType'|translate}}</th>
+                            <th class="text-center" width="100">{{'Room-lblOperator'|translate}}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="item in RecipeFilesByDoctorID">
+                            <td>{{$index+1}}</td>
+                            <td class="text-left">
+                                {{item.RecipeFormulaName}}
+                            </td>
+                            <td>
+                                {{item.RecipeType==1?'Room-lblChineseMedicine':'Room-lblWesternMedicine'|translate}}
+                            </td>
+                            <td style="width:155px;">
+                                <button class="btn btn-info btn-xs" href="javascript:void(0);" ng-click="onCopyRecipeFiles(item)">{{'lblSelect'|translate}}</button>
+                                <button class="btn btn-info btn-xs" href="javascript:void(0);" ng-click="onEditRecipeFiles(item)">{{'btnEdit'|translate}}</button>
+                                <button class="btn btn-danger btn-xs" href="javascript:void(0);" ng-click="onRemoveRecipeFormular(item)">{{'btnDelete'|translate}}</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <!--分页控件-->
+                <pager-nav page-list="[5,10]"
+                           page="page"
+                           page-Size="pageSize"
+                           total-Count="totalCount" loadData="false" on-change="onGetRecipeFiles()" />
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<!--编辑处方-->
+
+<!--新建处方-->
+<div class="modal fade" id="modal-NewRecipeFormular" role="dialog">
+    <div class="modal-dialog" role="document" style="width:950px;">
+        <div class="modal-content my-modal-content">
+            <div class="modal-header modal-header-bg">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title text-center">{{ ((recipeFormularID == null || recipeFormularID == '') ? 'btnAddPrescription' : 'btnEditPrescription') | translate }}</h4>
+            </div>
+            <form form-Validate on-submit="recipeFormularCallback.submitCallback()">
+                <div class="modal-body">
+                    <div editor-Recipe-Formular id="recipeFormularID" callback="recipeFormularCallback"></div>
+                    <div style="clear:both"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-info">{{'btnSave'|translate}}</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">{{'btnClose'|translate}}</button>
+                </div>
+            </form>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<!--新建处方-->
+<!--处方集-->
+<div class="modal fade" id="dialog-EditorRecipeFile" data-backdrop="static">
+    <div class="modal-dialog" style="width:80%">
+        <div class="modal-content">
+            <form id="form-Diagnose" form-Validate on-submit="onSaveRecipeFile(EditRecipeFile)" style="height:100%;">
+                <div class="modal-header modal-header-bg">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title text-center">
+                        {{EditRecipeFile.RecipeName}}
+                    </h4>
+                </div>
+                <div class="modal-body">
+
+                    <!--处方->诊断 -->
+                    <editor-recipe-diagnosis Diagnosis="EditRecipeFile.DiagnoseList" type="EditRecipeFile.RecipeType"></editor-recipe-diagnosis>
+                    <!--处方->药品 -->
+                    <editor-recipe-Drugs recipe="EditRecipeFile"></editor-recipe-Drugs>
+                    <!-- 设置常用处方 -->
+                    <div style="height: 40px;">
+                        <label class="checkbox pull-right">
+                            <input type="checkbox" ng-model="setCommonRecipe"> 设为常用处方
+                        </label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">{{'btnClose'|translate}}</button>
+                    <button type="submit" class="btn btn-primary">{{'btnSave'|translate}}</button>
+                </div>
+            </form>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<!--查看物流信息-->
+<div class="modal fade" id="dialog-ViewLogisticInfo" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form id="form-Diagnose" form-Validate on-submit="onSaveRecipeFile(EditRecipeFile)" style="height:100%;">
+                <div class="modal-header modal-header-bg">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title  text-center">
+                        收货人信息
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-condensed table-bordered">
+                        <thead>
+                            <tr>
+                                <td class="text-right">姓名</td>
+                                <td>{{ViewLogisticInfo.Order.Consignee.Name}}</td>
+
+                            </tr>
+                            <tr>
+                                <td class="text-right">电话</td>
+                                <td>{{ViewLogisticInfo.Order.Consignee.Tel}}</td>
+
+                            </tr>
+                            <tr>
+                                <td class="text-right">地址</td>
+                                <td>{{ViewLogisticInfo.Order.Consignee.Address}}</td>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">{{'btnClose'|translate}}</button>
+                </div>
+            </form>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+

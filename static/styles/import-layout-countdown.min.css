@@ -1,0 +1,44 @@
+.countdown {
+  padding: 0;
+  margin-bottom: 0;
+  position: absolute;
+  top: -106px;
+  left: 50%;
+  z-index: 999;
+  margin-left: 122px;
+  background-color: transparent;
+  border-color: transparent;
+  color: #f42c2c;
+  font-size: 16px;
+}
+.countdown .time-item {
+  text-align: center;
+}
+.countdown .time-item h1 {
+  font-family: "微软雅黑";
+  font-size: 20px;
+  margin: 20px 0;
+  border-bottom: solid 1px #ccc;
+  padding-bottom: 20px;
+  letter-spacing: 2px;
+}
+.countdown .time-item strong {
+  line-height: 29px;
+  font-weight: normal;
+  border-radius: 5px;
+}
+.countdown .time-item #day_show {
+  line-height: 49px;
+  color: #c71c60;
+  font-size: 16px;
+  margin: 0 10px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+.countdown .time-item .item-title .unit {
+  background: none;
+  line-height: 49px;
+  font-size: 24px;
+  padding: 0 10px;
+  float: left;
+}
+/*# sourceMappingURL=static/styles/import-layout-countdown.min.css.map */

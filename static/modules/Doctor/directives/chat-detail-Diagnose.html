@@ -1,0 +1,111 @@
+﻿<div class="col-md-12" style="height:calc(100% - 135px); overflow-y:auto; ">
+    <div class="diagnose-model">
+        <div class="pull-right">
+            <div class="btn-group pull-left">
+                <button type="button" class="btn btn-default dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span class="glyphicon glyphicon-plus  text-success"></span> {{'诊断模板'|translate}} <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a ng-click="onCreateDiagnoseTemplate()">{{'新建'|translate}}</a></li>
+                    <li><a data-toggle="modal" data-target="#modal-diagnose-templates">{{'模板集'|translate}}</a></li>
+                </ul>
+            </div>
+        </div>
+        <br />
+        <br />
+
+        <form id="form-Diagnose" form-Validate on-submit="onSubmitDiagnose()" style="height:100%;">
+            <!--<editor-Patient ng-if="OPDRegisterID!='' && roomType == 'online'" is-Read-Only="isReadOnly"></editor-Patient>-->
+            <!--通过线下还是显示看诊来显示诊断编辑界面-->
+            <editor-diagnose ng-if="OPDRegisterID!='' && roomType == 'online'" templateUrl="/static/modules/Doctor/directives/editor-Diagnose-Template1.html" Diagnose="DiagnoseInfo" is-Read-Only="isReadOnly"></editor-diagnose>
+            <!--通过线下还是显示看诊来显示诊断编辑界面-->
+            <editor-diagnose ng-if="OPDRegisterID!='' && roomType == 'offline'" templateUrl="/static/modules/Doctor/directives/editor-Diagnose-Template2.html" Diagnose="DiagnoseInfo" is-Read-Only="isReadOnly"></editor-diagnose>
+
+            <div class="text-right">
+                <button class="btn btn-info text-center" ng-disabled="(OPDRegisterID=='' || isReadOnly)" ng-click="onSaveDiagnose()" type="button">{{'btnSubmit'|translate}}</button>
+                <!--<button class="btn btn-info text-center" ng-disabled="(OPDRegisterID=='' || isReadOnly)" type="submit">{{'Room-btnSubmitDiagnose'|translate}}</button>-->
+            </div>
+            <br />
+        </form>
+    </div>
+</div>
+
+<!--诊断模板新增编辑-->
+<div class="modal fade" id="modal-diagnose-template" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" style="width: 500px;">
+            <div class="modal-header modal-header-bg">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title  text-center">{{'诊断模板'|translate}}</h4>
+            </div>
+
+            <form id="form-diagnose-template" form-Validate on-submit="onSubmitDiagnoseTemplate()">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="preliminaryDiagnosis"><font class="text-danger">*</font>{{'初步诊断'|translate}}：</label>
+                        <textarea name="preliminaryDiagnosis" class="form-control" ng-model="diagnoseTempl.preliminaryDiagnosis" style="resize : none;"
+                                  placeholder="{{'请输入初步诊断'|translate}}"
+                                  validate="{required:true,messages:{required:'{{'请输入初步诊断'|translate}}'}}">
+                            {{diagnoseSummary.MedicalRecord.PreliminaryDiagnosis}}
+                        </textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="advised"><font class="text-danger">*</font>{{'治疗意见'|translate}}：</label>
+                        <textarea name="advised" class="form-control" ng-model="diagnoseTempl.advised" style="resize : none;"
+                                  placeholder="{{'请输入治疗意见'|translate}}"
+                                  validate="{required:true,messages:{required:'{{'请输入医生建议'|translate}}'}}">
+                            {{diagnoseSummary.MedicalRecord.Advised}}
+                        </textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-info">{{'btnSave'|translate}}</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">{{'btnClose'|translate}}</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!--诊断模板集合-->
+<div class="modal fade" id="modal-diagnose-templates" role="dialog">
+    <div class="modal-dialog" role="dialog">
+        <div class="modal-content">
+            <div class="modal-header modal-header-bg">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title text-center">{{'诊断模板集合'|translate}}</h4>
+            </div>
+            <div class="modal-body text-center">
+                <table class="table table-responsive table-bordered">
+                    <thead>
+                        <tr>
+                            <th class="text-center" width="60">{{'Room-lblIndex'|translate}}</th>
+                            <th class="text-left">{{'模板名称'|translate}}</th>
+                            <th class="text-center" width="100">{{'Room-lblOperator'|translate}}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="item in diagnoseTemps">
+                            <td>{{$index+1}}</td>
+                            <td class="text-left">
+                                {{item.Name}}
+                            </td>
+                            <td width="160">
+                                <button class="btn btn-info btn-xs" href="javascript:void(0);" ng-click="onEditDiagnoseTemplContent(item)">{{'btnEdit'|translate}}</button>
+                                <button class="btn btn-danger btn-xs" href="javascript:void(0);" ng-click="onRemoveDiagnoseTemplContent(item)">{{'btnDelete'|translate}}</button>
+                                <button class="btn btn-info btn-xs" href="javascript:void(0);" ng-click="onCopyDiagnoseTemplContent(item)" ng-disabled="isReadOnly">{{'lblSelect'|translate}}</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <!--分页控件-->
+                <pager-nav page-list="[5,10]"
+                           page="diagnoseTemplPager.page"
+                           page-Size="diagnoseTemplPager.pageSize"
+                           total-Count="diagnoseTemplPager.totalCount" loadData="false" on-change="onGetDiagnoseTempls()" />
+            </div>
+        </div>
+    </div>
+</div>

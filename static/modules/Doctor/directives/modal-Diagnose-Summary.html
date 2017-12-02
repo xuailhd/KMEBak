@@ -1,0 +1,88 @@
+﻿<div class="modal fade" id="modal-diagnose-summary" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" style="width: 500px;" >
+            <div class="modal-header" style="border-bottom: none;">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <!--<h4 class="modal-title  text-center">{{'问诊小结'|translate}}</h4>-->
+            </div>
+            <div class="modal-body diagnose-summary">
+                <h5 class="text-center">康美网络医院</h5>
+                <h4 class="text-center">问诊小结</h4>
+
+                <table>
+                    <tr>
+                        <td>{{'姓名'|translate}}：</td>
+                        <td>{{diagnoseSummary.MemberName}}</td>       
+                        <td>{{'性别'|translate}}：</td>
+                        <td>{{diagnoseSummary.Gender == 0 ? '男': '女'}}</td>
+                        <td>{{'年龄'|translate}}：</td>
+                        <td>{{diagnoseSummary.Age}} 岁</td>
+                        <td>{{'科室'|translate}}：</td>
+                        <td>{{diagnoseSummary.DepartmentName}} </td>
+                    </tr>
+                </table>
+
+                <hr />
+
+                <div class="form-group">
+                    <label for="preliminaryDiagnosis">{{'初步诊断'|translate}}：</label>
+                    <textarea name="preliminaryDiagnosis" class="form-control" readonly="readonly" style="resize : none;">{{diagnoseSummary.MedicalRecord.PreliminaryDiagnosis}}</textarea>
+                </div>
+                <div class="form-group">
+                    <label for="advised">{{'医生建议'|translate}}：</label>
+                    <textarea name="advised" class="form-control" readonly="readonly" style="resize : none;">{{diagnoseSummary.MedicalRecord.Advised}}</textarea>
+                </div>
+                <div class="text-right">
+                    <label>{{'医生'|translate}}：</label>{{diagnoseSummary.DoctorName}}
+                </div>
+
+                <div class="remark text-center small">
+                    注意：本问诊小结仅供就诊人参考之用，医生建议3日内有效。
+                </div>
+                <!--<h3 class="text-center">
+                    {{'康美网络医院'}}
+                    <small>{{'问诊小结'}}</small>
+                </h3>
+                <section>
+                    <table class="table table-condensed table-bordered" border="0">
+                        <tr>
+                            <td class="col-md-2 text-right">{{'就诊人'|translate}}：</td>
+                            <td class="col-md-10" colspan="3" >{{diagnoseSummary.MemberName}}</td>                            
+                        </tr>
+                        <tr>
+                            <td class="col-md-2 text-right">{{'性别'|translate}}：</td>
+                            <td class="col-md-4">{{diagnoseSummary.Gender == 0 ? '男': '女'}}</td>
+                            <td class="col-md-2 text-right">{{'年龄'|translate}}：</td>
+                            <td class="col-md-4">{{diagnoseSummary.Age}} 岁</td>
+                        </tr>
+                        <tr class="textarea" >
+                            <td class="col-md-2 text-right">{{'初步诊断'|translate}}：</td>
+                            <td class="col-md-10" colspan="3" >
+                                <textarea class="form-control blod" readonly="readonly" style="resize : none;">{{diagnoseSummary.MedicalRecord.PreliminaryDiagnosis}}</textarea>
+                            </td>
+                        </tr>
+                        <tr class="textarea">
+                            <td class="col-md-2 text-right">{{'医生建议'|translate}}：</td>
+                            <td class="col-md-10" colspan="3" >
+                                <textarea class="form-control blod" readonly="readonly" style="resize : none;">{{diagnoseSummary.MedicalRecord.Advised}}</textarea>
+                            </td>
+                        </tr>
+
+
+                    </table>
+
+                    <div class="text-right">
+                        <label>{{'医生'|translate}}：</label>{{diagnoseSummary.DoctorName}}
+                    </div>
+
+                    <div >
+                        注意：本问诊小结仅供就诊人参考之用，医生建议3日内有效。
+                    </div>
+                </section>-->
+            </div>
+            <!--<div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">{{'btnClose'|translate}}</button>
+            </div>-->
+        </div>
+    </div>
+</div>

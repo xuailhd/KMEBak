@@ -1,0 +1,65 @@
+﻿<style>
+    .trans { margin-top: 30px; }
+        .trans input { margin-left: 10px; }
+        .trans label { margin-left: 2px; }
+    .line-30 {line-height: 30px;}
+</style>
+<div class="main-content" ng-controller="MyAccountController">
+    <h4 class="des border-b">
+        {{'index-menu-MyAccount'|translate}}
+    </h4>
+
+    <div class="form-group account-info-box" style="margin-top:15px">
+        <!--<div class="account-info-top">{{'MyAccount-lblCurrentBalance'|translate}}：{{Balance | number:2}} {{'lblYuan'|translate}}</div>-->
+        <div class="account-info-top line-30">{{'MyAccount-lblAvailableBalance'|translate}}：{{Available | number:2}} {{'lblYuan'|translate}}</div>
+        <a ng-if="loginInfo.UserType==1" class="btn btn-sm base" target="_blank" ui-sref="User.Recharge">{{'充值'|translate}}</a>
+        <a ng-if="loginInfo.UserType==1" class="btn btn-sm base" style="margin-left:15px" ui-sref="User.ApplyCashAdd">{{'提现'|translate}}</a>
+        <a ng-if="loginInfo.UserType==2" class="btn btn-sm base" style="margin-left:15px" ui-sref="Doctor.ApplyCashAdd">{{'提现'|translate}}</a>
+        <a ng-if="loginInfo.UserType==1" class="btn btn-sm base" style="margin-left:15px" ui-sref="User.PaySet">{{'支付密码'|translate}}</a>
+        <a ng-if="loginInfo.UserType==2" class="btn btn-sm base" style="margin-left:15px" ui-sref="Doctor.PaySet">{{'支付密码'|translate}}</a>
+    </div>
+
+    <div style="" class="trans">
+        【<label ng-bind="TransTypeTitle">账单</label>】
+        <input type="radio" id="tt0" name="tt" value="0" ng-model="TransType" ng-change="getMyTrans()" /><label for="tt0">全部</label>
+        <input type="radio" id="tt1" name="tt" value="1" ng-model="TransType" ng-change="getMyTrans()" /><label for="tt1">收入</label>
+        <input type="radio" id="tt2" name="tt" value="2" ng-model="TransType" ng-change="getMyTrans()" /><label for="tt2">充值</label>
+        <input type="radio" id="tt3" name="tt" value="3" ng-model="TransType" ng-change="getMyTrans()" /><label for="tt3">消费</label>
+        <input type="radio" id="tt4" name="tt" value="4" ng-model="TransType" ng-change="getMyTrans()" /><label for="tt4">提现</label>
+        <input type="radio" id="tt5" name="tt" value="5" ng-model="TransType" ng-change="getMyTrans()" /><label for="tt5">退款</label>
+    </div>
+
+
+    <table class="table table-hover" style="margin-top:10px">
+        <thead>
+            <tr>
+                <th>{{'时间'|translate}}</th>
+                <th>{{'资金流向'|translate}}</th>
+                <th>{{'金额'|translate}}</th>
+                <th>{{'状态'|translate}}</th>
+            </tr>
+        </thead>
+        <tbody ng-show="ListItems.length>0">
+            <tr ng-repeat="item in ListItems">
+                <td>{{item.CreateTime|date:'yyyy-MM-dd HH:mm'}}</td>
+                <td>{{item.TransTypeName}}</td>
+                <td>{{item.PayAmount|currency:"￥ "}}</td>
+                <td style="width:150px;" ng-style="item.StatusColor">
+                    {{item.StatusName}}&nbsp;&nbsp;&nbsp;
+                    <!--<a class="btn btn-xs btn-success" ng-href="{{WebSideUrlConfig.Home }}/Trade/Order/Confirm?OrderNo={{item.OrderNo}}" ng-if="item.Status==0 && item.TransType == 2">支付</a>-->
+                </td>
+            </tr>
+        </tbody>
+        <tbody ng-show="ListItems.length<=0">
+            <tr>
+                <td colspan="4">{{'msgNoData'|translate}}</td>
+            </tr>
+        </tbody>
+    </table>
+    <!--分页控件-->
+    <pager-nav page-list="[5,10,20,25]"
+               page="page"
+               page-Size="pageSize"
+               total-Count="totalCount" on-change="getMyTrans()" />
+
+</div>

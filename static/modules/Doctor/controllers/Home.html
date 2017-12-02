@@ -1,0 +1,138 @@
+﻿
+<div class="main-content" ng-controller="HomeController"> 
+    <h4 class="des border-b">
+        业务统计
+    </h4>
+
+    <div class="search-ban form-inline mb-22">
+        <div class="input-group date-input date">
+            <input id="beginDate" class="form-control" type="text" size="16" datepicker value="" ng-model="searchBeginDate" placeholder="{{'lblStartDate' | translate}}" />
+        </div>
+        <span class="word"> 至 </span>
+        <div class="input-group date-input date">
+            <input id="endDate" class="form-control" type="text" size="16" datepicker value="" ng-model="searchEndDate" placeholder="{{'lblEndDate' | translate}}" />
+        </div>
+
+        <button class="btn border-none Theme-color" type="button" ng-click="onSearch()" style="padding:5px 10px; margin-left: 10px;">{{'btnSearch' | translate}}</button>
+    </div>    
+    <div class="Columnar-wrap clearfix">
+        <div class="col-sm-12 col-md-6">
+            <div id="divSerivceTimes" class="bar"></div>
+        </div>
+        <div class="col-sm-12  col-md-6">
+            <div id="divIncomes" class="bar"></div>
+        </div>
+
+    </div>
+    <h4 class="des border-b">
+        服务开启情况
+        <span class="des-ser fr">
+            <a ui-sref="Doctor.MyServiceSettings">修改服务 ></a>
+        </span>
+    </h4>
+    <div class="wrapper row" style="padding-top:20px;">
+        <ul class="service-list">
+            <li id="ServiceType_1" class="off p1">
+                <i class="photo pic"></i>
+                <p class="price">0.00元/次</p>
+                <p class="txt">图文咨询</p>
+            </li>
+            <li id="ServiceType_2" class="off p2">
+                <i class="photo phone"></i>
+                <p class="price">0.00元/次</p>
+                <p class="txt">语音咨询</p>
+            </li>
+            <li id="ServiceType_3" class="off p3">
+                <i class="photo video"></i>
+                <p class="price">0.00元/次</p>
+                <p class="txt">视频咨询</p>
+            </li>
+            <li id="ServiceType_4" class="off p4">
+                <i class="photo doctor"></i>
+                <p class="price">0.00元/次</p>
+                <p class="txt">家庭医生</p>
+            </li>
+            <li id="ServiceType_5" class="off p5">
+                <i class="photo screen"></i>
+                <p class="price">0.00元/次</p>
+                <p class="txt">远程会诊</p>
+            </li>
+        </ul>
+    </div>
+    <div class="top-wrap">
+        <h4 class="des border-b">
+            排班情况( <span class="red">已预约{{AppointmentCount}}人</span> )
+            <span class="des-ser fr">
+                <a class="fr" ui-sref="Doctor.ScheduleSettings">修改排班 > </a>
+            </span>
+        </h4>
+    </div>
+    <div class="table-wrap" ng-repeat="item in scheList">
+        <div class="pre-week prev potion" ng-click="changePrePage(item.NumberSourceID, item.BeginDate, item.EndDate, item.TableSchedule.DateWeekList[0].Date, $index)">
+            <img src="/static/images/schedules/hide-rigth.png" alt="上一周" />
+        </div>
+        <div class="next-week next potion" ng-click="changeNextPage(item.NumberSourceID, item.BeginDate, item.EndDate, item.TableSchedule.DateWeekList[0].Date, $index)">
+            <img src="/static/images/schedules/hide-left.png" alt="下一周" />
+        </div>
+        <div class="title">
+            生效时间
+            <span class="begin-time">{{item.BeginDate | filterLetterT}}</span>
+            至
+            <span class="end-time">{{item.EndDate | filterLetterT}}</span>
+            <i class="icon icon-hide-top fr potion" ng-click="changeAnimate($event)"></i>
+        </div>
+        <div class="content-wrap">
+            <table class="table table-hover table-bordered">
+                <thead>
+                    <tr>
+                        <th class="time">时段</th>
+                        <th class="spec" ng-class="{active:item.Status == 1}">{{item.Status == 0 ? '停用中':'启用中'}}</th>
+                        <th ng-repeat="week in item.TableSchedule.DateWeekList">
+                            <div>{{week.Date}}</div>
+                            <div>{{week.Day}}</div>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="week in item.TableSchedule.ScheduleList | filter: {TimePeriod: '上午'} as weekMorning">
+                        <td ng-if="$index == 0" rowspan={{weekMorning.length}}>上午</td>
+                        <td>
+                            {{week.StartTime}} - {{week.EndTime}}
+                        </td>
+                        <td ng-repeat="Schedule in week.DoctorSchedule" ng-class="{disabled: Schedule.Disable}">
+                            <span ng-class="{red: Schedule.AppointNumber>0}">{{Schedule.AppointNumber}}</span>/{{Schedule.Number}}
+                        </td>
+                    </tr>
+                    <tr ng-repeat="week in item.TableSchedule.ScheduleList | filter: {TimePeriod: '下午'} as weekAfternoon">
+                        <td ng-if="$index == 0" rowspan={{weekAfternoon.length}}>下午</td>
+                        <td>
+                            {{week.StartTime}} - {{week.EndTime}}
+                        </td>
+                        <td ng-repeat="Schedule in week.DoctorSchedule" ng-class="{disabled: Schedule.Disable}">
+                            <span ng-class="{red: Schedule.AppointNumber>0}">{{Schedule.AppointNumber}}</span>/{{Schedule.Number}}
+                        </td>
+                    </tr>
+                    <tr ng-repeat="week in item.TableSchedule.ScheduleList | filter: {TimePeriod: '晚上'} as weekNight">
+                        <td ng-if="$index == 0" rowspan={{weekNight.length}}>晚上</td>
+                        <td>
+                            {{week.StartTime}} - {{week.EndTime}}
+                        </td>
+                        <td ng-repeat="Schedule in week.DoctorSchedule" ng-class="{disabled: Schedule.Disable}">
+                            <span ng-class="{red: Schedule.AppointNumber>0}">{{Schedule.AppointNumber}}</span>/{{Schedule.Number}}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+    <div style="margin-top: 20px; padding-left:10px;" ng-if="scheList.length && scheList.length==0">
+        暂无排班~
+    </div>
+    <div ng-if="total>10">
+        <pager-nav page-list="[5,10,20,25]"
+                   page="page"
+                   page-Size="pageSize"
+                   total-Count="total" on-change="getList()" />
+    </div> 
+</div>

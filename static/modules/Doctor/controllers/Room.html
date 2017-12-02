@@ -1,0 +1,157 @@
+﻿<div class="room" ng-controller="ConsultingRoomWaitingController">
+    <div class="col-md-12 col-sm-12 col-xs-12 chat-view" ng-class="{'small':viewName()=='xs', 'none':viewName()=='none'}">
+        <!--当前会话-->
+        <div class="col-md-3 col-sm-6 col-xs-12 chat-sessions" ng-init="curTab='OnlineClinic'">
+            <a ng-if="room.ServiceType != -1" class="fold-btn expander" ng-click="fn.sessionExpand();">
+                <span ng-class="{true: 'glyphicon-menu-left', false: 'glyphicon-menu-right'}[isSessionExpand]" class="glyphicon" style="margin:15px 0 0 0;" ></span>
+            </a>
+            <div class="header" ng-show="viewName()=='md'">
+                <div class="avatar">
+                    <img class="img" ng-src="{{doctorInfo.User.PhotoUrl}}">
+                </div>
+                <div class="info">
+                    <h3 class="nickname">
+                        <span class="display_name">{{doctorInfo.DoctorName}}</span>
+
+
+                        <!-- Single button -->
+                        <!--<div class="btn-group">
+                            <a type="button" class="btn dropdown-toggle" data-toggle="dropdown" href="javascript:;"
+                               ng-show="doctorInfo.User.PhotoUrl"
+                               ng-click="toggleSystemMenu()">
+                                <i class="web_wechat_add"></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-left" role="menu">
+                                <li><a href="javascript:;" ng-if="!isSoundOpen" ng-click="fn.openSound()" title="打开声音"><i class="glyphicon glyphicon-volume-down"></i> 打开声音</a></li>
+                                <li><a href="javascript:;" ng-if="isSoundOpen" ng-click="fn.closeSound()" title="关闭声音"><i class="glyphicon glyphicon-volume-off"></i> 关闭声音</a></li>
+                                <li class="divider"></li>
+                                <li><a href="javascript:;" ng-click="fn.onSetLang('zh-cn')"><i></i>中文<i ng-class="{'glyphicon-ok':lang=='zh-cn'}" class="glyphicon pull-right"></i></a></li>
+                                <li><a ng-click="fn.onSetLang('en-us')" href="javascript:;"><i></i>English<i ng-class="{'glyphicon-ok':lang=='en-us'}" class="glyphicon pull-right"></i></a></li>
+                                <li class="divider"></li>
+                                <li><a href="javascript:;" ng-click="fn.onLogout()"> <i class="glyphicon glyphicon-off"></i> {{'Room-lblLogout'|translate}}</a></li>
+                            </ul>
+                        </div>-->
+
+                    </h3>
+                    <p class="signature" title="{{doctorInfo.Specialty}}"></p>
+                </div>
+            </div>
+            <div class="body" ng-show="viewName()=='md'">
+                <div class="tab">
+                    <div class="tab_item">
+                        <a ng-class="{'active':curTab=='OnlineClinic'}" role="tab" ng-click="curTab='OnlineClinic';LoadSessionListCallback();">
+                            <i class="icon-new on-line"></i><span>{{'Room-lblOnlineClinic'|translate}}</span>
+                        </a>
+                    </div>
+                    <div class="tab_item">
+                        <a ng-class="{'active':curTab=='Consult'}" aria-controls="profile" role="tab" ng-click="curTab='Consult';LoadSessionListCallback();">
+                            <i class="icon-new consultation"></i><span>{{'Room-lblConsult'|translate}}</span>
+                        </a>
+                    </div>
+               
+                    <div class="tab_item">
+                        <a ng-class="{'active':curTab=='OfflineClinic'}" role="tab" ng-click="curTab='OfflineClinic';LoadSessionListCallback();">
+                            <i class="icon-new on-text"></i><span>{{'Room-lblOfflineClinic'|translate}}</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="scroll-container" scrollbar>
+                    <!--在线看诊 选择就诊记录后回调 ChatDetailLoaded-->
+                    <chat-Session-Online-Clinics ng-if="curTab=='OnlineClinic'" on-SelectedCallback="ChatDetailLoaded" on-Load="OnlineClinicListChanged" room="room"></chat-Session-Online-Clinics>
+                    <!--线下看诊 选择就诊记录后回调 ChatDetailLoaded-->
+                    <chat-Session-Offline-Clinics ng-if="curTab=='OfflineClinic'" on-SelectedCallback="ChatDetailLoaded" on-Load="OfflineClinicListChanged" room="room"></chat-Session-Offline-Clinics>
+                    <!--咨询列表 选择记录后回调 ChatDetailLoaded-->
+                    <chat-Session-Consults ng-if="curTab=='Consult'" on-SelectedCallback="ChatDetailLoaded" on-Load="ConsultListChanged" filter="ConsultMe" room="room"></chat-Session-Consults>
+                </div>
+            </div>
+        </div>
+        <div class="ibox chat-detail col-md-9 col-sm-6 col-xs-12">
+            <div class="ibox-title text-center" ng-switch="room.ServiceType">
+                <!--<span  class="pull-left room-title text-left">
+                    <a ng-if="(room.ServiceType == 2 || room.ServiceType == 3) && room.State != 4" href="javascript:;" ng-click="fn.onBack()"> <i class="glyphicon glyphicon-menu-left"></i> {{'Room-lblBack'|translate}}</a>
+                </span>-->
+                <span class="pull-right room-title text-right">
+
+                    <a href="javascript:;" ng-class="{active: lang=='zh-cn'}" ng-click="fn.onSetLang('zh-cn')">
+                        中文
+                    </a>
+                    <span>/</span>
+                    <a ng-click="fn.onSetLang('en-us')" ng-class="{active: lang=='en-us'}" href="javascript:;">
+                        EN
+                    </a>
+                    <a ng-if="((room.ServiceType == 2 || room.ServiceType == 3) && room.State != 2 && room.State != 4) || room.ServiceType == -1 || room.ServiceType == 1" ng-click="fn.toggleDiagnosis()" href="javascript:;" style="margin-left: 30px">
+                        <i class="glyphicon glyphicon-time" aria-hidden="true"></i> {{ (diagnoseOff.isDiagnoseOff ?  'Room-lblDiagnoseOff' : 'Room-lblDiagnoseOn') | translate }}
+                    </a>
+                    <a ng-if="room.ServiceType == -1 || (room.ServiceType != 2 && room.ServiceType != 3)" href="javascript:;" ng-click="fn.onLogout()" style="margin-left: 30px">
+                        <i class="glyphicon glyphicon-off"></i> {{room.videoMgr.isNative? '退出诊室':'Room-lblLogout'|translate}}
+                    </a>
+                </span>
+                <span ng-switch-when="1">
+                    {{'Room-lblWinTitle-1'|translate}}
+                </span>
+                <span ng-switch-when="2">
+                    {{'Room-lblWinTitle-2'|translate}}
+                </span>
+                <span ng-switch-when="3">
+                    {{'Room-lblWinTitle-3'|translate}}
+                </span>
+                <span ng-switch-when="5">
+                    {{'Room-lblWinTitle-5'|translate}}
+                </span>
+                <span ng-switch-default >
+                    {{'Room-lblWinTitle'|translate}}
+                </span>
+
+                <countdown room="room"></countdown>
+            </div>
+            <chat-content class="ibox-content"
+                          room="room"
+                          on-Load="ChatDetailLoaded"
+                          on-Url-Click="onUrlClick"
+                          on-Answer="onAnswer"
+                          on-Callback="LoadSessionListCallback">
+            </chat-content>
+        </div>
+    </div>
+
+    <!--对话框：诊断小结-->
+    <div modal-Diagnose-Summary diagnose-Summary="diagnoseSummary"></div>
+
+    <!--对话框：网络连接断开提示-->
+    <div class="modal fade" id="modal-internetConnectionOff" role="dialog" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content" style="width: 500px;">
+                <div class="modal-header" style="border-bottom: none;">
+                </div>
+                <div class="modal-body">
+                    <h3 class="text-center">正在重新连接</h3>
+                    <hr />
+                    <div class="remark text-center">
+                        <br />
+                        <br />
+                        当前网络连接已断开，无法收到新消息，请检查下你的网络是否正常。
+                        <br />
+                        <br />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--对话框：休诊状态提示-->
+    <div class="modal fade" id="modal-diagnoseOff" role="dialog" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content" style="width: 500px;">
+                <div class="modal-header" style="border-bottom: none;">
+                </div>
+                <div class="modal-body">
+                    <h3 class="text-center">您的休诊时间为{{diagnoseOff.startTime|date:'HH:mm'}} - {{diagnoseOff.endTime|date:'HH:mm'}}</h3>
+                    <div class="text-right" style="padding: 30px 74px 40px 0;">
+                        <button class="btn btn-info btn" ng-click="fn.delayDiagnosis()" ng-disabled="!delayEnable" style="width: 100px; margin-right: 10px;">{{ '延长休诊' | translate }}</button>
+                        <button class="btn btn-info btn" ng-click="fn.toggleDiagnosis(false)" style="width: 100px;">{{ '开诊' | translate }}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
